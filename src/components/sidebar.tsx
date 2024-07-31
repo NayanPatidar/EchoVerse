@@ -1,9 +1,9 @@
 "use client";
 import { PiListLight } from "react-icons/pi";
-import { MdHomeFilled } from "react-icons/md";
+import { MdHome } from "react-icons/md";
 import { MdOutlineLibraryMusic } from "react-icons/md";
-import { BsChatLeftDots } from "react-icons/bs";
-import { MouseEvent, useEffect, useState } from "react";
+import { BsFillChatLeftTextFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(1);
@@ -34,8 +34,8 @@ const Sidebar = () => {
             onClick={() => setCategory(1)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <MdHomeFilled size={24} color="white" />
-              <div className=" text-lg lato-regular">Home</div>
+              <MdHome size={24} color="white" />
+              <div className=" text-md lato-regular">Home</div>
             </div>
           </li>
           <li
@@ -46,7 +46,7 @@ const Sidebar = () => {
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
               <MdOutlineLibraryMusic size={24} />
-              <div className=" text-lg lato-regular">Library</div>
+              <div className=" text-md lato-regular">Library</div>
             </div>
           </li>
           <li
@@ -55,9 +55,9 @@ const Sidebar = () => {
             id="3"
             onClick={() => setCategory(3)}
           >
-            <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <BsChatLeftDots size={20} color="white" />
-              <div className=" text-lg lato-regular">Chat</div>
+            <div className=" h-12 flex items-center gap-5 cursor-pointer pl-1">
+              <BsFillChatLeftTextFill size={20} color="white"  />
+              <div className=" text-md lato-regular">Chat</div>
             </div>
           </li>
         </ul>
