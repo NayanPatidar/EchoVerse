@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,12 +18,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        />
+      </head>
       <body className={inter.className}>
-        <div className=" w-full h-full flex flex-row gap-2">
-          <div>
-            <Navbar />
+        <div className="w-full h-full flex flex-row relative">
+          <Navbar />
+          <div className=" flex flex-row">
+            <Sidebar />
           </div>
-          <div>{children}</div>
+          <div className=" w-full bg-black">{children}</div>
         </div>
       </body>
     </html>

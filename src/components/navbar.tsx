@@ -1,16 +1,14 @@
-"use client";
-import { HiOutlineBars3 } from "react-icons/hi2";
+import { PiListLight } from "react-icons/pi";
 
 const Navbar = () => {
   return (
-    <div className=" bg-black w-[16rem] h-screen text-white p-5">
-      <div className=" flex gap-6 items-center text-center mb-5">
-        <HiOutlineBars3 size={24} />
+    <div className=" absolute flex bg-black w-full h-16 z-100 top-0 border-b-[1px] border-b-zinc-800">
+      <div className=" w-[15rem] flex gap-3 h-16 items-center text-center justify-center">
+        <PiListLight size={24} color="white" />
         <span>
-          <img src="./LogoVerse.png" className=" w-36"/>
+          <img src="./LogoEchoVerse.png" className=" w-40" />
         </span>
       </div>
-      <div>Nayan Patidar</div>
     </div>
   );
 };
