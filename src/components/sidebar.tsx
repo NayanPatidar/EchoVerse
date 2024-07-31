@@ -8,9 +8,9 @@ import { MouseEvent, useEffect, useState } from "react";
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(1);
 
-  const setCategory = (event: React.MouseEvent<HTMLElement>) => {
-    const id = (event.target as HTMLElement).id;
-    setMusicCategory(parseInt(id));
+  const setCategory = (id: number) => {
+    console.log(id);
+    setMusicCategory(id);
   };
 
   useEffect(() => {}, []);
@@ -31,7 +31,7 @@ const Sidebar = () => {
             className="px-5 flex items-center hover:bg-[#49494988] rounded-md"
             style={{ backgroundColor: musicCategory == 1 ? "#49494965" : "" }}
             id="1"
-            onClick={setCategory}
+            onClick={() => setCategory(1)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
               <MdHomeFilled size={24} color="white" />
@@ -42,7 +42,7 @@ const Sidebar = () => {
             className="px-5 flex items-center hover:bg-[#49494988] rounded-md"
             style={{ backgroundColor: musicCategory == 2 ? "#49494965" : "" }}
             id="2"
-            onClick={setCategory}
+            onClick={() => setCategory(2)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
               <MdOutlineLibraryMusic size={24} />
@@ -53,7 +53,7 @@ const Sidebar = () => {
             className="px-5 flex items-center hover:bg-[#49494988] rounded-md"
             style={{ backgroundColor: musicCategory == 3 ? "#49494965" : "" }}
             id="3"
-            onClick={setCategory}
+            onClick={() => setCategory(3)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
               <BsChatLeftDots size={20} color="white" />
