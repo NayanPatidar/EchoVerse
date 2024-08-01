@@ -34,7 +34,7 @@ const Sidebar = () => {
             onClick={() => setCategory(1)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <MdHome size={24} color="white" />
+              <MdHome size={24} color="#d6d6d6dc" />
               <div className=" text-md lato-regular">Home</div>
             </div>
           </li>
@@ -45,7 +45,7 @@ const Sidebar = () => {
             onClick={() => setCategory(2)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <MdOutlineLibraryMusic size={24} />
+              <MdOutlineLibraryMusic size={24} color="#d6d6d6dc" />
               <div className=" text-md lato-regular">Library</div>
             </div>
           </li>
@@ -56,7 +56,7 @@ const Sidebar = () => {
             onClick={() => setCategory(3)}
           >
             <div className=" h-12 flex items-center gap-5 cursor-pointer pl-1">
-              <BsFillChatLeftTextFill size={20} color="white"  />
+              <BsFillChatLeftTextFill size={20} color="#d6d6d6dc" />
               <div className=" text-md lato-regular">Chat</div>
             </div>
           </li>

@@ -13,11 +13,11 @@ const Navbar = () => {
         </span>
       </div>
       <div className=" border-white h-16 flex items-center ">
-        <form className="h-16 pl-[100px] flex items-center">
-          <div className="  border-[1px] border-zinc-600  w-[480px] rounded-md flex flex-row items-center bg-[#313131] pl-4">
+        <form className="h-14 pl-[100px] flex items-center">
+          <div className="  border-[1px] border-zinc-600  w-[480px] rounded-md flex flex-row items-center bg-[#242424] pl-4">
             <CiSearch color="zinc" size={24} />
             <input
-              className=" text-white text-lg lato-regular h-10 w-[440px] rounded-lg pl-4 bg-[#313131] focus:outline-none placeholder-zinc-400"
+              className=" text-white text-lg lato-regular h-10 w-[440px] rounded-lg pl-4 bg-[#242424] focus:outline-none placeholder-zinc-600"
               placeholder="Search songs, albums, artists, podcasts"
             />
           </div>
