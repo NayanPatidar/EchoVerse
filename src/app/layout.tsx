@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
+import { Slider } from "@mui/material";
+import AudioPlayer from "@/components/audioplayer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,12 +27,13 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className="w-full h-full flex flex-row relative">
+        <div className="w-full h-full flex relative overflow-x-hidden">
           <Navbar />
           <div className=" flex flex-row">
             <Sidebar />
           </div>
           <div className=" w-full bg-black">{children}</div>
+          <AudioPlayer />
         </div>
       </body>
     </html>
