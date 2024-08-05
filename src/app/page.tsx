@@ -1,11 +1,12 @@
 import AudioPlayer from "@/components/audioplayer";
-import { getAlbumDetails, getHomeData, getPlaylist, getSongDetails } from "@/lib/api_jiosaavn";
+import { getAlbumDetails, getArtistDetails, getArtistSongs, getHomeData, getPlaylist, getSongDetails, getTopSearches, search } from "@/lib/api_jiosaavn";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default async function Home() {
-  const playlists = await getAlbumDetails('-iNdCmFNV9o_');
+  const playlists = await search('Nadanniyan', 'song');
   console.log(playlists);
+
 
   // getTopSearch();
 

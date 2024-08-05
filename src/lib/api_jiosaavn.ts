@@ -45,6 +45,8 @@ async function jioSaavnFetchData<T>(
     };
     const url = new URL(path, "https://api.nayanpatidar28.workers.dev/");
     url.search = new URLSearchParams(queries).toString();
+    console.log(url);
+    
 
     const response = await fetch(url, {
       method: "GET",
@@ -118,3 +120,66 @@ export async function getAlbumDetails(token: string) {
     );
   }
 }
+
+export async function getArtistDetails(token: string) {
+  try {
+    return await jioSaavnFetchData<Artist>("/artist", {
+      token,
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Song Details : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getArtistSongs(
+  token: string,
+  cat: Category = "popularity",
+  sort: Sort = "asc"
+) {
+  try {
+    return await jioSaavnFetchData<Omit<ArtistSongsOrAlbums, "albums">>(
+      "/artist/songs",
+      {
+        id: token.toString(),
+        cat,
+        sort,
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Artist Songs : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getTopSearches() {
+  try {
+    return await jioSaavnFetchData<TopSearch[]>("/search/top");
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Artist Songs : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function search(
+  token: string,
+  type: "song" | "album" | "playlist"
+) {
+  try {
+    return await jioSaavnFetchData(`/search/${type}s`, {
+      q: token.toString(),
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Searching of Songs : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
