@@ -1,11 +1,21 @@
 import AudioPlayer from "@/components/audioplayer";
-import { getPlaylist } from "@/lib/api_jiosaavn";
+import { getAlbumDetails, getHomeData, getPlaylist, getSongDetails } from "@/lib/api_jiosaavn";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default async function Home() {
-  const playlists = await getPlaylist(1219169738);
-  // console.log(playlists?.songs[9].name);
-  
+  const playlists = await getAlbumDetails('-iNdCmFNV9o_');
+  console.log(playlists);
 
-  return <div></div>;
+  // getTopSearch();
+
+  // return Object.entries(playlists.songs).map(([key, value]) => {
+  //   return (
+  //     <div key={key} className=" text-white">
+  //       <div className=" flex flex-row ">
+  //         <img src={value.image[2].url} className=""/>
+  //       </div>
+  //     </div>
+  //   );
+  // });
 }

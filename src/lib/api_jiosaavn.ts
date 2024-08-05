@@ -41,8 +41,9 @@ async function jioSaavnFetchData<T>(
   try {
     const queries = {
       ...query,
+      lang: query && query["lang"] ? query.lang : "hindi",
     };
-    const url = new URL(path, "https://myjiosaavnapi.vercel.app/");
+    const url = new URL(path, "https://api.nayanpatidar28.workers.dev/");
     url.search = new URLSearchParams(queries).toString();
 
     const response = await fetch(url, {
@@ -66,15 +67,53 @@ async function jioSaavnFetchData<T>(
   }
 }
 
-export async function getPlaylist(id: number) {
+export async function getPlaylist(token: string) {
   try {
-    const Playlist = await jioSaavnFetchData<Playlist>("api/playlists", {
-      id: id.toString(),
+    return await jioSaavnFetchData<Playlist>("/playlist", {
+      id: token.toString(),
     });
-    return Playlist;
   } catch (error) {
     console.error(
       "Error in the Fetching the Playlist Data : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getHomeData(lang?: Lang[]) {
+  try {
+    return await jioSaavnFetchData<Modules>("/modules", {
+      lang: lang?.join(",") ?? "",
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching the Home Data : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getSongDetails(token: string, lang?: Lang[]) {
+  try {
+    return await jioSaavnFetchData<Song>("/song", {
+      id: token,
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Song Details : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getAlbumDetails(token: string) {
+  try {
+    return await jioSaavnFetchData<Album>("/album", {
+      token,
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Song Details : ",
       error instanceof Error ? error.message : String(error)
     );
   }
