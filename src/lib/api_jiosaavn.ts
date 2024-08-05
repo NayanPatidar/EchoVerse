@@ -46,7 +46,6 @@ async function jioSaavnFetchData<T>(
     const url = new URL(path, "https://api.nayanpatidar28.workers.dev/");
     url.search = new URLSearchParams(queries).toString();
     console.log(url);
-    
 
     const response = await fetch(url, {
       method: "GET",
@@ -177,9 +176,44 @@ export async function search(
     });
   } catch (error) {
     console.error(
-      "Error in the Searching of Songs : ",
+      "Error in the Searching : ",
       error instanceof Error ? error.message : String(error)
     );
   }
 }
 
+export async function getTrending(
+  type: "song" | "album" | "playlist",
+  lang?: Lang[]
+) {
+  try {
+    return await jioSaavnFetchData<Trending>("/get/trending", {
+      type,
+      lang: lang?.join(",") ?? "",
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Searching of Trending Songs : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getActorsTopSongs(
+  actorID: string,
+  songId: string,
+  lang: Lang
+) {
+  try {
+    return await jioSaavnFetchData<Song[]>("/get/actor-top-songs", {
+      actor_id: actorID,
+      song_id: songId,
+      lang,
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Getting Actors Top Songs : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
