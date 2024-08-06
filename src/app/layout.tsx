@@ -27,12 +27,14 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className="w-full h-full flex relative overflow-x-hidden">
+        <div className="w-full h-screen flex relative">
           <Navbar />
           <div className=" flex flex-row">
             <Sidebar />
           </div>
-          <div className=" w-full bg-black">{children}</div>
+          <div className="MainSongsHomeContent w-auto bg-black h-auto overflow-scroll mt-16 mb-20">
+            {children}
+          </div>
           <AudioPlayer />
         </div>
       </body>
