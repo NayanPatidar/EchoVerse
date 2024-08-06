@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
   return (
-    <div className=" absolute flex bg-black w-full h-16 z-100 top-0 border-b-[1px] border-b-zinc-800 text-white">
+    <div className=" absolute z-50 flex bg-black w-full h-auto z-100 top-0 border-b-[1px] border-b-zinc-800 text-white">
       <div className=" w-[15rem] flex gap-3 h-16 items-center text-center justify-center">
         <div className=" w-10 h-10 flex items-center justify-center hover:bg-zinc-800 rounded-full cursor-pointer">
           <PiListLight size={24} color="white" />

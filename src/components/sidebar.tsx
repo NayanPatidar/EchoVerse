@@ -16,7 +16,7 @@ const Sidebar = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className=" bg-black w-[15rem] h-screen text-white border-r-[1px] border-zinc-800">
+    <div className=" bg-black w-[15rem] h-auto text-white border-r-[1px] border-zinc-800">
       <div className=" flex gap-6 h-16 items-center text-center justify-center">
         <div>
           <PiListLight size={24} />
