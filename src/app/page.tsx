@@ -1,4 +1,5 @@
 import AudioPlayer from "@/components/audioplayer";
+import Navbar from "@/components/navbar";
 import ScrollAreaComponent from "@/components/ui/horizontalSliderArea";
 import HorizontalScrollerCard from "@/components/ui/sliderCard";
 import {
@@ -23,7 +24,8 @@ export default async function Home() {
   }
 
   return (
-    <div className=" MusicPageMainDiv bg-black text-white relative">
+    <div className="MainPageDivBox relative text-white overflow-y-auto h-full rounded-lg">
+      <Navbar />
       {Object.entries(homeData).map(([key, section]) => {
         if (
           "random_songs_listid" in section ||
@@ -35,8 +37,8 @@ export default async function Home() {
           return null;
 
         return (
-          <div className=" text-white h-auto pl-8 pr-6">
-            <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold w-full pl-3">
+          <div className="text-white relative pl-8 pr-6">
+            <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3">
               {section.title}
             </div>
             <ScrollAreaComponent>

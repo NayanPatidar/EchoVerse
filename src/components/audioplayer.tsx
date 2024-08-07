@@ -18,9 +18,8 @@ const AudioPlayer = () => {
   //     });
   //   }, []);
   return (
-    <div className=" absolute bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-24 flex flex-col">
+    <div className=" absolute bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20 flex flex-col">
         <Slider
-          className=" absolute m-0 p-0"
           sx={{
             width: "100%",
             color: "red",
@@ -34,7 +33,7 @@ const AudioPlayer = () => {
             },
           }}
         />
-      <div className=" text-white flex flex-row items-center justify-center h-full gap-5 ">
+      <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform -translate-y-2">
         <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
           <IoMdSkipBackward size={28} width={42} />
         </span>

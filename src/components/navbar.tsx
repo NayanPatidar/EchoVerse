@@ -3,17 +3,9 @@ import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
   return (
-    <div className=" absolute z-50 flex bg-black w-full h-auto z-100 top-0 border-b-[1px] border-b-zinc-800 text-white">
-      <div className=" w-[15rem] flex gap-3 h-16 items-center text-center justify-center">
-        <div className=" w-10 h-10 flex items-center justify-center hover:bg-zinc-800 rounded-full cursor-pointer">
-          <PiListLight size={24} color="white" />
-        </div>
-        <span>
-          <img src="./LogoEchoVerse2.png" className=" w-40" />
-        </span>
-      </div>
+    <div className=" sticky top-0 bg-[#121212] z-50 flex h-auto text-white rounded-t-lg">
       <div className=" border-white h-16 flex items-center ">
-        <form className="h-14 pl-[100px] flex items-center">
+        <form className="h-14 pl-[48px] flex items-center">
           <div className="  border-[1px] border-zinc-600  w-[480px] rounded-md flex flex-row items-center bg-[#242424] pl-4">
             <CiSearch color="zinc" size={24} />
             <input
