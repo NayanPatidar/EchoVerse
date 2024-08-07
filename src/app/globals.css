@@ -4,8 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   background-color: black;
+  overflow: hidden;
+  height: 100%;
 }
 
 .lato-thin {
@@ -71,31 +73,28 @@ body{
 .media-scroller {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 23%;
+  grid-auto-columns: 20%;
   overflow-x: scroll;
   overflow-y: hidden;
-  /* height: auto; */
-  gap: 1rem;
-  border-bottom: 1px solid #565656;
 }
 
 .media-scroller::-webkit-scrollbar {
   height: 5px;
-  background-color: rgb(0, 0, 0);
+  background-color: rgba(21, 21, 21, 0);
 }
 
 .media-scroller::-webkit-scrollbar-thumb {
-  background: #3e3e3e;
+  background: #2d2d2d;
   border-radius: 1px;
 }
 
 .MainSongsHomeContent::-webkit-scrollbar {
   width: 5px;
-  background-color: rgb(125, 125, 125);
+  background-color: rgba(125, 125, 125, 0);
 }
 
 .MainSongsHomeContent::-webkit-scrollbar-thumb {
-  background: #5c5c5c;
+  background: #151515;
   border-radius: 2px;
 }
 
@@ -110,8 +109,8 @@ body{
 .media-element:hover {
   padding: 1rem;
   height: auto;
-  background-color: rgba(76, 76, 76, 0.438);
-  border-radius: 1rem;
+  background-color: rgba(71, 71, 71, 0.434);
+  border-radius: 10px;
   width: auto;
 }
 
@@ -177,4 +176,12 @@ body{
   font-family: "Montserrat", sans-serif;
   font-weight: 900;
   font-style: italic;
+}
+
+.MainPageDivBox {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), #121212);
+}
+
+.MainContentDiv {
+  height: calc(100vh - 80px);
 }
