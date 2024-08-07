@@ -20,13 +20,17 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   explicit,
   image,
 }) => {
-  console.log(image);
-  
   const imageUrl = getImageURL(image);
 
   return (
-    <div className="media-element">
-      <img src={imageUrl} alt="" />
+    <div className="media-element flex flex-col text-left">
+      <img src={imageUrl} className="media-elements-image" alt="" />
+      <span className=" text-base lato-regular mt-5  overflow-hidden whitespace-nowrap text-ellipsis">
+        {name}
+      </span>
+      <span className=" lato-regular text-gray-400 text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+        {subtitle}
+      </span>
     </div>
   );
 };

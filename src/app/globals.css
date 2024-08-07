@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: black;
+}
+
 .lato-thin {
   font-family: "Lato", sans-serif;
   font-weight: 100;
@@ -65,25 +69,24 @@
 }
 
 .media-scroller {
-  padding: 1rem;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 22%;
+  grid-auto-columns: 23%;
   overflow-x: scroll;
   overflow-y: hidden;
   /* height: auto; */
-  gap: 2rem;
+  gap: 1rem;
   border-bottom: 1px solid #565656;
 }
 
 .media-scroller::-webkit-scrollbar {
   height: 5px;
-  background-color: rgb(87, 87, 87);
+  background-color: rgb(0, 0, 0);
 }
 
 .media-scroller::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 2px;
+  background: #3e3e3e;
+  border-radius: 1px;
 }
 
 .MainSongsHomeContent::-webkit-scrollbar {
@@ -99,6 +102,79 @@
 .media-element {
   padding: 1rem;
   height: auto;
-  background-color: rgb(46, 46, 46);
+  background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
+  width: auto;
+}
+
+.media-element:hover {
+  padding: 1rem;
+  height: auto;
+  background-color: rgba(76, 76, 76, 0.438);
+  border-radius: 1rem;
+  width: auto;
+}
+
+.media-elements-image {
+  border-radius: 5px;
+}
+
+.Montserrat-thin {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.Montserrat-light {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.Montserrat-regular {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.Montserrat-bold {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.Montserrat-black {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.Montserrat-thin-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.Montserrat-light-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.Montserrat-regular-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.Montserrat-bold-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.Montserrat-black-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-style: italic;
 }
