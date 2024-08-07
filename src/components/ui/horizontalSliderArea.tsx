@@ -9,7 +9,7 @@ interface ScrollAreaComponentProps {
 const ScrollAreaComponent: React.FC<ScrollAreaComponentProps> = ({
   children,
 }) => {
-  return <div className="media-scroller">{children}</div>;
+  return <div className="media-scroller py-1">{children}</div>;
 };
 
 export default ScrollAreaComponent;
