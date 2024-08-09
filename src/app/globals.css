@@ -178,10 +178,36 @@ body {
   font-style: italic;
 }
 
+.source-sans-3-Bold {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
 .MainPageDivBox {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), #121212);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.11), #121212);
+}
+
+.MainPageDivBox::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgba(21, 21, 21, 1);
+}
+
+.MainPageDivBox::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 1px;
 }
 
 .MainContentDiv {
   height: calc(100vh - 80px);
+}
+
+.NavbarMain {
+  width: calc(97.2vw - 15rem);
+}
+
+.YearList li span {
+  left: -10px;
+  position: relative;
 }
