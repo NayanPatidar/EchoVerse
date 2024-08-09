@@ -45,8 +45,6 @@ async function jioSaavnFetchData<T>(
     };
     const url = new URL(path, "https://api.nayanpatidar28.workers.dev/");
     url.search = new URLSearchParams(queries).toString();
-    console.log(url);
-
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -96,7 +94,7 @@ export async function getHomeData(lang?: Lang[]) {
 
 export async function getSongDetails(token: string, lang?: Lang[]) {
   try {
-    return await jioSaavnFetchData<Song>("/song", {
+    return await jioSaavnFetchData<SongObj>("/song", {
       id: token,
     });
   } catch (error) {
