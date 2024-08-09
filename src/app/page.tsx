@@ -24,8 +24,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="MainPageDivBox relative text-white overflow-y-auto h-full rounded-lg">
-      <Navbar />
+    <div>
       {Object.entries(homeData).map(([key, section]) => {
         if (
           "random_songs_listid" in section ||
@@ -35,10 +34,9 @@ export default async function Home() {
           key === "discover"
         )
           return null;
-
         return (
-          <div className="text-white relative pl-8 pr-6">
-            <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3">
+          <div className="text-white relative pl-8 pr-6" key={key}>
+            <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">
               {section.title}
             </div>
             <ScrollAreaComponent>
@@ -46,6 +44,7 @@ export default async function Home() {
                 ({ id, name, url, subtitle, type, image, explicit }) => (
                   <HorizontalScrollerCard
                     key={id}
+                    id={id}
                     name={name}
                     url={url}
                     subtitle={subtitle}

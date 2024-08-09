@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
   return (
-    <div className=" sticky top-0 bg-[#121212] z-50 flex h-auto text-white rounded-t-lg">
+    <div className="NavbarMain sticky top-0 bg-[#121212] z-50 flex h-auto text-white rounded-t-lg ">
       <div className=" border-white h-16 flex items-center ">
         <form className="h-14 pl-[48px] flex items-center">
           <div className="  border-[1px] border-zinc-600  w-[480px] rounded-md flex flex-row items-center bg-[#242424] pl-4">

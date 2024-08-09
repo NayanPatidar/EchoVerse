@@ -1,8 +1,10 @@
+"use client";
 import { getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface HorizontalScrollerProps {
-  key: string;
+  id: string;
   name: string;
   subtitle?: string;
   type: Type;
@@ -12,7 +14,7 @@ interface HorizontalScrollerProps {
 }
 
 const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
-  key,
+  id,
   name,
   subtitle,
   type,
@@ -21,9 +23,21 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   image,
 }) => {
   const imageUrl = getImageURL(image);
+  const router = useRouter();
+
+  function MediaClick() {
+    // console.log("Clicked On Media Element: " + type);
+
+    if (type == "song") {
+      router.push(`/song/${name}/${id}`);
+    }
+  }
 
   return (
-    <div className="media-element flex flex-col text-left">
+    <div
+      className="media-element flex flex-col text-left"
+      onClick={() => MediaClick()}
+    >
       <img src={imageUrl} className="media-elements-image" alt="" />
       <span className=" text-base lato-regular mt-5  overflow-hidden whitespace-nowrap text-ellipsis">
         {name}

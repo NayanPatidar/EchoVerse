@@ -4,16 +4,14 @@ import { MdHome } from "react-icons/md";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(1);
 
   const setCategory = (id: number) => {
-    console.log(id);
     setMusicCategory(id);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div className=" bg-[#121212] w-[15rem] h-auto text-white rounded-lg my-2 ml-2">
@@ -22,7 +20,7 @@ const Sidebar = () => {
           <PiListLight size={24} />
         </div>
         <span>
-          <img src="./LogoEchoVerse2.png" className=" w-36" />
+          <Image src="/LogoEchoVerse2.png" width={144} height={32} alt="Logo" />
         </span>
       </div>
       <div className=" p-2">
