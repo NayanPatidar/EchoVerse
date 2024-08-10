@@ -1,6 +1,6 @@
 import AudioPlayer from "@/components/audioplayer";
 import Navbar from "@/components/navbar";
-import ScrollAreaComponent from "@/components/ui/horizontalSliderArea";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import HorizontalScrollerCard from "@/components/ui/sliderCard";
 import {
   getAlbumDetails,
@@ -39,22 +39,25 @@ export default async function Home() {
             <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">
               {section.title}
             </div>
-            <ScrollAreaComponent>
-              {section.data.map(
-                ({ id, name, url, subtitle, type, image, explicit }) => (
-                  <HorizontalScrollerCard
-                    key={id}
-                    id={id}
-                    name={name}
-                    url={url}
-                    subtitle={subtitle}
-                    type={type}
-                    image={image}
-                    explicit={explicit}
-                  />
-                )
-              )}
-            </ScrollAreaComponent>
+            <ScrollArea className="w-full whitespace-nowrap rounded-md">
+              <div className="flex w-max">
+                {section.data.map(
+                  ({ id, name, url, subtitle, type, image, explicit }) => (
+                    <HorizontalScrollerCard
+                      key={id}
+                      id={id}
+                      name={name}
+                      url={url}
+                      subtitle={subtitle}
+                      type={type}
+                      image={image}
+                      explicit={explicit}
+                    />
+                  )
+                )}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </div>
         );
       })}

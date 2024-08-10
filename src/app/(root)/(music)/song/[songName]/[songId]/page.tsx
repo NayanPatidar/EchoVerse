@@ -3,6 +3,7 @@
 import { getSongDetails } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
+import { IoIosPlayCircle } from "react-icons/io";
 
 const SongPage = async ({
   params,
@@ -17,21 +18,20 @@ const SongPage = async ({
 
   const SongImageLink = getImageURL(songData?.image);
   const Artist = getImageURL(songData.artist_map.primary_artists[0].image);
-  console.log(songData);
 
   return (
-    <div className=" text-white">
-      <div className=" w-full flex justify-start p-5 gap-5">
+    <div className=" text-white flex flex-col p-5">
+      <div className=" w-full flex justify-start gap-5">
         {
           <Image
             src={SongImageLink}
             width={160}
             height={0}
             alt="Song Image"
-            className=" rounded-md"
+            className=" rounded-sm"
           />
         }
-        <div className=" flex flex-col justify-start gap-5">
+        <div className=" flex flex-col justify-end gap-1">
           <span className=" source-sans-3-Bold text-8xl">{songData.name}</span>
           <div className=" flex flex-row gap-2">
             <Image
