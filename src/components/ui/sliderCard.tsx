@@ -26,10 +26,12 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   const router = useRouter();
 
   function MediaClick() {
-    // console.log("Clicked On Media Element: " + type);
-
     if (type == "song") {
       router.push(`/song/${name}/${id}`);
+    } else if (type == "album") {
+      router.push(`/album/${name}/${id}`);
+    }  else if (type == "playlist") {
+      router.push(`/playlist/${name}/${id}`);
     }
   }
 

@@ -69,7 +69,7 @@ async function jioSaavnFetchData<T>(
 export async function getPlaylist(token: string) {
   try {
     return await jioSaavnFetchData<Playlist>("/playlist", {
-      id: token.toString(),
+      id: token,
     });
   } catch (error) {
     console.error(
@@ -108,11 +108,11 @@ export async function getSongDetails(token: string, lang?: Lang[]) {
 export async function getAlbumDetails(token: string) {
   try {
     return await jioSaavnFetchData<Album>("/album", {
-      token,
+      id: token,
     });
   } catch (error) {
     console.error(
-      "Error in the Fetching of Song Details : ",
+      "Error in the Fetching of Album Details : ",
       error instanceof Error ? error.message : String(error)
     );
   }
