@@ -60,17 +60,21 @@ const SongPage = async ({
       <div>
         <QuickMusicActions />
       </div>
-      <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-        <span className=" w-4/12">
-          <span className=" pr-5">#</span>
-          <span>Title</span>
-        </span>
-        <span className=" w-3/12 justify-self-end">Plays</span>
-        <span className=" w-1/12 justify-self-end pb-0.5">
-          <IoTimeOutline size={16} />
-        </span>
+      <div className=" flex flex-col gap-1">
+        <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
+          <span className=" w-4/12">
+            <span className=" pr-5">#</span>
+            <span>Title</span>
+          </span>
+          <span className=" w-3/12 justify-self-end flex justify-end">
+            Plays
+          </span>
+          <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
+            <IoTimeOutline size={16} />
+          </span>
+        </div>
+        <ListAudioFiles SongsData={songObj?.songs} />
       </div>
-      <ListAudioFiles SongsData={songObj} />
     </div>
   );
 };
