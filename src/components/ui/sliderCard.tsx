@@ -2,6 +2,7 @@
 import { getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
 import { useRouter } from "next/navigation";
+import { FaPlay } from "react-icons/fa";
 
 interface HorizontalScrollerProps {
   id: string;
@@ -30,7 +31,7 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
       router.push(`/song/${name}/${id}`);
     } else if (type == "album") {
       router.push(`/album/${name}/${id}`);
-    }  else if (type == "playlist") {
+    } else if (type == "playlist") {
       router.push(`/playlist/${name}/${id}`);
     }
   }
@@ -41,6 +42,9 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
       onClick={() => MediaClick()}
     >
       <img src={imageUrl} className="media-elements-image" alt="" />
+      <div className="PlaySymbolCard">
+        <FaPlay className=" PlayIcon"/>
+      </div>
       <span className=" text-base lato-regular mt-5  overflow-hidden whitespace-nowrap text-ellipsis">
         {name}
       </span>

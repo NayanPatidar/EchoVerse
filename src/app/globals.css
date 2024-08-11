@@ -169,7 +169,8 @@ body {
   height: auto;
   background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
-  width:190px;
+  width: 190px;
+  position: relative;
 }
 
 .media-element:hover {
@@ -177,13 +178,44 @@ body {
   height: auto;
   background-color: rgba(71, 71, 71, 0.434);
   border-radius: 10px;
-  width:190px;
+  width: 190px;
+  position: relative;
 }
 
 .media-elements-image {
   border-radius: 5px;
   width: 160px;
   height: 160px;
+}
+
+.PlaySymbolCard {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  bottom: 75px;
+  right: 25px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.media-element:hover .PlaySymbolCard {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 100%;
+  bottom: 85px;
+  right: 20px;
+  opacity: 1;
+}
+
+.PlayIcon {
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
 }
 
 .Montserrat-thin {
