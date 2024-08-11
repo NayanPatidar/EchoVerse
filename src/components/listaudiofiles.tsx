@@ -1,8 +1,11 @@
+import { getImageURL } from "@/lib/utils";
 import { Episode, Song, SongObj } from "@/types";
+import Image from "next/image";
 import React from "react";
 
 interface AudioFiles {
   SongsData?: (Song | Episode)[];
+  isPlaylist: boolean;
 }
 
 function secondsToTime(seconds: number) {
@@ -11,18 +14,31 @@ function secondsToTime(seconds: number) {
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
 
-const ListAudioFiles: React.FC<AudioFiles> = ({ SongsData }) => {
+const ListAudioFiles: React.FC<AudioFiles> = ({ SongsData, isPlaylist }) => {
   console.log(SongsData);
   return (
-    <div>
+    <div className=" flex flex-col gap-2">
       {SongsData?.map((song, index) => {
         return (
           <div
             className="flex text-[#d4d4d894] text-xs Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8] rounded-sm h-12"
             key={index}
           >
-            <span className=" w-6/12">
-              <span className=" pr-5">{index + 1} </span>
+            <span className=" w-6/12 flex gap-5 items-center">
+              <span className="">{index + 1} </span>
+              {isPlaylist ? (
+                <span>
+                  <Image
+                    src={getImageURL(song?.image)}
+                    alt="Song Image"
+                    width={40}
+                    height={40}
+                    className=" rounded-md"
+                  />
+                </span>
+              ) : (
+                ""
+              )}
               <span className=" text-[#d4d4d8]">{song.name} </span>
             </span>
             <span className=" w-2/12 justify-self-end flex justify-end">

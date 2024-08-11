@@ -80,7 +80,7 @@ const PlaylistPage = async ({
           <IoTimeOutline size={16} />
         </span>
       </div>
-      <ListAudioFiles SongsData={playlistObj.songs} />
+      <ListAudioFiles SongsData={playlistObj.songs} isPlaylist={true} />
     </div>
   );
 };
