@@ -34,7 +34,8 @@ export default async function Home() {
           key === "discover" ||
           key === "promo7" ||
           key === "promo3" ||
-          key === "promo1"
+          key === "promo1" ||
+          key === "radio"
         )
           return null;
 
