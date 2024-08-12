@@ -31,9 +31,14 @@ export default async function Home() {
           key === "artist_recos" ||
           key === "city_mod" ||
           key === "mixes" ||
-          key === "discover"
+          key === "discover" ||
+          key === "promo7" ||
+          key === "promo3" ||
+          key === "promo1"
         )
           return null;
+
+        console.log(key);
         return (
           <div className="text-white relative pl-8 pr-6" key={key}>
             <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">
