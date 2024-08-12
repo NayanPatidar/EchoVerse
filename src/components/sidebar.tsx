@@ -7,6 +7,7 @@ import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+
 const Sidebar= () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(1);
   const router = useRouter();

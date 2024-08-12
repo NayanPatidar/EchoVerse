@@ -59,8 +59,8 @@ const AlbumPage = async ({
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <span className=" w-4/12">
-          <span className=" pr-5">#</span>
-          <span>Title</span>
+        <span className=" pr-[22px]">#</span>
+        <span>Title</span>
         </span>
         <span className=" w-3/12 justify-self-end flex justify-end">Plays</span>
         <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
