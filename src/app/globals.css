@@ -311,3 +311,17 @@ body {
   left: -10px;
   position: relative;
 }
+
+/* List Audio Files Main CSS */
+
+.ListAudioFiles:hover .AudioFilesIndex {
+  display: none;
+}
+
+.ListAudioFiles:hover .AudioFilesPlayIcon {
+  display: block
+}
+
+.ListAudioFiles .AudioFilesPlayIcon {
+  display: none;
+}

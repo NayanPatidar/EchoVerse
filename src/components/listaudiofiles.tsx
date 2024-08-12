@@ -2,6 +2,7 @@ import { getImageURL } from "@/lib/utils";
 import { Episode, Song, SongObj } from "@/types";
 import Image from "next/image";
 import React from "react";
+import { FaPlay } from "react-icons/fa6";
 
 interface AudioFiles {
   SongsData?: (Song | Episode)[];
@@ -21,11 +22,14 @@ const ListAudioFiles: React.FC<AudioFiles> = ({ SongsData, isPlaylist }) => {
       {SongsData?.map((song, index) => {
         return (
           <div
-            className="flex text-[#d4d4d894] text-xs Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8] rounded-sm h-12"
+            className=" ListAudioFiles flex text-[#d4d4d894] text-xs Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8] rounded-sm h-12"
             key={index}
           >
-            <span className=" w-6/12 flex gap-5 items-center">
-              <span className="">{index + 1} </span>
+            <span className=" w-6/12 flex gap-4 items-center">
+              <span className="AudioFilesIndex w-[12px]">{index + 1} </span>
+              <span className="AudioFilesPlayIcon">
+                <FaPlay width={2}/>
+              </span>
               {isPlaylist ? (
                 <span>
                   <Image
