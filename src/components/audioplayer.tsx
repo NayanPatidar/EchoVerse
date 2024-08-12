@@ -21,6 +21,7 @@ const AudioPlayer = () => {
     <div className=" absolute bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20 flex flex-col">
         <Slider
           sx={{
+            padding: "0px",
             width: "100%",
             color: "red",
             "& .MuiSlider-rail": {
