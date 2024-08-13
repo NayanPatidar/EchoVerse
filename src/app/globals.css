@@ -307,6 +307,10 @@ body {
   width: calc(97.2vw - 15rem);
 }
 
+.SearchBoxMain {
+  width: calc(97.2vw - 21rem);
+}
+
 .YearList li span {
   left: -10px;
   position: relative;
@@ -319,7 +323,7 @@ body {
 }
 
 .ListAudioFiles:hover .AudioFilesPlayIcon {
-  display: block
+  display: block;
 }
 
 .ListAudioFiles .AudioFilesPlayIcon {

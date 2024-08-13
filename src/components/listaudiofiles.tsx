@@ -16,7 +16,6 @@ function secondsToTime(seconds: number) {
 }
 
 const ListAudioFiles: React.FC<AudioFiles> = ({ SongsData, isPlaylist }) => {
-  console.log(SongsData);
   return (
     <div className=" flex flex-col gap-2">
       {SongsData?.map((song, index) => {
