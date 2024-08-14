@@ -3,9 +3,10 @@ import { PiListLight } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
-import { getTopSearches } from "@/lib/api_jiosaavn";
-import { TopSearch } from "@/types";
+import { getTopSearches, search, searchAll } from "@/lib/api_jiosaavn";
+import { AllSearch, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
+import { fontSize } from "@mui/system";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -51,9 +52,9 @@ const Navbar = () => {
             <Input
               readOnly
               placeholder="Search songs, albums, artists, podcasts"
-              className="bg-[#242424] border-none w-[440px] rounded-lg placeholder-[#535353] cursor-pointer"
+              className="bg-[#242424] border-none w-[440px] rounded-lg placeholder-[#535353] cursor-pointer "
               onClick={() => setSearchBarOpen(true)}
-            />
+            ></Input>
             {isSearchBarOpen ? (
               <SearchBarBox trendingSearches={trendingSearches} />
             ) : (
@@ -71,6 +72,29 @@ type TrendingSearchesProps = {
 };
 
 function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
+  const [inputData, setInputData] = useState("");
+  const [SearchData, setSearchData] = useState<AllSearch>();
+
+  const searchHandler = async (e: any) => {
+    setInputData(e.target.value);
+    const data = await searchAll(e.target.value);
+    setSearchData(data);
+  };
+
+  const debounce = (cb: Function, delay: number) => {
+    let timer: any;
+    return (e: any) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = cb(e);
+      }, delay);
+    };
+  };
+
+  const SearchColums = ["Albums", "Songs", "Artists"];
+
+  const searchProcess = debounce(searchHandler, 1000);
+
   return (
     <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#242424] left-1/2 right-1/2 -translate-x-1/2 top-[11px] rounded-lg">
       <div className=" z-50 border-[1px] border-zinc-400  w-full rounded-md flex flex-row items-center bg-[#242424] pl-4">
@@ -78,34 +102,86 @@ function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
         <Input
           autoFocus
           placeholder="Search ..."
+          onChange={searchProcess}
           className="bg-[#242424] border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
         />
       </div>
       <div className=" p-5 ">
-        <span className=" Montserrat-bold">Trending Searches</span>
-        <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
-          {Object.entries(TrendingSearches.trendingSearches).map(
-            ([key, val]) => {
-              const TrendingSong = getImageURL(val?.image);
+        {inputData == "" ? (
+          <div>
+            <span className=" Montserrat-bold">Trending Searches</span>
+            <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
+              {Object.entries(TrendingSearches.trendingSearches).map(
+                ([key, val]) => {
+                  const TrendingSong = getImageURL(val?.image);
+                  return (
+                    <div className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md">
+                      <img
+                        src={TrendingSong}
+                        width={50}
+                        height={50}
+                        className=" rounded-md p-1"
+                      />
+                      <div className=" flex flex-col gap-[1px]">
+                        <span className=" text-sm cursor-pointer">
+                          {val.name}
+                        </span>
+                        <span className=" first-letter:capitalize cursor-pointer">
+                          {val.type}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        ) : SearchData ? (
+          <div className="flex flex-row gap-2">
+            {Object.entries(SearchData).map(([key, value]) => {
+              console.log(value);
+
               return (
-                <div className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md">
-                  <img
-                    src={TrendingSong}
-                    width={50}
-                    height={50}
-                    className=" rounded-md p-1"
-                  />
-                  <div className=" flex flex-col gap-[1px]">
-                    <span className=" text-sm cursor-pointer">{val.name}</span>
-                    <span className=" first-letter:capitalize cursor-pointer">
-                      {val.type}
-                    </span>
-                  </div>
-                </div>
+                <>
+                  {value.position === 1 ||
+                  value.position === 2 ||
+                  (value.position === 3 && value.data.length > 0) ? (
+                    <div className="Montserrat-regular flex flex-col gap-1 w-1/3">
+                      <span className=" pb-1 mb-2 border-b-[1px] text-[#bababa]">
+                        {SearchColums[value.position - 1]}
+                      </span>
+                      {value.data.map((value) => {
+                        const SearchSong = getImageURL(value?.image);
+                        return (
+                          <div className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md">
+                            <img
+                              src={SearchSong}
+                              width={50}
+                              height={50}
+                              className=" rounded-md p-1"
+                            />
+                            <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
+                              <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
+                                {value.name}
+                              </span>
+                              <span className="  overflow-hidden whitespace-nowrap text-ellipsis text-xs">
+                                {value.subtitle}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </>
               );
-            }
-          )}
-        </div>
+            })}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
