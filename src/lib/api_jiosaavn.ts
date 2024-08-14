@@ -164,6 +164,17 @@ export async function getTopSearches() {
   }
 }
 
+export async function searchAll(token: string) {
+  try {
+    return await jioSaavnFetchData<AllSearch>("/search", { q: token });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Search All : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
 export async function search(
   token: string,
   type: "song" | "album" | "playlist"
