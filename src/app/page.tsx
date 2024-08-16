@@ -39,7 +39,7 @@ export default async function Home() {
         )
           return null;
 
-        console.log(key);
+        // console.log(key);
         return (
           <div className="text-white relative pl-8 pr-6" key={key}>
             <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">

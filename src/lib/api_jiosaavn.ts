@@ -48,6 +48,7 @@ async function jioSaavnFetchData<T>(
     const response = await fetch(url, {
       method: "GET",
       headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Content-Type": "application/json",
       },
     });
@@ -140,7 +141,7 @@ export async function getArtistSongs(
     return await jioSaavnFetchData<Omit<ArtistSongsOrAlbums, "albums">>(
       "/artist/songs",
       {
-        id: token.toString(),
+        id: token,
         cat,
         sort,
       }
