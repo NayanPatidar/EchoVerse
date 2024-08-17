@@ -26,8 +26,6 @@ const ArtistPage = async ({
 
   console.log(artistObj);
   console.log(artistDetailsObj);
-  
-  
 
   const ArtistImageLink = getImageURL(artistObj?.image);
 
@@ -56,17 +54,18 @@ const ArtistPage = async ({
           </span>
           <div className=" h-[30px] flex flex-row gap-2">
             <div className=" flex flex-col justify-center ">
-              {/* <span className=" flex justify-center text-sm font-semibold gap-2">
-                {artistObj?.subtitle}
-                {artistObj.subtitle_desc.map((value, index) => {
-                  return <div>{value}</div>;
-                })}
-                <span className=" YearList font-normal">
+              <span className=" flex justify-center text-sm font-semibold gap-2">
+                <span className=" first-letter:uppercase ">
+                  {artistObj?.type}
+                </span>
+                <span className=" YearList font-normal flex items-center">
                   <li>
-                    <span>{artistObj?.year}</span>
+                    <span>
+                      {artistObj?.follower_count.toLocaleString()} Listeners
+                    </span>
                   </li>
                 </span>
-              </span> */}
+              </span>
             </div>
           </div>
         </div>
@@ -75,16 +74,22 @@ const ArtistPage = async ({
         <QuickMusicActions />
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-        <span className=" w-4/12">
+        <div className=" w-6/12">
           <span className=" pr-[22px]">#</span>
           <span>Title</span>
-        </span>
-        <span className=" w-3/12 justify-self-end flex justify-end">Plays</span>
-        <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
+        </div>
+        <div className=" w-full justify-self-start flex justify-center pl-9">
+          Artists
+        </div>
+        <div className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
           <IoTimeOutline size={16} />
-        </span>
+        </div>
       </div>
-      {/* <ListAudioFiles SongsData={playlistObj.songs} isPlaylist={true} /> */}
+      <ListAudioFiles
+        SongsData={artistObj?.top_songs.songs}
+        isPlaylist={true}
+        isArtist={true}
+      />
     </div>
   );
 };
