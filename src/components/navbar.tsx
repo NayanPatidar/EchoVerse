@@ -54,7 +54,10 @@ const Navbar = () => {
               onClick={() => setSearchBarOpen(true)}
             ></Input>
             {isSearchBarOpen ? (
-              <SearchBarBox trendingSearches={trendingSearches} />
+              <SearchBarBox
+                trendingSearches={trendingSearches}
+                closeSearchBar={() => setSearchBarOpen(false)}
+              />
             ) : (
               ""
             )}
@@ -65,11 +68,12 @@ const Navbar = () => {
   );
 };
 
-type TrendingSearchesProps = {
+type SearchBarBoxProps = {
   trendingSearches: TopSearch[];
+  closeSearchBar: () => void;
 };
 
-function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
+function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
   const [inputData, setInputData] = useState("");
   const [SearchData, setSearchData] = useState<AllSearch>();
   const router = useRouter();
@@ -92,8 +96,14 @@ function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
 
   const OpenSong = (val: any) => {
     if (val.type == "artist") {
-      router.push(`artist/${val.name}/${val.id}`);
+      router.replace(`/artist/${val.name}/${val.id}`);
+    } else if (val.type == "album") {
+      router.replace(`/album/${val.name}/${val.id}`);
+    } else if (val.type == "song") {
+      router.replace(`/song/${val.name}/${val.id}`);
     }
+
+    closeSearchBar();
   };
 
   const SearchColums = ["Albums", "Songs", "Artists"];
@@ -117,34 +127,32 @@ function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
           <div>
             <span className=" Montserrat-bold">Trending Searches</span>
             <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
-              {Object.entries(TrendingSearches.trendingSearches).map(
-                ([key, val]) => {
-                  // console.log(val);
+              {Object.entries(trendingSearches).map(([key, val]) => {
+                // console.log(val);
 
-                  const TrendingSong = getImageURL(val?.image);
-                  return (
-                    <div
-                      className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
-                      onClick={() => OpenSong(val)}
-                    >
-                      <img
-                        src={TrendingSong}
-                        width={50}
-                        height={50}
-                        className=" rounded-md p-1"
-                      />
-                      <div className=" flex flex-col gap-[1px]">
-                        <span className=" text-sm cursor-pointer">
-                          {val.name}
-                        </span>
-                        <span className=" first-letter:capitalize cursor-pointer">
-                          {val.type}
-                        </span>
-                      </div>
+                const TrendingSong = getImageURL(val?.image);
+                return (
+                  <div
+                    className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
+                    onClick={() => OpenSong(val)}
+                  >
+                    <img
+                      src={TrendingSong}
+                      width={50}
+                      height={50}
+                      className=" rounded-md p-1"
+                    />
+                    <div className=" flex flex-col gap-[1px]">
+                      <span className=" text-sm cursor-pointer">
+                        {val.name}
+                      </span>
+                      <span className=" first-letter:capitalize cursor-pointer">
+                        {val.type}
+                      </span>
                     </div>
-                  );
-                }
-              )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         ) : SearchData ? (
@@ -171,7 +179,10 @@ function SearchBarBox(TrendingSearches: TrendingSearchesProps) {
                         {value.data.map((value) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
-                            <div className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md">
+                            <div
+                              className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md"
+                              onClick={() => OpenSong(value)}
+                            >
                               <img
                                 src={SearchSong}
                                 width={50}
