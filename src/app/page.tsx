@@ -15,10 +15,19 @@ import {
 } from "@/lib/api_jiosaavn";
 import { setConfig } from "next/config";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { resolve } from "path";
+import { Suspense, useEffect, useState } from "react";
+
+// async function slowFetchData() {
+//   await new Promise((resolve) => setTimeout(resolve, 5000));
+//   return { data: "Some data" };
+// }
 
 export default async function Home() {
+  // const data = await slowFetchData();
+
   const homeData = await getHomeData();
+
   if (!homeData) {
     return;
   }
@@ -38,8 +47,6 @@ export default async function Home() {
           key === "radio"
         )
           return null;
-
-        // console.log(key);
         return (
           <div className="text-white relative pl-8 pr-6" key={key}>
             <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">
