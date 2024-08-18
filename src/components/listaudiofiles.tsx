@@ -29,7 +29,7 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
       {SongsData?.map((song, index) => {
         return (
           <div
-            className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12"
+            className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12 "
             key={index}
           >
             <span className=" w-6/12 flex gap-4 items-center">
@@ -55,22 +55,26 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
               </span>
             </span>
             {isArtist ? (
-              <span className=" w-3/12 justify-self-start flex justify-start whitespace-nowrap">
+              <span className=" w-5/12 justify-self-start flex justify-start overflow-hidden whitespace-nowrap text-ellipsis ">
                 <span>
                   <span className=" hover:text-white">
-                    {song.artist_map.artists[0].name},{" "}
+                    {song.artist_map.artists[0].name}
                   </span>
-                  <span className=" hover:text-white">
-                    {song.artist_map.artists[1].name}
-                  </span>
+                  {song.artist_map.artists[1] ? (
+                    <span className=" hover:text-white">
+                      , {song.artist_map.artists[1]?.name}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </span>
               </span>
             ) : (
-              <span className=" w-2/12 justify-self-end flex justify-end">
+              <span className=" w-5/12 justify-self-end flex justify-start">
                 {song.play_count}
               </span>
             )}
-            <span className=" w-4/12 justify-self-end pb-0.5 flex justify-end">
+            <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
               {secondsToTime(song.duration)}
             </span>
           </div>
