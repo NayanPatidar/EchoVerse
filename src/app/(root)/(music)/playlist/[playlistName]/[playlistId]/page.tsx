@@ -11,12 +11,18 @@ import Image from "next/image";
 import { parse } from "path";
 import { IoTimeOutline } from "react-icons/io5";
 
+async function slowFetchData() {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  return { data: "Some data" };
+}
+
 const PlaylistPage = async ({
   params,
 }: {
   params: { playlistName: string; playlistId: string };
 }) => {
   const playlistObj = await getPlaylist(params.playlistId);
+  // const data = await slowFetchData();
 
   if (!playlistObj?.image) {
     return;
@@ -80,7 +86,11 @@ const PlaylistPage = async ({
           <IoTimeOutline size={16} />
         </span>
       </div>
-      <ListAudioFiles SongsData={playlistObj.songs} isPlaylist={true} isArtist={false} />
+      <ListAudioFiles
+        SongsData={playlistObj.songs}
+        isPlaylist={true}
+        isArtist={false}
+      />
     </div>
   );
 };
