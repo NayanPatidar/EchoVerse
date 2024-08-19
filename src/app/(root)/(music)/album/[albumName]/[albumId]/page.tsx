@@ -7,13 +7,18 @@ import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
 import { IoTimeOutline } from "react-icons/io5";
 
+async function slowFetchData() {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  return { data: "Some data" };
+}
+
 const AlbumPage = async ({
   params,
 }: {
   params: { albumName: string; albumId: string };
 }) => {
   const albumObj = await getAlbumDetails(params.albumId);
-  // console.log(albumObj);
+  const data = await slowFetchData();
 
   // const songData = songObj?.songs[0];
   if (!albumObj?.image) {
@@ -62,7 +67,9 @@ const AlbumPage = async ({
           <span className=" pr-[22px]">#</span>
           <span>Title</span>
         </span>
-        <span className=" w-full pl-9 justify-self-end flex justify-center">Plays</span>
+        <span className=" w-full pl-9 justify-self-end flex justify-center">
+          Plays
+        </span>
         <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
           <IoTimeOutline size={16} />
         </span>

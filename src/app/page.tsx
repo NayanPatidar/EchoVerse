@@ -18,13 +18,13 @@ import Image from "next/image";
 import { resolve } from "path";
 import { Suspense, useEffect, useState } from "react";
 
-// async function slowFetchData() {
-//   await new Promise((resolve) => setTimeout(resolve, 5000));
-//   return { data: "Some data" };
-// }
+async function slowFetchData() {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  return { data: "Some data" };
+}
 
 export default async function Home() {
-  // const data = await slowFetchData();
+  const data = await slowFetchData();
 
   const homeData = await getHomeData();
 
