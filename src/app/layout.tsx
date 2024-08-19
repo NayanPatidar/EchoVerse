@@ -5,7 +5,6 @@ import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import { Slider } from "@mui/material";
 import AudioPlayer from "@/components/audioplayer";
-import { SkeletonTheme } from "react-loading-skeleton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,24 +39,22 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <SkeletonTheme baseColor="#313131" highlightColor="#525252">
-          <div className="w-full flex-col">
-            <div className="MainContentDiv flex flex-row ">
-              <div className="flex flex-row h-">
-                <Sidebar />
-              </div>
-              <div className="MainSongsHomeContent w-auto bg-black overflow-hidden m-2 mb-2">
-                <div className="MainPageDivBox relative text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
-                  <Navbar />
-                  {children}
-                </div>
-              </div>
+        <div className="w-full flex-col">
+          <div className="MainContentDiv flex flex-row ">
+            <div className="flex flex-row h-">
+              <Sidebar />
             </div>
-            <div>
-              <AudioPlayer />
+            <div className="MainSongsHomeContent w-auto bg-black overflow-hidden m-2 mb-2">
+              <div className="MainPageDivBox relative text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
+                <Navbar />
+                {children}
+              </div>
             </div>
           </div>
-        </SkeletonTheme>
+          <div>
+            <AudioPlayer />
+          </div>
+        </div>
         {/* <AudioPlayer /> */}
       </body>
     </html>

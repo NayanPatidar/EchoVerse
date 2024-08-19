@@ -6,9 +6,14 @@ import { MdOutlineLibraryMusic } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-
-const Sidebar= () => {
+const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(1);
   const router = useRouter();
 
@@ -26,28 +31,31 @@ const Sidebar= () => {
           <Image src="/LogoEchoVerse2.png" width={144} height={32} alt="Logo" />
         </span>
       </div>
-      <div className=" p-2">
-        <ul>
-          <li
-            className="px-5 flex items-center hover:bg-[#49494988] rounded-md"
-            style={{ backgroundColor: musicCategory == 1 ? "#49494965" : "" }}
-            id="1"
-            onClick={() => setCategory(1)}
-          >
-            <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <MdHome size={24} color="#d6d6d6dc" />
-              <div className=" text-md lato-regular">Home</div>
-            </div>
-          </li>
-          <li
-            className="px-5 flex items-center hover:bg-[#49494988] rounded-md"
-            style={{ backgroundColor: musicCategory == 2 ? "#49494965" : "" }}
-            id="2"
-            onClick={() => setCategory(2)}
-          >
-            <div className=" h-12 flex items-center gap-5 cursor-pointer">
-              <MdOutlineLibraryMusic size={24} color="#d6d6d6dc" />
-              <div className=" text-md lato-regular">Library</div>
+      <div className=" p-2 w-full">
+        <ul className=" flex-col flex gap-1">
+          <li>
+            <div className="w-56">
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger
+                    className="px-5 w-56 h-12 flex items-center hover:bg-[#49494988] rounded-md"
+                    style={{
+                      backgroundColor: musicCategory === 1 ? "#49494965" : "",
+                    }}
+                    onClick={() => setCategory(1)}
+                  >
+                    <div className="h-12 flex items-center gap-4 cursor-pointer pl-1">
+                      <MdOutlineLibraryMusic size={24} color="#d6d6d6dc" />
+                      <div className="text-md lato-regular text-white">
+                        Library
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="p-4 text-sm text-gray-300"></div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
           </li>
           <li
