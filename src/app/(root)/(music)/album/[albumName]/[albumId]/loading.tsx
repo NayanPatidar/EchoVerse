@@ -15,7 +15,7 @@ export default function HomePageSkeleton() {
               aspectRatio: "1 / 1",
             }}
             style={{
-              borderRadius: "50%", // Fully rounded (circle)
+              borderRadius: "50%",
             }}
           >
             <Skeleton

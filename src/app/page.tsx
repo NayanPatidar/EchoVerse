@@ -1,25 +1,9 @@
-import AudioPlayer from "@/components/audioplayer";
-import Navbar from "@/components/navbar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import HorizontalScrollerCard from "@/components/ui/sliderCard";
-import {
-  getAlbumDetails,
-  getArtistDetails,
-  getArtistSongs,
-  getHomeData,
-  getPlaylist,
-  getSongDetails,
-  getTopSearches,
-  getTrending,
-  search,
-} from "@/lib/api_jiosaavn";
-import { setConfig } from "next/config";
-import Image from "next/image";
-import { resolve } from "path";
-import { Suspense, useEffect, useState } from "react";
+import { getHomeData } from "@/lib/api_jiosaavn";
 
 async function slowFetchData() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   return { data: "Some data" };
 }
 
