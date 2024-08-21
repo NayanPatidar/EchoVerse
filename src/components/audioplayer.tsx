@@ -7,10 +7,25 @@ import { IoMdPlay } from "react-icons/io";
 import { IoIosPause } from "react-icons/io";
 import { MdSkipNext } from "react-icons/md";
 import { IoMdSkipBackward } from "react-icons/io";
+import { Box, IconButton, Stack } from "@mui/material";
+import VolumeDown from "@mui/icons-material/VolumeDown";
+import VolumeUp from "@mui/icons-material/VolumeUp";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import RepeatIcon from "@mui/icons-material/Repeat";
+import RepeatOneIcon from "@mui/icons-material/RepeatOne";
 
 const AudioPlayer = () => {
   const { load } = useGlobalAudioPlayer();
   const [play, setPlay] = useState<boolean>(false);
+  const [value, setValue] = useState<number>(30);
+  const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setValue(newValue as number);
+  };
 
   //   useEffect(() => {
   //     load("./SamjhoNa.mp3", {
@@ -19,31 +34,70 @@ const AudioPlayer = () => {
   //   }, []);
   return (
     <div className=" fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20 flex flex-col">
-        <Slider
-          sx={{
-            padding: "0px",
-            width: "100%",
-            color: "red",
-            "& .MuiSlider-rail": {
-              color: "white",
-            },
-            "& .MuiSlider-thumb": {
-              borderRadius: "10px",
-              width: "12px",
-              height: "12px",
-            },
-          }}
-        />
-      <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
-        <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
-          <IoMdSkipBackward size={28} width={42} />
-        </span>
-        <span className=" cursor-pointer" onClick={() => setPlay(!play)}>
-          {play ? <IoMdPlay size={32} /> : <IoIosPause size={32} />}
-        </span>
-        <span className=" cursor-pointer">
-          <MdSkipNext size={42} />
-        </span>
+      <Slider
+        sx={{
+          padding: "0px",
+          width: "100%",
+          color: "red",
+          "& .MuiSlider-rail": {
+            color: "white",
+          },
+          "& .MuiSlider-thumb": {
+            borderRadius: "10px",
+            width: "12px",
+            height: "12px",
+          },
+        }}
+      />
+      <div className=" flex flex-row items-center justify-center align-middle h-full ">
+        <div className=" h-full w-full"></div>
+        <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
+          <span
+            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            onClick={() => setAllowRepeat((prev) => !prev)}
+          >
+            {allowRepeat ? (
+              <RepeatOneIcon sx={{ fontSize: "2rem", color: "white" }} />
+            ) : (
+              <RepeatIcon sx={{ fontSize: "2rem", color: "grey" }} />
+            )}
+          </span>
+          <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
+            <SkipPreviousIcon sx={{ fontSize: "3rem" }} />
+          </span>
+          <span className=" cursor-pointer" onClick={() => setPlay(!play)}>
+            {play ? (
+              <PlayArrowIcon sx={{ fontSize: "3rem" }} />
+            ) : (
+              <PauseIcon sx={{ fontSize: "3rem" }} />
+            )}
+          </span>
+          <span className=" cursor-pointer">
+            <SkipNextIcon sx={{ fontSize: "3rem" }} />
+          </span>
+        </div>
+        <div className=" h-full w-full text-white flex items-center justify-center">
+          <Box sx={{ width: 200, marginBottom: "0px" }}>
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ mb: 1 }}
+              alignItems="center"
+            >
+              <VolumeDown />
+              <Slider
+                sx={{
+                  padding: "0px",
+                  marginBottom: "0px",
+                }}
+                aria-label="Volume"
+                value={value}
+                onChange={handleChange}
+              />
+              <VolumeUp />
+            </Stack>
+          </Box>
+        </div>
       </div>
     </div>
   );
