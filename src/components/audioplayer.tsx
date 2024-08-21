@@ -34,7 +34,7 @@ const AudioPlayer = () => {
             },
           }}
         />
-      <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform -translate-y-2">
+      <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
         <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
           <IoMdSkipBackward size={28} width={42} />
         </span>

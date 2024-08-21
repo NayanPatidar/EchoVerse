@@ -8,6 +8,7 @@ import { AllSearch, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
 import { fontSize } from "@mui/system";
 import { useRouter } from "next/navigation";
+import { MdAccountCircle } from "react-icons/md";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -39,7 +40,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="NavbarMain sticky top-0 bg-[#121212] z-50 flex h-auto text-white rounded-t-lg">
+    <div className="NavbarMain sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg ">
       <div className=" border-white h-16 flex items-center ">
         <form className="h-16 pl-[48px] flex items-center">
           <div
@@ -63,6 +64,11 @@ const Navbar = () => {
             )}
           </div>
         </form>
+      </div>
+      <div className=" flex">
+        <div className=" w-10 mr-5 cursor-pointer rounded-full ">
+          <MdAccountCircle size={40} />
+        </div>
       </div>
     </div>
   );
@@ -128,8 +134,6 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
             <span className=" Montserrat-bold">Trending Searches</span>
             <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
               {Object.entries(trendingSearches).map(([key, val]) => {
-                // console.log(val);
-
                 const TrendingSong = getImageURL(val?.image);
                 return (
                   <div
