@@ -1,8 +1,9 @@
+"use client";
 import { toggleButtonClasses } from "@mui/material";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface SidebarContextType {
-  isSidebarOpen: boolean;
+  sideBarOpen: boolean;
   toggleSideBar: () => void;
 }
 
@@ -15,11 +16,11 @@ interface SidebarProviderProps {
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({
   children,
 }) => {
-  const [isSidebarOpen, setSideBarOpen] = useState<boolean>(true);
+  const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
   const toggleSideBar = () => setSideBarOpen((prev) => !prev);
 
   return (
-    <SidebarContext.Provider value={{ isSidebarOpen, toggleSideBar }}>
+    <SidebarContext.Provider value={{ sideBarOpen, toggleSideBar }}>
       {children}
     </SidebarContext.Provider>
   );

@@ -305,6 +305,15 @@ body {
 
 .NavbarMain {
   width: calc(97.2vw - 15rem);
+  transition: width 5s ease-in-out;
+}
+
+.NavbarMainOnSideBarOpen {
+  width: calc(97.2vw - 15rem);
+}
+
+.NavbarMainOnSideBarClose {
+  width: calc(97.2vw - 4rem);
 }
 
 .SearchBoxMain {

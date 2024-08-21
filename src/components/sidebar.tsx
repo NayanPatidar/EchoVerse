@@ -13,10 +13,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useSidebar } from "@/context/SidebarContext";
 
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(0);
-  const [sideBarOpen, setSideBarOpen] = useState(false);
+  const { sideBarOpen, toggleSideBar } = useSidebar();
   const router = useRouter();
 
   const setCategory = (id: number) => {
@@ -28,15 +29,15 @@ const Sidebar = () => {
       className="bg-[#121212] w-[15rem] h-auto text-white rounded-lg my-2 ml-2"
       style={{ width: sideBarOpen ? "15rem" : "4rem" }}
     >
-      <div className=" flex gap-6 h-16 items-center text-center justify-center">
+      <div className=" flex gap-4 h-16 items-center text-center justify-center">
         <div
           className=" cursor-pointer"
-          style={{ paddingLeft: sideBarOpen ? "12px" : "" }}
+          style={{ paddingLeft: sideBarOpen ? "2px" : "" }}
         >
-          <PiListLight size={24} onClick={() => setSideBarOpen(!sideBarOpen)} />
+          <PiListLight size={24} onClick={() => toggleSideBar()} />
         </div>
         {sideBarOpen ? (
-          <span onClick={() => router.push("/")}>
+          <span onClick={() => router.push("/")} className=" ">
             <Image
               src="/LogoEchoVerse2.png"
               width={144}
@@ -49,7 +50,7 @@ const Sidebar = () => {
         )}
       </div>
       <div className=" p-2 w-full">
-        <ul className=" flex flex-col gap-2">
+        <ul className=" flex flex-col">
           <li>
             <div className=" w-full">
               <Accordion
@@ -112,7 +113,7 @@ const Sidebar = () => {
             id="3"
             onClick={() => setCategory(3)}
           >
-            <div className=" h-12 flex items-center gap-5 cursor-pointer pl-1">
+            <div className=" h-12 flex items-center gap-4 cursor-pointer pl-1">
               <BsFillChatLeftTextFill size={20} color="#d6d6d6dc" />
               {sideBarOpen ? (
                 <span className=" text-md lato-regular">Chat</span>

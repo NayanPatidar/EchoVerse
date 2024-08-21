@@ -9,11 +9,15 @@ import { getImageURL } from "@/lib/utils";
 import { fontSize } from "@mui/system";
 import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
+import { useSidebar } from "@/context/SidebarContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const [trendingSearches, setTrendingSearches] = useState<TopSearch[]>([]);
+  const { sideBarOpen, toggleSideBar } = useSidebar();
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,8 +43,14 @@ const Navbar = () => {
     FetchTrendingData();
   }, []);
 
+  const sidebarClass = sideBarOpen
+    ? "NavbarMainOnSideBarOpen"
+    : "NavbarMainOnSideBarClose";
+
   return (
-    <div className="NavbarMain sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg ">
+    <div
+      className={`NavbarMain${sidebarClass} sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg `}
+    >
       <div className=" border-white h-16 flex items-center ">
         <form className="h-16 pl-[48px] flex items-center">
           <div

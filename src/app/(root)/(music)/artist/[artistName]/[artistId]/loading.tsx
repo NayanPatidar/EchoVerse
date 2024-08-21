@@ -82,7 +82,5 @@ export default function HomePageSkeleton() {
         />
       </div>
     </div>
-
-
   );
 }
