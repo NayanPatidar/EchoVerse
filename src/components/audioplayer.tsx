@@ -16,12 +16,14 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import RepeatOneIcon from "@mui/icons-material/RepeatOne";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 
 const AudioPlayer = () => {
   const { load } = useGlobalAudioPlayer();
   const [play, setPlay] = useState<boolean>(false);
   const [value, setValue] = useState<number>(30);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
+  const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number);
@@ -74,6 +76,14 @@ const AudioPlayer = () => {
           </span>
           <span className=" cursor-pointer">
             <SkipNextIcon sx={{ fontSize: "3rem" }} />
+          </span>
+          <span
+            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            onClick={() => setAllowShuffle((prev) => !prev)}
+          >
+            <ShuffleIcon
+              sx={{ fontSize: "2rem", color: allowShuffle ? "white" : "grey" }}
+            />
           </span>
         </div>
         <div className=" h-full w-full text-white flex items-center justify-center">
