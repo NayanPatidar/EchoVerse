@@ -305,7 +305,6 @@ body {
 
 .NavbarMain {
   width: calc(97.2vw - 15rem);
-  transition: width 5s ease-in-out;
 }
 
 .NavbarMainOnSideBarOpen {
@@ -337,4 +336,8 @@ body {
 
 .ListAudioFiles .AudioFilesPlayIcon {
   display: none;
+}
+
+.css-zayqnb-MuiStack-root {
+  margin-bottom: 0px;
 }

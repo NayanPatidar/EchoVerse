@@ -49,7 +49,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`NavbarMain${sidebarClass} sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg `}
+      className={`NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg `}
     >
       <div className=" border-white h-16 flex items-center ">
         <form className="h-16 pl-[48px] flex items-center">
