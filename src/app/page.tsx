@@ -1,5 +1,5 @@
+import HorizontalScrollerCard from "@/components/ui/Cards/sliderCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import HorizontalScrollerCard from "@/components/ui/sliderCard";
 import { getHomeData } from "@/lib/api_jiosaavn";
 
 async function slowFetchData() {

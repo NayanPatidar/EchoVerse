@@ -1,10 +1,28 @@
+import TopPlaylistCard from "@/components/ui/Cards/playlistCard";
 import { getTopPlaylists } from "@/lib/api_jiosaavn";
 
 const TopPlaylistPage = async () => {
   const topPlaylistData = await getTopPlaylists();
-  console.log(topPlaylistData);
-
-  return <div></div>;
+  return (
+    <div className="TopArtistPage grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
+      {topPlaylistData?.data.map(
+        ({ id, name, url, image, subtitle, type, explicit }, key) => {
+          return (
+            <TopPlaylistCard
+              key={id}
+              id={id}
+              name={name}
+              url={url}
+              subtitle={subtitle}
+              type={type}
+              image={image}
+              explicit={explicit}
+            />
+          );
+        }
+      )}
+    </div>
+  );
 };
 
 export default TopPlaylistPage;
