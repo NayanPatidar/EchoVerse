@@ -108,6 +108,8 @@ export async function getSongDetails(token: string, lang?: Lang[]) {
   }
 }
 
+// Fetch Album Data
+
 export async function getAlbumDetails(token: string) {
   try {
     return await jioSaavnFetchData<Album>("/album", {
@@ -120,6 +122,21 @@ export async function getAlbumDetails(token: string) {
     );
   }
 }
+
+export async function getAlbumFromSameYear(year: number) {
+  try {
+    return await jioSaavnFetchData<Album>("/album/same-year", {
+      year: `${year}`,
+    });
+  } catch (error) {
+    console.error(
+      "Error in the Fetching the Album From Same Year : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+// Fetch Artist Data
 
 export async function getArtistDetails(token: string) {
   try {
@@ -156,6 +173,8 @@ export async function getArtistSongs(
   }
 }
 
+// Fetch Top Searches
+
 export async function getTopSearches() {
   try {
     return await jioSaavnFetchData<TopSearch[]>("/search/top");
@@ -166,6 +185,8 @@ export async function getTopSearches() {
     );
   }
 }
+
+// Seach Data
 
 export async function searchAll(token: string) {
   try {
@@ -194,6 +215,8 @@ export async function search(
   }
 }
 
+// Trending
+
 export async function getTrending(
   type: "song" | "album" | "playlist",
   lang?: Lang[]
@@ -210,6 +233,30 @@ export async function getTrending(
     );
   }
 }
+
+export async function getTopArtists() {
+  try {
+    return await jioSaavnFetchData<TopArtists>("/get/top-artists");
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Top Artist : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+export async function getTopAlbums() {
+  try {
+    return await jioSaavnFetchData<TopAlbum>("/get/top-albums");
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Top Albums : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
+// Actor Top Songs
 
 export async function getActorsTopSongs(
   actorID: string,
