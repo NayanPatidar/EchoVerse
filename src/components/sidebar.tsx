@@ -5,10 +5,10 @@ import { MdHome } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { AiOutlineLike } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import AlbumIcon from "@mui/icons-material/Album";
 import { FaGuitar } from "react-icons/fa";
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import Image from "next/image";
 import {
   Accordion,
@@ -64,9 +64,9 @@ const Sidebar = () => {
             onClick={() => setCategory(1)}
           >
             <div className=" h-12 flex items-center gap-4 cursor-pointer">
-              <MusicNoteIcon className=" rotate-12" />
+              <QueueMusicIcon width={24} />
               {sideBarOpen ? (
-                <span className=" text-md lato-regular">Top Songs</span>
+                <span className=" text-md lato-regular">Top Playlists</span>
               ) : (
                 ""
               )}
@@ -82,7 +82,7 @@ const Sidebar = () => {
             onClick={() => setCategory(2)}
           >
             <div className=" h-12 flex items-center gap-4 cursor-pointer">
-              <AlbumIcon className=" rotate-12" />
+              <AlbumIcon className=" rotate-12" width={24} />
               {sideBarOpen ? (
                 <span className=" text-md lato-regular">Top Albums</span>
               ) : (
@@ -134,7 +134,7 @@ const Sidebar = () => {
                   >
                     <div className="h-12 flex items-center gap-4 cursor-pointer">
                       <div className=" w-[25px]">
-                        <LibraryMusicIcon />
+                        <LibraryMusicIcon width={24} />
                       </div>
                       {sideBarOpen ? (
                         <div className="text-regular lato-regular text-white">
@@ -151,7 +151,7 @@ const Sidebar = () => {
                       style={{
                         width: sideBarOpen ? "14rem" : "3rem",
                         justifyContent: sideBarOpen ? "" : "center",
-                        paddingLeft: sideBarOpen ? "22px" : "",
+                        paddingLeft: sideBarOpen ? "20px" : "",
                         paddingRight: sideBarOpen ? "20px" : "",
                       }}
                     >

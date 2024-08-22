@@ -13,3 +13,8 @@ export function getImageURL(image: Quality) {
     return image[2].link;
   }
 }
+
+export function getCurrentYear() {
+  const currectYear: number = new Date().getFullYear();
+  return currectYear;
+}
