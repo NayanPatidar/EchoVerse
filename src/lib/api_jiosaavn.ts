@@ -256,6 +256,19 @@ export async function getTopAlbums() {
   }
 }
 
+export async function getTopPlaylists() {
+  try {
+    return await jioSaavnFetchData<FeaturedPlaylists>(
+      "/get/featured-playlists"
+    );
+  } catch (error) {
+    console.error(
+      "Error in the Fetching of Featured Playlists : ",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+}
+
 // Actor Top Songs
 
 export async function getActorsTopSongs(

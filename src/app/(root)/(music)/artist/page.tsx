@@ -8,9 +8,10 @@ const TopPlaylist = async () => {
   return (
     <div className="TopArtistPage grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
       {playlistData?.map(
-        ({ id, name, image, url, follower_count, is_followed }) => {
+        ({ id, name, image, url, follower_count, is_followed }, key) => {
           return (
             <TopArtistCard
+              key={key}
               id={id}
               name={name}
               image={image}
