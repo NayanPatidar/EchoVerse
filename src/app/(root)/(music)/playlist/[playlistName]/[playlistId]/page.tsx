@@ -29,7 +29,6 @@ const PlaylistPage = async ({
   }
 
   const PlaylistImageLink = getImageURL(playlistObj?.image);
-  // console.log(PlaylistImageLink);
 
   const FollowerCountIn1000s = (followers?: number) => {
     if (!followers) {
@@ -59,11 +58,12 @@ const PlaylistPage = async ({
               <span className=" flex justify-center text-sm font-semibold gap-2">
                 {playlistObj?.subtitle}
                 {playlistObj.subtitle_desc.map((value, index) => {
-                  return <div>{value}</div>;
+                  return <div key={index}>{value}</div>;
                 })}
                 <span className=" YearList font-normal">
                   <li>
                     <span>{playlistObj?.year}</span>
+
                   </li>
                 </span>
               </span>

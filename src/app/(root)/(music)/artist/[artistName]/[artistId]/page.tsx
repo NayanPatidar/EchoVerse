@@ -18,14 +18,10 @@ const ArtistPage = async ({
   params: { artistName: string; artistId: string };
 }) => {
   const artistObj = await getArtistSongs(params.artistId);
-  const artistDetailsObj = await getArtistDetails(params.artistId);
 
   if (!artistObj?.image) {
     return;
   }
-
-  console.log(artistObj);
-  console.log(artistDetailsObj);
 
   const ArtistImageLink = getImageURL(artistObj?.image);
 

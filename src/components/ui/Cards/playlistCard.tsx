@@ -2,6 +2,7 @@
 import { getImageURL } from "@/lib/utils";
 import { Quality, TopArtists, Type } from "@/types";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface Artist {
@@ -24,11 +25,23 @@ const TopPlaylistCard: React.FC<Artist> = ({
   url,
 }) => {
   const imageUrl = getImageURL(image);
+  const router = useRouter();
+
+  function MediaClick() {
+    if (type == "song") {
+      router.push(`/song/${name}/${id}`);
+    } else if (type == "album") {
+      router.push(`/album/${name}/${id}`);
+    } else if (type == "playlist") {
+      router.push(`/playlist/${name}/${id}`);
+    }
+  }
+
   return (
-    <div className="top-playlist-card">
+    <div className="top-playlist-card" onClick={() => MediaClick()}>
       <img src={imageUrl} className="top-playlist-card-image" alt="" />
       <div className="  flex justify-center items-center w-[160px]">
-        <span className=" text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap ">
+        <span className=" text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
           {name}
         </span>
       </div>

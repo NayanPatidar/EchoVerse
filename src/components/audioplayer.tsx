@@ -91,14 +91,13 @@ const AudioPlayer = () => {
             <Stack
               spacing={2}
               direction="row"
-              sx={{ mb: 1 }}
               alignItems="center"
             >
               <VolumeDown />
               <Slider
                 sx={{
                   padding: "0px",
-                  marginBottom: "0px",
+                  margin: "0px",
                 }}
                 aria-label="Volume"
                 value={value}

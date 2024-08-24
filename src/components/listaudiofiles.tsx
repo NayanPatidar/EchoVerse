@@ -29,7 +29,7 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
       {SongsData?.map((song, index) => {
         return (
           <div
-            className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12 "
+            className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12"
             key={index}
           >
             <span className=" w-6/12 flex gap-4 items-center">

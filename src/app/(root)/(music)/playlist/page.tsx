@@ -8,16 +8,18 @@ const TopPlaylistPage = async () => {
       {topPlaylistData?.data.map(
         ({ id, name, url, image, subtitle, type, explicit }, key) => {
           return (
-            <TopPlaylistCard
-              key={id}
-              id={id}
-              name={name}
-              url={url}
-              subtitle={subtitle}
-              type={type}
-              image={image}
-              explicit={explicit}
-            />
+            <div key={key}>
+              <TopPlaylistCard
+                key={key}
+                id={id}
+                name={name}
+                url={url}
+                subtitle={subtitle}
+                type={type}
+                image={image}
+                explicit={explicit}
+              />
+            </div>
           );
         }
       )}

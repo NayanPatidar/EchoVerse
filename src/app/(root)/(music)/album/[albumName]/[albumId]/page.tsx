@@ -18,9 +18,8 @@ const AlbumPage = async ({
   params: { albumName: string; albumId: string };
 }) => {
   const albumObj = await getAlbumDetails(params.albumId);
-  const data = await slowFetchData();
+  // const data = await slowFetchData();
 
-  // const songData = songObj?.songs[0];
   if (!albumObj?.image) {
     return;
   }
@@ -29,8 +28,6 @@ const AlbumPage = async ({
   const ArtistImageLink = getImageURL(
     albumObj.artist_map.primary_artists[0].image
   );
-  console.log(albumObj.artist_map);
-
   return (
     <div className=" text-white flex flex-col p-5 gap-5">
       <div className=" w-full h-40 flex justify-start gap-5">
