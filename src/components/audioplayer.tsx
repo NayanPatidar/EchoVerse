@@ -20,17 +20,29 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const AudioPlayer = () => {
-  const { isReady, load, play, pause, playing, duration, loop, seek } =
-    useGlobalAudioPlayer();
+  const {
+    isReady,
+    load,
+    play,
+    pause,
+    playing,
+    duration,
+    loop,
+    seek,
+    getPosition,
+    setVolume,
+  } = useGlobalAudioPlayer();
   const [audioDuration, setAudioDuration] = useState<number>(0);
   const [audioCurrentTimeStamp, setAudioCurrentTimeStamp] = useState<number>(0);
+  const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
   const { AudioFileLink, Duration } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setAudioDuration(newValue as number);
+  const handleVolumeChange = (newValue: number | number[]) => {
+    setVolume((newValue as number) / 100);
+    setLocalVolume((newValue as number) / 100);
   };
 
   const handlePlayPause = () => {
@@ -56,16 +68,14 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
-    if (!playing) {
-      handleLoadAudio();
-    }
+    handleLoadAudio();
   }, [AudioFileLink]);
 
   useEffect(() => {
     if (playing) {
       intervalRef.current = setInterval(() => {
-        setAudioCurrentTimeStamp((prev) => {
-          const newVal = prev + 1;
+        setAudioCurrentTimeStamp(() => {
+          const newVal = getPosition();
           if (newVal >= Math.floor(duration)) {
             if (!allowRepeat) {
               pause();
@@ -154,9 +164,13 @@ const AudioPlayer = () => {
                   padding: "0px",
                   margin: "0px",
                 }}
+                min={0}
+                max={100}
+                step={1}
                 aria-label="Volume"
-                value={0}
-                onChange={handleChange}
+                size="small"
+                value={volume * 100}
+                onChange={(_, value) => handleVolumeChange(value as number)}
               />
               <VolumeUp />
             </Stack>
