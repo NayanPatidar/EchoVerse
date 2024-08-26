@@ -4,7 +4,7 @@ import { getTopPlaylists } from "@/lib/api_jiosaavn";
 const TopPlaylistPage = async () => {
   const topPlaylistData = await getTopPlaylists();
   return (
-    <div className="TopArtistPage grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
+    <div className="TopArtistPage grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
       {topPlaylistData?.data.map(
         ({ id, name, url, image, subtitle, type, explicit }, key) => {
           return (
