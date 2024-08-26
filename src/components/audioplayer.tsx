@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGlobalAudioPlayer } from "react-use-audio-player";
 import Slider from "@mui/material/Slider";
 import { IoMdPlay } from "react-icons/io";
@@ -20,24 +20,69 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const AudioPlayer = () => {
-  const { load } = useGlobalAudioPlayer();
-  const [play, setPlay] = useState<boolean>(false);
-  const [value, setValue] = useState<number>(30);
+  const { isReady, load, play, pause, playing, duration, loop, seek } =
+    useGlobalAudioPlayer();
+  const [audioDuration, setAudioDuration] = useState<number>(0);
+  const [audioCurrentTimeStamp, setAudioCurrentTimeStamp] = useState<number>(0);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { AudioFileLink } = useAudioPlayer();
+  const { AudioFileLink, Duration } = useAudioPlayer();
+  const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number);
+    setAudioDuration(newValue as number);
   };
 
-  useEffect(() => {
+  const handlePlayPause = () => {
+    if (playing) {
+      pause();
+    } else {
+      play();
+    }
+  };
+
+  const handleLoadAudio = () => {
     if (AudioFileLink) {
       load(AudioFileLink, {
         autoplay: true,
       });
     }
+    setAudioDuration(Duration);
+  };
+
+  const sliderPositionChange = (value: number | number[]) => {
+    seek(value as number);
+    setAudioCurrentTimeStamp(value as number);
+  };
+
+  useEffect(() => {
+    if (!playing) {
+      handleLoadAudio();
+    }
   }, [AudioFileLink]);
+
+  useEffect(() => {
+    if (playing) {
+      intervalRef.current = setInterval(() => {
+        setAudioCurrentTimeStamp((prev) => {
+          const newVal = prev + 1;
+          if (newVal >= Math.floor(duration)) {
+            if (!allowRepeat) {
+              pause();
+            }
+            return 0;
+          }
+          return newVal;
+        });
+      }, 1000);
+    } else {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+  }, [playing]);
+
   return (
     <div className=" fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20 flex flex-col">
       <Slider
@@ -54,13 +99,23 @@ const AudioPlayer = () => {
             height: "12px",
           },
         }}
+        value={audioCurrentTimeStamp}
+        min={0}
+        max={audioDuration}
+        step={1}
+        onChange={(_, value) => sliderPositionChange(value)}
       />
       <div className=" flex flex-row items-center justify-center align-middle h-full ">
         <div className=" h-full w-full"></div>
         <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
           <span
             className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
-            onClick={() => setAllowRepeat((prev) => !prev)}
+            onClick={() => {
+              setAllowRepeat((prev) => {
+                loop(!prev);
+                return !prev;
+              });
+            }}
           >
             {allowRepeat ? (
               <RepeatOneIcon sx={{ fontSize: "2rem", color: "white" }} />
@@ -71,8 +126,8 @@ const AudioPlayer = () => {
           <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
             <SkipPreviousIcon sx={{ fontSize: "3rem" }} />
           </span>
-          <span className=" cursor-pointer" onClick={() => setPlay(!play)}>
-            {play ? (
+          <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
+            {!playing ? (
               <PlayArrowIcon sx={{ fontSize: "3rem" }} />
             ) : (
               <PauseIcon sx={{ fontSize: "3rem" }} />
@@ -100,7 +155,7 @@ const AudioPlayer = () => {
                   margin: "0px",
                 }}
                 aria-label="Volume"
-                value={value}
+                value={0}
                 onChange={handleChange}
               />
               <VolumeUp />
