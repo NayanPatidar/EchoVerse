@@ -25,6 +25,13 @@ const Sidebar = () => {
 
   const setCategory = (id: number) => {
     setMusicCategory(id);
+    if (id == 1) {
+      router.push("/playlist");
+    } else if (id == 2) {
+      router.push("/album");
+    } else if (id == 3) {
+      router.push("/artist");
+    }
   };
 
   return (
