@@ -18,7 +18,6 @@ const AlbumPage = async ({
   params: { albumName: string; albumId: string };
 }) => {
   const albumObj = await getAlbumDetails(params.albumId);
-  // const data = await slowFetchData();
 
   if (!albumObj?.image) {
     return;
@@ -41,7 +40,9 @@ const AlbumPage = async ({
           />
         }
         <div className=" flex flex-col justify-end gap-1">
-          <span className=" source-sans-3-Bold text-6xl">{albumObj?.name}</span>
+          <span className=" source-sans-3-Bold text-[5vw] leading-tight max-h-[125px]">
+            {albumObj?.name}
+          </span>
           <div className=" h-[30px] flex flex-row gap-2">
             <div className=" flex flex-col justify-center ">
               <span className=" flex justify-center text-sm font-semibold gap-2">

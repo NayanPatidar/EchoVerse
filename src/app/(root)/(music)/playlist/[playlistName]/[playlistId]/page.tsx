@@ -50,7 +50,7 @@ const PlaylistPage = async ({
           />
         }
         <div className=" flex flex-col justify-end gap-1">
-          <span className=" source-sans-3-Bold text-6xl">
+          <span className=" source-sans-3-Bold text-[5vw] leading-tight max-h-[125px]">
             {playlistObj?.name}
           </span>
           <div className=" h-[30px] flex flex-row gap-2">
@@ -63,7 +63,6 @@ const PlaylistPage = async ({
                 <span className=" YearList font-normal">
                   <li>
                     <span>{playlistObj?.year}</span>
-
                   </li>
                 </span>
               </span>
