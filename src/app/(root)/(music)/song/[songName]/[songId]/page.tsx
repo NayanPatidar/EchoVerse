@@ -2,6 +2,7 @@
 
 import ListAudioFiles from "@/components/listaudiofiles";
 import QuickMusicActions from "@/components/ui/quickMusicActions";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { getSongDetails } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
@@ -18,7 +19,7 @@ const SongPage = async ({
   params: { songName: string; songId: string };
 }) => {
   const songObj = await getSongDetails(params.songId);
-  const data = await slowFetchData();
+  // const data = await slowFetchData();
 
   const songData = songObj?.songs[0];
   if (!songData?.image) {
@@ -27,7 +28,6 @@ const SongPage = async ({
 
   const SongImageLink = getImageURL(songData?.image);
   const Artist = getImageURL(songData.artist_map.primary_artists[0].image);
-  console.log(songObj);
 
   return (
     <div className=" text-white flex flex-col p-5 gap-5">

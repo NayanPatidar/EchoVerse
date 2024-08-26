@@ -17,6 +17,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import RepeatOneIcon from "@mui/icons-material/RepeatOne";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const AudioPlayer = () => {
   const { load } = useGlobalAudioPlayer();
@@ -24,16 +25,19 @@ const AudioPlayer = () => {
   const [value, setValue] = useState<number>(30);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
+  const { AudioFileLink } = useAudioPlayer();
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number);
   };
 
-  //   useEffect(() => {
-  //     load("./SamjhoNa.mp3", {
-  //       autoplay: true,
-  //     });
-  //   }, []);
+  useEffect(() => {
+    if (AudioFileLink) {
+      load(AudioFileLink, {
+        autoplay: true,
+      });
+    }
+  }, [AudioFileLink]);
   return (
     <div className=" fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20 flex flex-col">
       <Slider
@@ -88,11 +92,7 @@ const AudioPlayer = () => {
         </div>
         <div className=" h-full w-full text-white flex items-center justify-center">
           <Box sx={{ width: 200, marginBottom: "0px" }}>
-            <Stack
-              spacing={2}
-              direction="row"
-              alignItems="center"
-            >
+            <Stack spacing={2} direction="row" alignItems="center">
               <VolumeDown />
               <Slider
                 sx={{

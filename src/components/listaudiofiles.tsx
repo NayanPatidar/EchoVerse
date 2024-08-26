@@ -1,3 +1,5 @@
+"use client";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { getImageURL } from "@/lib/utils";
 import { Episode, Song, SongObj } from "@/types";
 import Image from "next/image";
@@ -21,6 +23,12 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
   isPlaylist,
   isArtist,
 }) => {
+  const { SetAudioFileLink } = useAudioPlayer();
+
+  const PlayAudioFile = (url: string) => {
+    SetAudioFileLink(url);
+  };
+
   if (!SongsData) {
     return;
   }
@@ -32,7 +40,15 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
             className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12"
             key={index}
           >
-            <span className=" w-6/12 flex gap-4 items-center">
+            <span
+              className=" w-6/12 flex gap-4 items-center"
+              onClick={() => {
+                const url = song.download_url[4].link;
+                if (typeof url == "string") {
+                  PlayAudioFile(url);
+                }
+              }}
+            >
               <span className="AudioFilesIndex w-[14px]">{index + 1} </span>
               <span className="AudioFilesPlayIcon">
                 <FaPlay />
