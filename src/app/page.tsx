@@ -2,10 +2,10 @@ import HorizontalScrollerCard from "@/components/ui/Cards/sliderCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getHomeData } from "@/lib/api_jiosaavn";
 
-async function slowFetchData() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return { data: "Some data" };
-}
+// async function slowFetchData() {
+//   await new Promise((resolve) => setTimeout(resolve, 1000));
+//   return { data: "Some data" };
+// }
 
 export default async function Home() {
   const data = await slowFetchData();

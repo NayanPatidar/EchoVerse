@@ -11,10 +11,10 @@ import Image from "next/image";
 import { parse } from "path";
 import { IoTimeOutline } from "react-icons/io5";
 
-async function slowFetchData() {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  return { data: "Some data" };
-}
+// async function slowFetchData() {
+//   await new Promise((resolve) => setTimeout(resolve, 5000));
+//   return { data: "Some data" };
+// }
 
 const PlaylistPage = async ({
   params,

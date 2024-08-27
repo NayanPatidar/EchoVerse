@@ -8,10 +8,10 @@ import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
 import { IoTimeOutline } from "react-icons/io5";
 
-async function slowFetchData() {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  return { data: "Some data" };
-}
+// async function slowFetchData() {
+//   await new Promise((resolve) => setTimeout(resolve, 5000));
+//   return { data: "Some data" };
+// }
 
 const SongPage = async ({
   params,
