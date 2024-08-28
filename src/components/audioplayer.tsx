@@ -19,6 +19,7 @@ import RepeatOneIcon from "@mui/icons-material/RepeatOne";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
 
 const AudioPlayer = () => {
   const {
@@ -177,7 +178,7 @@ const AudioPlayer = () => {
             </Stack>
           </Box>
           <div>
-            <MoreVertIcon />
+            <DropupMenuAudioPlayer />
           </div>
         </div>
       </div>

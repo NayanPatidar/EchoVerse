@@ -7,6 +7,7 @@ import {
   LogOut,
   Mail,
   MessageSquare,
+  MoreVerticalIcon,
   Plus,
   PlusCircle,
   Settings,
@@ -32,43 +33,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MdAccountCircle } from "react-icons/md";
 
-export function DropdownMenuProfile() {
+export function DropupMenuAudioPlayer() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <MdAccountCircle size={40} />
+        <MoreVerticalIcon />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" mr-5 right-5 bg-[#121212] text-white border-[#505050]">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator className=" bg-[#505050]" />
+      <DropdownMenuContent className=" w-48 mb-8 mr-5 bg-[#1d1d1d] text-white border-[#333333]">
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <span>Add to Favorite</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            <span>Add to Playlist</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            <span>Add to Queue</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Keyboard className="mr-2 h-4 w-4" />
-            <span>Keyboard shortcuts</span>
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+            <span>Lyrics</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator className=" bg-[#505050]" />
-        <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

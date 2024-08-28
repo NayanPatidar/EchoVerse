@@ -45,7 +45,7 @@ export default function RootLayout({
           <SidebarProvider>
             <div className="w-full flex-col">
               <div className="MainContentDiv flex flex-row ">
-                <div className="flex flex-row h-">
+                <div className="flex flex-row z-0">
                   <Sidebar />
                 </div>
                 <div className="MainSongsHomeContent w-auto bg-black overflow-hidden m-2 mb-2">

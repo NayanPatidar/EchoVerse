@@ -8,7 +8,7 @@ import { getHomeData } from "@/lib/api_jiosaavn";
 // }
 
 export default async function Home() {
-  const data = await slowFetchData();
+  // const data = await slowFetchData();
 
   const homeData = await getHomeData();
 
