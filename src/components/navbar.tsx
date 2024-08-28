@@ -1,21 +1,20 @@
 "use client";
-import { PiListLight } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import { getTopSearches, search, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
-import { fontSize } from "@mui/system";
 import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
 import { useSidebar } from "@/context/SidebarContext";
-import Image from "next/image";
+import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
-  const searchBarRef = useRef<HTMLDivElement>(null);
   const [trendingSearches, setTrendingSearches] = useState<TopSearch[]>([]);
+  const [dropdown, setDropdown] = useState(false);
+  const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
   const router = useRouter();
 
@@ -76,8 +75,12 @@ const Navbar = () => {
         </form>
       </div>
       <div className=" flex">
-        <div className=" w-10 mr-5 cursor-pointer rounded-full ">
-          <MdAccountCircle size={40} />
+        <div
+          className=" w-10 mr-5 cursor-pointer rounded-full z-[100]"
+          onClick={(prev) => setDropdown(!prev)}
+        >
+          <DropdownMenuProfile />
+          {/* {dropdown ?  : ""} */}
         </div>
       </div>
     </div>

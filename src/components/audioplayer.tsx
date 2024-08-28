@@ -18,6 +18,7 @@ import RepeatIcon from "@mui/icons-material/Repeat";
 import RepeatOneIcon from "@mui/icons-material/RepeatOne";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const AudioPlayer = () => {
   const {
@@ -155,7 +156,7 @@ const AudioPlayer = () => {
             />
           </span>
         </div>
-        <div className=" h-full w-full text-white flex items-center justify-center">
+        <div className=" h-full w-full text-white flex items-center justify-around">
           <Box sx={{ width: 200, marginBottom: "0px" }}>
             <Stack spacing={2} direction="row" alignItems="center">
               <VolumeDown />
@@ -175,6 +176,9 @@ const AudioPlayer = () => {
               <VolumeUp />
             </Stack>
           </Box>
+          <div>
+            <MoreVertIcon />
+          </div>
         </div>
       </div>
     </div>
