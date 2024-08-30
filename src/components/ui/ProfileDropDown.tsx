@@ -1,19 +1,4 @@
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { Music, LogOut, Settings, User, History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,36 +23,31 @@ export function DropdownMenuProfile() {
       <DropdownMenuTrigger>
         <MdAccountCircle size={40} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" mr-5 right-5 bg-[#121212] text-white border-[#505050]">
+      <DropdownMenuContent className=" w-48 mr-5 right-5 bg-[#121212] text-white border-[#505050]">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator className=" bg-[#505050]" />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            <Music className="mr-2 h-4 w-4" />
+            <span>Music</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <History className="mr-2 h-4 w-4" />
+            <span>History</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Keyboard className="mr-2 h-4 w-4" />
-            <span>Keyboard shortcuts</span>
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator className=" bg-[#505050]" />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
