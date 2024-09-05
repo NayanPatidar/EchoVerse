@@ -160,7 +160,7 @@ const AudioPlayer = () => {
       />
       <div className=" flex flex-row items-center justify-center align-middle h-full ">
         <div className=" h-full w-full">
-          <div className=" flex justify-start items-center h-full pl-5 gap-2 cursor-pointer">
+          <div className=" flex justify-start items-center h-full pl-5 gap-2">
             <div>
               {AudioFileLink ? (
                 <Image
@@ -168,19 +168,19 @@ const AudioPlayer = () => {
                   alt="Song Image"
                   width={50}
                   height={50}
-                  className=" rounded-md"
+                  className=" rounded-md  cursor-pointer"
                 />
               ) : (
                 ""
               )}
             </div>
-            <div className=" h-full flex flex-col justify-center w-56">
+            <div className=" h-full flex flex-col justify-center w-56  cursor-pointer">
               {AudioFileLink ? (
                 <div>
-                  <span className=" text-white text-sm Montserrat-regular">
-                    {AudioFileLink[CurrentAudioIndex].name}
-                  </span>
-                  <div className=" text-white text-xs Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis ">
+                  <div className=" w-56 text-white text-sm Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis">
+                    <span>{AudioFileLink[CurrentAudioIndex].name}</span>
+                  </div>
+                  <div className=" w-56 text-white text-xs Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis">
                     {" "}
                     <span>
                       <span className="text-white">
