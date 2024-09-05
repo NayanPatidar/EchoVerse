@@ -20,6 +20,8 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
+import Image from "next/image";
+import { getImageURL } from "@/lib/utils";
 
 const AudioPlayer = () => {
   const {
@@ -77,13 +79,15 @@ const AudioPlayer = () => {
   const prevClick = () => {
     if (CurrentAudioIndex > 0) {
       SetCurrentAudioIndex((index) => index - 1);
+      setAudioCurrentTimeStamp(0);
     }
   };
 
   const nextClick = () => {
     console.log("Next CLicked");
-    if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length) {
+    if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length-1) {
       SetCurrentAudioIndex((index) => index + 1);
+      setAudioCurrentTimeStamp(0);
     }
   };
 
@@ -136,7 +140,57 @@ const AudioPlayer = () => {
         onChange={(_, value) => sliderPositionChange(value)}
       />
       <div className=" flex flex-row items-center justify-center align-middle h-full ">
-        <div className=" h-full w-full"></div>
+        <div className=" h-full w-full">
+          <div className=" flex justify-start items-center h-full pl-5 gap-2 ">
+            <div>
+              {AudioFileLink ? (
+                <Image
+                  src={getImageURL(AudioFileLink[CurrentAudioIndex]?.image)}
+                  alt="Song Image"
+                  width={50}
+                  height={50}
+                  className=" rounded-md"
+                />
+              ) : (
+                ""
+              )}
+            </div>
+            <div className=" h-full flex flex-col justify-center">
+              {AudioFileLink ? (
+                <div>
+                  <span className=" text-white text-sm Montserrat-regular">
+                    {AudioFileLink[CurrentAudioIndex].name}
+                  </span>
+                  <div className=" text-white text-xs Montserrat-regular">
+                    {" "}
+                    <span>
+                      <span className="text-white">
+                        {
+                          AudioFileLink[CurrentAudioIndex].artist_map.artists[0]
+                            .name
+                        }
+                      </span>
+                      {AudioFileLink[CurrentAudioIndex].artist_map
+                        .artists[1] ? (
+                        <span className="text-white">
+                          ,{" "}
+                          {
+                            AudioFileLink[CurrentAudioIndex].artist_map
+                              .artists[1]?.name
+                          }
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        </div>
         <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
           <span
             className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
