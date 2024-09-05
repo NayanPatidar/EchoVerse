@@ -23,11 +23,13 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
   isPlaylist,
   isArtist,
 }) => {
-  const { SetAudioFileLink, SetCurrentAudioIndex } = useAudioPlayer();
+  const { SetAudioFileLink, SetCurrentAudioIndex, SetAudioCurrentTimeStamp } =
+    useAudioPlayer();
 
   const PlayAudioFile = (index: number) => {
     SetAudioFileLink(SongsData);
     SetCurrentAudioIndex(index);
+    SetAudioCurrentTimeStamp(0);
   };
 
   if (!SongsData) {

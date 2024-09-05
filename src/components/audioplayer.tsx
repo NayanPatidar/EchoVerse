@@ -37,12 +37,16 @@ const AudioPlayer = () => {
     setVolume,
   } = useGlobalAudioPlayer();
   const [audioDuration, setAudioDuration] = useState<number>(0);
-  const [audioCurrentTimeStamp, setAudioCurrentTimeStamp] = useState<number>(0);
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { AudioFileLink, CurrentAudioIndex, SetCurrentAudioIndex } =
-    useAudioPlayer();
+  const {
+    AudioFileLink,
+    CurrentAudioIndex,
+    SetCurrentAudioIndex,
+    AudioCurrentTimeStamp,
+    SetAudioCurrentTimeStamp,
+  } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
   const handleVolumeChange = (newValue: number | number[]) => {
@@ -73,21 +77,21 @@ const AudioPlayer = () => {
 
   const sliderPositionChange = (value: number | number[]) => {
     seek(value as number);
-    setAudioCurrentTimeStamp(value as number);
+    SetAudioCurrentTimeStamp(value as number);
   };
 
   const prevClick = () => {
     if (CurrentAudioIndex > 0) {
       SetCurrentAudioIndex((index) => index - 1);
-      setAudioCurrentTimeStamp(0);
+      SetAudioCurrentTimeStamp(0);
     }
   };
 
   const nextClick = () => {
     console.log("Next CLicked");
-    if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length-1) {
+    if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length - 1) {
       SetCurrentAudioIndex((index) => index + 1);
-      setAudioCurrentTimeStamp(0);
+      SetAudioCurrentTimeStamp(0);
     }
   };
 
@@ -98,7 +102,7 @@ const AudioPlayer = () => {
   useEffect(() => {
     if (playing) {
       intervalRef.current = setInterval(() => {
-        setAudioCurrentTimeStamp(() => {
+        SetAudioCurrentTimeStamp(() => {
           const newVal = getPosition();
           if (newVal >= Math.floor(duration)) {
             if (!allowRepeat) {
@@ -133,7 +137,7 @@ const AudioPlayer = () => {
             height: "12px",
           },
         }}
-        value={audioCurrentTimeStamp}
+        value={AudioCurrentTimeStamp}
         min={0}
         max={audioDuration}
         step={1}
@@ -141,7 +145,7 @@ const AudioPlayer = () => {
       />
       <div className=" flex flex-row items-center justify-center align-middle h-full ">
         <div className=" h-full w-full">
-          <div className=" flex justify-start items-center h-full pl-5 gap-2 ">
+          <div className=" flex justify-start items-center h-full pl-5 gap-2 cursor-pointer">
             <div>
               {AudioFileLink ? (
                 <Image
@@ -155,13 +159,13 @@ const AudioPlayer = () => {
                 ""
               )}
             </div>
-            <div className=" h-full flex flex-col justify-center">
+            <div className=" h-full flex flex-col justify-center w-56">
               {AudioFileLink ? (
                 <div>
                   <span className=" text-white text-sm Montserrat-regular">
                     {AudioFileLink[CurrentAudioIndex].name}
                   </span>
-                  <div className=" text-white text-xs Montserrat-regular">
+                  <div className=" text-white text-xs Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis ">
                     {" "}
                     <span>
                       <span className="text-white">

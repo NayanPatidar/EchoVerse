@@ -13,6 +13,8 @@ interface AudioDetails {
   AudioFileLink: (Song | Episode)[] | undefined;
   CurrentAudioIndex: number;
   Duration: number;
+  AudioCurrentTimeStamp: number;
+  SetAudioCurrentTimeStamp: Dispatch<SetStateAction<number>>;
   SetDuration: Dispatch<SetStateAction<number>>;
   SetAudioFileLink: Dispatch<SetStateAction<(Song | Episode)[] | undefined>>;
   SetCurrentAudioIndex: Dispatch<SetStateAction<number>>;
@@ -23,11 +25,6 @@ interface AudioPlayerProps {
   children: ReactNode;
 }
 
-type AudioFile = {
-  URL: string;
-  DURATION: number;
-};
-
 export const AudioPlayerProvider: React.FC<AudioPlayerProps> = ({
   children,
 }) => {
@@ -36,6 +33,7 @@ export const AudioPlayerProvider: React.FC<AudioPlayerProps> = ({
   >(undefined);
   const [Duration, SetDuration] = useState<number>(0);
   const [CurrentAudioIndex, SetCurrentAudioIndex] = useState(0);
+  const [AudioCurrentTimeStamp, SetAudioCurrentTimeStamp] = useState<number>(0);
 
   return (
     <AudioContext.Provider
@@ -46,6 +44,8 @@ export const AudioPlayerProvider: React.FC<AudioPlayerProps> = ({
         SetDuration,
         CurrentAudioIndex,
         SetCurrentAudioIndex,
+        AudioCurrentTimeStamp, 
+        SetAudioCurrentTimeStamp
       }}
     >
       {children}
