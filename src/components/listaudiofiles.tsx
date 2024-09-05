@@ -23,10 +23,11 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
   isPlaylist,
   isArtist,
 }) => {
-  const { SetAudioFileLink, SetDuration } = useAudioPlayer();
+  const { SetAudioFileLink, SetCurrentAudioIndex } = useAudioPlayer();
 
-  const PlayAudioFile = (url: string) => {
-    SetAudioFileLink(url);
+  const PlayAudioFile = (index: number) => {
+    SetAudioFileLink(SongsData);
+    SetCurrentAudioIndex(index);
   };
 
   if (!SongsData) {
@@ -43,11 +44,7 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
             <span
               className=" w-6/12 flex gap-4 items-center"
               onClick={() => {
-                SetDuration(song.duration);
-                const url = song.download_url[4].link;
-                if (typeof url == "string") {
-                  PlayAudioFile(url);
-                }
+                PlayAudioFile(index);
               }}
             >
               <span className="AudioFilesIndex w-[14px]">{index + 1} </span>
