@@ -39,7 +39,8 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { AudioFileLink, Duration } = useAudioPlayer();
+  const { AudioFileLink, CurrentAudioIndex, SetCurrentAudioIndex } =
+    useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
   const handleVolumeChange = (newValue: number | number[]) => {
@@ -56,12 +57,16 @@ const AudioPlayer = () => {
   };
 
   const handleLoadAudio = () => {
-    if (AudioFileLink) {
-      load(AudioFileLink, {
+    if (
+      AudioFileLink &&
+      AudioFileLink.length > 0 &&
+      typeof AudioFileLink[CurrentAudioIndex].download_url[4].link === "string"
+    ) {
+      load(AudioFileLink[CurrentAudioIndex]?.download_url[4].link, {
         autoplay: true,
       });
+      setAudioDuration(AudioFileLink[CurrentAudioIndex]?.duration);
     }
-    setAudioDuration(Duration);
   };
 
   const sliderPositionChange = (value: number | number[]) => {
@@ -69,9 +74,22 @@ const AudioPlayer = () => {
     setAudioCurrentTimeStamp(value as number);
   };
 
+  const prevClick = () => {
+    if (CurrentAudioIndex > 0) {
+      SetCurrentAudioIndex((index) => index - 1);
+    }
+  };
+
+  const nextClick = () => {
+    console.log("Next CLicked");
+    if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length) {
+      SetCurrentAudioIndex((index) => index + 1);
+    }
+  };
+
   useEffect(() => {
     handleLoadAudio();
-  }, [AudioFileLink]);
+  }, [AudioFileLink, CurrentAudioIndex]);
 
   useEffect(() => {
     if (playing) {
@@ -135,7 +153,10 @@ const AudioPlayer = () => {
               <RepeatIcon sx={{ fontSize: "2rem", color: "grey" }} />
             )}
           </span>
-          <span className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center">
+          <span
+            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            onClick={() => prevClick()}
+          >
             <SkipPreviousIcon sx={{ fontSize: "3rem" }} />
           </span>
           <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
@@ -145,7 +166,7 @@ const AudioPlayer = () => {
               <PauseIcon sx={{ fontSize: "3rem" }} />
             )}
           </span>
-          <span className=" cursor-pointer">
+          <span className=" cursor-pointer" onClick={() => nextClick()}>
             <SkipNextIcon sx={{ fontSize: "3rem" }} />
           </span>
           <span
