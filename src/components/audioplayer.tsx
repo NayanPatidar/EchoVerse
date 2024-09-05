@@ -49,6 +49,22 @@ const AudioPlayer = () => {
   } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === " ") {
+      console.log("Space Pressed");
+      event.preventDefault();
+      handlePlayPause();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [playing]);
+
   const handleVolumeChange = (newValue: number | number[]) => {
     setVolume((newValue as number) / 100);
     setLocalVolume((newValue as number) / 100);
@@ -66,9 +82,9 @@ const AudioPlayer = () => {
     if (
       AudioFileLink &&
       AudioFileLink.length > 0 &&
-      typeof AudioFileLink[CurrentAudioIndex].download_url[4].link === "string"
+      typeof AudioFileLink[CurrentAudioIndex].download_url[3].link === "string"
     ) {
-      load(AudioFileLink[CurrentAudioIndex]?.download_url[4].link, {
+      load(AudioFileLink[CurrentAudioIndex]?.download_url[3].link, {
         autoplay: true,
       });
       setAudioDuration(AudioFileLink[CurrentAudioIndex]?.duration);
@@ -88,7 +104,6 @@ const AudioPlayer = () => {
   };
 
   const nextClick = () => {
-    console.log("Next CLicked");
     if (AudioFileLink && CurrentAudioIndex < AudioFileLink?.length - 1) {
       SetCurrentAudioIndex((index) => index + 1);
       SetAudioCurrentTimeStamp(0);
