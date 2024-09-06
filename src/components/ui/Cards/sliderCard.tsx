@@ -1,4 +1,10 @@
 "use client";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
+import {
+  getAlbumDetails,
+  getPlaylist,
+  getSongDetails,
+} from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
 import { useRouter } from "next/navigation";
@@ -24,6 +30,7 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   image,
 }) => {
   const imageUrl = getImageURL(image);
+  const { SetAudioFileLink } = useAudioPlayer();
   const router = useRouter();
 
   function MediaClick() {
@@ -36,14 +43,29 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
     }
   }
 
+  async function PlayMedia() {
+    if (type == "song") {
+      const Songs = await getSongDetails(id);
+      SetAudioFileLink(Songs?.songs);
+    } else if (type == "album") {
+      const AlbumSongs = await getAlbumDetails(id);
+      SetAudioFileLink(AlbumSongs?.songs);
+    } else if (type == "playlist") {
+      const PlaylistSongs = await getPlaylist(id);
+      SetAudioFileLink(PlaylistSongs?.songs);
+    }
+  }
+
   return (
-    <div
-      className="media-element flex flex-col text-left"
-      onClick={() => MediaClick()}
-    >
-      <img src={imageUrl} className="media-elements-image" alt="" />
-      <div className="PlaySymbolCard">
-        <FaPlay className=" PlayIcon"/>
+    <div className="media-element flex flex-col text-left">
+      <img
+        src={imageUrl}
+        className="media-elements-image"
+        alt=""
+        onClick={() => MediaClick()}
+      />
+      <div className="PlaySymbolCard" onClick={() => PlayMedia()}>
+        <FaPlay className=" PlayIcon" />
       </div>
       <span className=" text-base lato-regular mt-5  overflow-hidden whitespace-nowrap text-ellipsis">
         {name}
