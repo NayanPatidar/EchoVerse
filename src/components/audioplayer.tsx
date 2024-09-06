@@ -52,7 +52,6 @@ const AudioPlayer = () => {
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === " ") {
-      console.log("Space Pressed");
       event.preventDefault();
       handlePlayPause();
     }

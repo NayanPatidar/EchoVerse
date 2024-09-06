@@ -16,7 +16,6 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
-  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -125,6 +124,16 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
     closeSearchBar();
   };
 
+  const handleSearchBarKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    console.log("Space Key Pressed");
+
+    if (event.key === " ") {
+      event.stopPropagation();
+    }
+  };
+
   const SearchColums = ["Albums", "Songs", "Artists"];
 
   const searchProcess = debounce(searchHandler, 1000);
@@ -139,6 +148,7 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
           placeholder="Search ..."
           onChange={searchProcess}
           className="bg-[#242424] border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
+          onKeyDown={handleSearchBarKeyDown}
         />
       </div>
       <div className=" p-5 ">
@@ -178,12 +188,10 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
               if (value.data.length == 0) {
                 return;
               }
-              // console.log(processedItems);
               const identifier = `${value.data[0].type}`;
 
               if (!processedItems.has(identifier)) {
                 processedItems.add(identifier);
-                // console.log(identifier);
                 return (
                   <>
                     {value.data[0].type === "song" ||
