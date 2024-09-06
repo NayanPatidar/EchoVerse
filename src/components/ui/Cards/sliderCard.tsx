@@ -30,7 +30,8 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   image,
 }) => {
   const imageUrl = getImageURL(image);
-  const { SetAudioFileLink } = useAudioPlayer();
+  const { SetAudioFileLink, SetCurrentAudioIndex, SetAudioCurrentTimeStamp } =
+    useAudioPlayer();
   const router = useRouter();
 
   function MediaClick() {
@@ -46,12 +47,18 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   async function PlayMedia() {
     if (type == "song") {
       const Songs = await getSongDetails(id);
+      SetCurrentAudioIndex(0);
+      SetAudioCurrentTimeStamp(0);
       SetAudioFileLink(Songs?.songs);
     } else if (type == "album") {
       const AlbumSongs = await getAlbumDetails(id);
+      SetCurrentAudioIndex(0);
+      SetAudioCurrentTimeStamp(0);
       SetAudioFileLink(AlbumSongs?.songs);
     } else if (type == "playlist") {
       const PlaylistSongs = await getPlaylist(id);
+      SetCurrentAudioIndex(0);
+      SetAudioCurrentTimeStamp(0);
       SetAudioFileLink(PlaylistSongs?.songs);
     }
   }
