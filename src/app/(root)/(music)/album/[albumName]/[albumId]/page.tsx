@@ -7,11 +7,6 @@ import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
 import { IoTimeOutline } from "react-icons/io5";
 
-// async function slowFetchData() {
-//   await new Promise((resolve) => setTimeout(resolve, 5000));
-//   return { data: "Some data" };
-// }
-
 const AlbumPage = async ({
   params,
 }: {
@@ -58,7 +53,7 @@ const AlbumPage = async ({
         </div>
       </div>
       <div>
-        <QuickMusicActions />
+        <QuickMusicActions Data={albumObj.songs} />
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <span className=" w-6/12">

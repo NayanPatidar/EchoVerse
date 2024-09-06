@@ -67,7 +67,7 @@ const ArtistPage = async ({
         </div>
       </div>
       <div>
-        <QuickMusicActions />
+      <QuickMusicActions Data={artistObj.top_songs.songs} />
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <div className=" w-6/12">
