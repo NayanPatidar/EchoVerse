@@ -22,6 +22,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
 import Image from "next/image";
 import { getImageURL } from "@/lib/utils";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 const AudioPlayer = () => {
   const {
@@ -233,7 +234,11 @@ const AudioPlayer = () => {
             <SkipPreviousIcon sx={{ fontSize: "3rem" }} />
           </span>
           <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
-            {!playing ? (
+            {!isReady ? (
+              <div className=" w-12 h-12 flex justify-center items-center">
+                <LoadingSpinner />
+              </div>
+            ) : !playing ? (
               <PlayArrowIcon sx={{ fontSize: "3rem" }} />
             ) : (
               <PauseIcon sx={{ fontSize: "3rem" }} />
