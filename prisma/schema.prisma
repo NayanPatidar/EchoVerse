@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String      @id @default(uuid())
+  name       String
+  email      String      @unique
+  googleId   String?     @unique
+  likedSongs LikedSong[]
+  playlists  Playlist[]
+}
+
+model LikedSong {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Playlist {
+  id     String         @id @default(uuid())
+  userId String
+  user   User           @relation(fields: [userId], references: [id])
+  songs  PlaylistSong[]
+}
+
+model PlaylistSong {
+  id         String   @id @default(uuid())
+  playlistId String
+  songId     String
+  Playlist   Playlist @relation(fields: [playlistId], references: [id])
+}
