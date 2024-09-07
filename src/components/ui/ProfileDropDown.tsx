@@ -1,4 +1,5 @@
 import { Music, LogOut, Settings, User, History } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +46,7 @@ export function DropdownMenuProfile() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator className=" bg-[#505050]" />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => signOut()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
