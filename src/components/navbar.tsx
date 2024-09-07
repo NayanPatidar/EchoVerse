@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
 import { useSidebar } from "@/context/SidebarContext";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
+import { useSession, signIn } from "next-auth/react";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
+  const Session = useSession();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +42,11 @@ const Navbar = () => {
 
     FetchTrendingData();
   }, []);
+
+  const Profile = () => {
+    signIn();
+    console.log(Session);
+  };
 
   const sidebarClass = sideBarOpen
     ? "NavbarMainOnSideBarOpen"
@@ -73,13 +80,13 @@ const Navbar = () => {
           </div>
         </form>
       </div>
-      <div className=" flex">
-        <div
-          className=" w-10 mr-5 cursor-pointer rounded-full z-[100]"
-          onClick={(prev) => setDropdown(!prev)}
-        >
-          <DropdownMenuProfile />
-          {/* {dropdown ?  : ""} */}
+      <div className="NavbarBarProfile flex">
+        <div className=" w-10 mr-5 cursor-pointer rounded-full z-[100]">
+          {Session.data && Session.data != null ? (
+            <DropdownMenuProfile />
+          ) : (
+            <MdAccountCircle size={40} onClick={() => Profile()} />
+          )}
         </div>
       </div>
     </div>
@@ -141,7 +148,7 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
 
   return (
     <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#242424] left-[48px] top-[11px] rounded-lg">
-      <div className=" z-50 border-[1px] border-zinc-600  w-full rounded-md flex flex-row items-center bg-[#242424] pl-4">
+      <div className=" z-[150] border-[1px] border-zinc-600  w-full rounded-md flex flex-row items-center bg-[#242424] pl-4">
         <CiSearch color="zinc" size={24} />
         <Input
           autoFocus
