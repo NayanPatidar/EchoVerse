@@ -45,13 +45,16 @@ const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 flex flex-col"
+      >
         <FormField
           control={form.control}
           name="Email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className=" text-white">Email</FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -65,16 +68,23 @@ const SignInForm = () => {
           name="Password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className=" text-white">Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" {...field} />
+                <Input placeholder="Password" type="password" {...field} />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div>
+          <Button
+            type="submit"
+            className=" bg-[#141414] hover:bg-black mt-5 w-full"
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );

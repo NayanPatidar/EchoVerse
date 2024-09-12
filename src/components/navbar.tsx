@@ -18,6 +18,7 @@ const Navbar = () => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
   const Session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,8 +45,9 @@ const Navbar = () => {
   }, []);
 
   const Profile = () => {
-    signIn();
-    console.log(Session);
+    router.push("/signin");
+    // signIn();
+    // console.log(Session);
   };
 
   const sidebarClass = sideBarOpen
@@ -134,8 +136,6 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
   const handleSearchBarKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    console.log("Space Key Pressed");
-
     if (event.key === " ") {
       event.stopPropagation();
     }
