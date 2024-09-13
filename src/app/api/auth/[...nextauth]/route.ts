@@ -23,10 +23,12 @@ const handler = NextAuth({
         });
 
         if (existingUser) {
-          await prisma.user.update({
-            where: { email: user.email as string },
-            data: { googleId: profile?.sub },
-          });
+          if (existingUser.googleId == null) {
+            await prisma.user.update({
+              where: { email: user.email as string },
+              data: { googleId: profile?.sub },
+            });
+          }
         } else {
           await prisma.user.create({
             data: {
