@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const SignInWithGoogle = () => {
@@ -36,19 +36,6 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      router.push("/");
-    }
-  }, []);
-
-  if (session) {
-    return null;
-  }
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
