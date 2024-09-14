@@ -12,6 +12,7 @@ model User {
   name       String
   email      String      @unique
   googleId   String?     @unique
+  password   String?     
   likedSongs LikedSong[]
   playlists  Playlist[]
 }

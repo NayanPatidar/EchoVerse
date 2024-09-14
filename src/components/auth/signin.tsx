@@ -44,8 +44,13 @@ const SignInForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        
+      });
+    } catch (error) {}
   }
 
   return (

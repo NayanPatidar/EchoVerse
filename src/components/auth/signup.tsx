@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
+import { Route } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const SignInWithGoogle = () => {
   signIn("google", { callbackUrl: "/", redirect: false });
@@ -36,6 +38,9 @@ const formSchema = z.object({
 });
 
 const SignUpForm = () => {
+  const [isAlert, setAlert] = useState(null);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,8 +50,35 @@ const SignUpForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.Name,
+          email: values.Email,
+          password: values.Password,
+        }),
+      });
+
+      form.reset({
+        Name: "",
+        Email: "",
+        Password: "",
+      });
+
+      const message = await res.json();
+      console.log(message);
+
+      if (res.status === 209) {
+        setAlert(message.message);
+      }
+
+      console.log("-------------------");
+    } catch (error: any) {
+      console.error("Found Error : " + error.message);
+    }
   }
 
   return (
@@ -106,6 +138,14 @@ const SignUpForm = () => {
           </Button>
         </div>
       </form>
+      <div className=" w-full text-center mt-1">
+        <span
+          className=" w-full justify-center items-center hover:underline  text-white hover:cursor-pointer text-xs"
+          onClick={() => router.push("/signin")}
+        >
+          Already a User ?
+        </span>
+      </div>
       <div className=" w-full flex justify-center mt-2">
         <Button
           className=" bg-[#141414] hover:bg-black mt-1 w-auto flex gap-2 "
@@ -115,6 +155,13 @@ const SignUpForm = () => {
           <span>Continue with Google</span>
         </Button>
       </div>
+      {isAlert != "" ? (
+        <div className=" w-full justify-center items-center text-[#ff3131] font-semibold text-center mt-1">
+          <span className=" w-full">{isAlert}</span>
+        </div>
+      ) : (
+        ""
+      )}
     </Form>
   );
 };
