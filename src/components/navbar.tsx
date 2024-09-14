@@ -46,8 +46,6 @@ const Navbar = () => {
 
   const Profile = () => {
     router.push("/signin");
-    // signIn();
-    // console.log(Session);
   };
 
   const sidebarClass = sideBarOpen
