@@ -52,7 +52,7 @@ const SignUpForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/userSignup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -74,8 +74,6 @@ const SignUpForm = () => {
       if (res.status === 209) {
         setAlert(message.message);
       }
-
-      console.log("-------------------");
     } catch (error: any) {
       console.error("Found Error : " + error.message);
     }

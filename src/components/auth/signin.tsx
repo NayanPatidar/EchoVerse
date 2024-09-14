@@ -36,6 +36,9 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
+  const [isAlert, setAlert] = useState(null);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,11 +49,26 @@ const SignInForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/userSignin", {
         method: "POST",
-        
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: values.Email,
+          password: values.Password,
+        }),
       });
-    } catch (error) {}
+
+      const message = await res.json();
+      console.log(message);
+
+      if (res.status === 401) {
+        setAlert(message.message);
+      } else if (res.status === 200) {
+        console.log("Signed In !");
+      }
+    } catch (error: any) {
+      console.error("Found Error : " + error.message);
+    }
   }
 
   return (
@@ -96,6 +114,14 @@ const SignInForm = () => {
           </Button>
         </div>
       </form>
+      <div className=" w-full text-center mt-1">
+        <span
+          className=" w-full justify-center items-center hover:underline  text-white hover:cursor-pointer text-xs"
+          onClick={() => router.push("/signup")}
+        >
+          New User ?
+        </span>
+      </div>
       <div className=" w-full flex justify-center mt-2">
         <Button
           className=" bg-[#141414] hover:bg-black mt-1 w-auto flex gap-2 "
@@ -105,6 +131,13 @@ const SignInForm = () => {
           <span>Continue with Google</span>
         </Button>
       </div>
+      {isAlert != "" ? (
+        <div className=" w-full justify-center items-center text-[#ff3131] font-semibold text-center mt-1">
+          <span className=" w-full">{isAlert}</span>
+        </div>
+      ) : (
+        ""
+      )}
     </Form>
   );
 };
