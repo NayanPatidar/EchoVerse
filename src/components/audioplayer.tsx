@@ -47,6 +47,8 @@ const AudioPlayer = () => {
     SetCurrentAudioIndex,
     AudioCurrentTimeStamp,
     SetAudioCurrentTimeStamp,
+    Play,
+    SetPlay,
   } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
@@ -73,10 +75,20 @@ const AudioPlayer = () => {
   const handlePlayPause = () => {
     if (playing) {
       pause();
+      SetPlay(false);
+    } else {
+      play();
+      SetPlay(true);
+    }
+  };
+
+  useEffect(() => {
+    if (playing) {
+      pause();
     } else {
       play();
     }
-  };
+  }, [Play]);
 
   const handleLoadAudio = () => {
     if (
@@ -181,7 +193,6 @@ const AudioPlayer = () => {
                     <span>{AudioFileLink[CurrentAudioIndex].name}</span>
                   </div>
                   <div className=" w-56 text-white text-xs Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis">
-                    {" "}
                     <span>
                       <span className="text-white">
                         {
@@ -233,7 +244,7 @@ const AudioPlayer = () => {
             <SkipPreviousIcon sx={{ fontSize: "3rem" }} />
           </span>
           <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
-            {!isReady ? (
+            {!isReady && AudioFileLink ? (
               <div className=" w-12 h-12 flex justify-center items-center">
                 <LoadingSpinner />
               </div>

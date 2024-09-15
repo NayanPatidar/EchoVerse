@@ -17,10 +17,12 @@ import {
 import { useState } from "react";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { useAuthProvider } from "@/context/AuthContext";
+import { useSession } from "next-auth/react";
 
 export function DropupMenuAudioPlayer() {
   const { AudioFileLink, CurrentAudioIndex } = useAudioPlayer();
   const { token } = useAuthProvider();
+  const { session } = useAuthProvider();
 
   const AddToLikedSong = async () => {
     if (!AudioFileLink || !token) {

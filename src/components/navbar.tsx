@@ -11,6 +11,7 @@ import { useSidebar } from "@/context/SidebarContext";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 import { useSession, signIn } from "next-auth/react";
 import { useAuthProvider } from "@/context/AuthContext";
+import { useAudioPlayer } from "@/context/AudioPlayerContext";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -18,6 +19,7 @@ const Navbar = () => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
   const { isAuthenticated } = useAuthProvider();
+  const { SetPlay } = useAudioPlayer();
   const router = useRouter();
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const Navbar = () => {
   }, []);
 
   const Profile = () => {
+    SetPlay(false);
     router.push("/signin");
   };
 

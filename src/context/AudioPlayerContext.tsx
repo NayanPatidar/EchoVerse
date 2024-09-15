@@ -1,5 +1,6 @@
 "use client";
 import { Episode, Song } from "@/types";
+import { useRouter } from "next/navigation";
 import React, {
   useContext,
   createContext,
@@ -8,12 +9,15 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
+import { boolean } from "zod";
 
 interface AudioDetails {
   AudioFileLink: (Song | Episode)[] | undefined;
   CurrentAudioIndex: number;
   Duration: number;
   AudioCurrentTimeStamp: number;
+  Play: boolean;
+  SetPlay: Dispatch<SetStateAction<boolean>>;
   SetAudioCurrentTimeStamp: Dispatch<SetStateAction<number>>;
   SetDuration: Dispatch<SetStateAction<number>>;
   SetAudioFileLink: Dispatch<SetStateAction<(Song | Episode)[] | undefined>>;
@@ -34,6 +38,7 @@ export const AudioPlayerProvider: React.FC<AudioPlayerProps> = ({
   const [Duration, SetDuration] = useState<number>(0);
   const [CurrentAudioIndex, SetCurrentAudioIndex] = useState(0);
   const [AudioCurrentTimeStamp, SetAudioCurrentTimeStamp] = useState<number>(0);
+  const [Play, SetPlay] = useState<boolean>(false);
 
   return (
     <AudioContext.Provider
@@ -44,8 +49,10 @@ export const AudioPlayerProvider: React.FC<AudioPlayerProps> = ({
         SetDuration,
         CurrentAudioIndex,
         SetCurrentAudioIndex,
-        AudioCurrentTimeStamp, 
-        SetAudioCurrentTimeStamp
+        AudioCurrentTimeStamp,
+        SetAudioCurrentTimeStamp,
+        Play,
+        SetPlay,
       }}
     >
       {children}
