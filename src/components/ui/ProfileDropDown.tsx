@@ -22,6 +22,11 @@ import { useRouter } from "next/navigation";
 export function DropdownMenuProfile() {
   const router = useRouter();
 
+  const Logout = () => {
+    signOut();
+    localStorage.removeItem("token");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -49,7 +54,7 @@ export function DropdownMenuProfile() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator className=" bg-[#505050]" />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem onClick={() => Logout()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
