@@ -40,17 +40,21 @@ const handler = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user, profile }) {
+    async jwt({ token, user, profile, account }) {
       if (user) {
         token.id = user.id;
         token.email = user?.email as string;
         token.googleId = profile?.sub;
+        token.accessToken = account?.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.email = token.email;
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email;
+        session.accessToken = token.accessToken;
+      }
       return session;
     },
   },

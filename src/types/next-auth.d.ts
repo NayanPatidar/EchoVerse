@@ -1,34 +1,29 @@
-import { type DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 
-import type { JWT } from "next-auth/jwt"; // eslint-disable-line @typescript-eslint/no-unused-vars
-
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
 declare module "next-auth" {
-  interface Session extends DefaultSession {
+  interface Session {
     user: {
       id: string;
-      username?: string | null;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+      email?: string | null;
+      name?: string | null;
+      image?: string | null;
+    };
+    accessToken?: string;
   }
 
   interface User {
-    username?: string | null;
-    // ...other properties
-    // role: UserRole;
+    accessToken?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id: string;
-    email: string;
-    username?: string | null;
+    user: {
+      id: string;
+      email?: string | null;
+      name?: string | null;
+      image?: string | null;
+    };
+    accessToken?: string;
   }
 }

@@ -11,7 +11,6 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <AudioPlayerProvider>
         <SidebarProvider>
           <div className="w-full flex-col">
             <div className="MainContentDiv flex flex-row ">
@@ -30,7 +29,6 @@ export default function RootLayout({
             </div>
           </div>
         </SidebarProvider>
-      </AudioPlayerProvider>
     </div>
   );
 }
