@@ -16,7 +16,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
-import { Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const SignInWithGoogle = () => {
@@ -69,10 +68,11 @@ const SignUpForm = () => {
       });
 
       const message = await res.json();
-      console.log(message);
 
       if (res.status === 209) {
         setAlert(message.message);
+      } else if (res.status === 200) {
+        router.push("/signin");
       }
     } catch (error: any) {
       console.error("Found Error : " + error.message);
