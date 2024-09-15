@@ -15,8 +15,9 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAuthProvider } from "@/context/AuthContext";
 
 const SignInWithGoogle = () => {
   signIn("google", { callbackUrl: "/", redirect: false });
@@ -37,6 +38,7 @@ const formSchema = z.object({
 
 const SignInForm = () => {
   const [isAlert, setAlert] = useState(null);
+  const { setToken, setOnChange } = useAuthProvider();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,12 +61,14 @@ const SignInForm = () => {
       });
 
       const message = await res.json();
-      console.log(message);
-
-      if (res.status === 401) {
+      if (res.status === 401 || res.status === 404) {
         setAlert(message.message);
       } else if (res.status === 200) {
-        console.log("Signed In !");
+        localStorage.setItem("token", message.token);
+        setToken(message.token);
+        setOnChange((prev) => !prev);
+        console.log("Signed In ! : ");
+        router.push("/");
       }
     } catch (error: any) {
       console.error("Found Error : " + error.message);

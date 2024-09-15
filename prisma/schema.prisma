@@ -21,6 +21,7 @@ model LikedSong {
   id     String @id @default(uuid())
   userId String
   user   User   @relation(fields: [userId], references: [id])
+  songId String
 }
 
 model Playlist {
