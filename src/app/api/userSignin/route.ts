@@ -2,9 +2,10 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
-const SECRET_KEY = process.env.SECRET_KEY_API;
+const SECRET_KEY = process.env.SECRET_KEY_API as string;
 
 export async function POST(request: Request) {
   try {
@@ -28,9 +29,14 @@ export async function POST(request: Request) {
         );
       }
 
+      const token = jwt.sign({ name: user.name, email: email }, SECRET_KEY, {
+        expiresIn: "1h",
+      });
+
       return NextResponse.json(
         {
           message: " Signed In !!",
+          token: token,
         },
         { status: 200 }
       );
@@ -39,7 +45,7 @@ export async function POST(request: Request) {
         {
           message: " User Not Found ! ",
         },
-        { status: 204 }
+        { status: 404 }
       );
     }
   } catch (error: any) {

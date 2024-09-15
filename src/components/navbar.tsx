@@ -10,14 +10,14 @@ import { MdAccountCircle } from "react-icons/md";
 import { useSidebar } from "@/context/SidebarContext";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 import { useSession, signIn } from "next-auth/react";
+import { useAuthProvider } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const [trendingSearches, setTrendingSearches] = useState<TopSearch[]>([]);
-  const [dropdown, setDropdown] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const { sideBarOpen, toggleSideBar } = useSidebar();
-  const Session = useSession();
+  const { isAuthenticated } = useAuthProvider();
   const router = useRouter();
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const Navbar = () => {
       </div>
       <div className="NavbarBarProfile flex">
         <div className=" w-10 mr-5 cursor-pointer rounded-full z-[100]">
-          {Session.data && Session.data != null ? (
+          {isAuthenticated ? (
             <DropdownMenuProfile />
           ) : (
             <MdAccountCircle size={40} onClick={() => Profile()} />
