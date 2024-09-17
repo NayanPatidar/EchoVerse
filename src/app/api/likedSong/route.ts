@@ -7,7 +7,8 @@ const SECRET_KEY = process.env.SECRET_KEY_API;
 
 export async function POST(req: Request) {
   const data = await req.json();
-  const { id } = data;
+  const { id, songArtistPrimary, songArtistSecondary, songImage, songName } =
+    data;
   const token = req.headers.get("Authorization");
 
   if (!token) {
@@ -52,6 +53,10 @@ export async function POST(req: Request) {
               connect: { id: userId },
             },
             songId: id,
+            songName: songName,
+            songArtistPrimary: songArtistPrimary,
+            songArtistSecondary: songArtistSecondary,
+            songImage: songImage,
           },
         });
 
@@ -60,6 +65,49 @@ export async function POST(req: Request) {
           { status: 200 }
         );
       }
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    return NextResponse.json(
+      { message: "Unauthorized: Invalid token" },
+      { status: 401 }
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  const token = req.headers.get("Authorization");
+
+  if (!token) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized: Token not provided",
+      },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const splittedToken = token.split(" ")[1];
+    const decoded = jwt.verify(splittedToken, SECRET_KEY as string);
+
+    if (typeof decoded !== "string" && decoded && "userId" in decoded) {
+      const userId = decoded.userId as string;
+
+      const likedSongs = await prisma.likedSong.findMany({
+        where: {
+          userId: userId,
+        },
+        select: {
+          songId: true,
+          songArtistPrimary: true,
+          songArtistSecondary: true,
+          songName: true,
+          songImage: true,
+        },
+      });
+
+      return NextResponse.json({ data: likedSongs }, { status: 200 });
     }
   } catch (error: any) {
     console.error(error.message);
