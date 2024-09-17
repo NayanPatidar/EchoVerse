@@ -47,7 +47,7 @@ const Navbar = () => {
   }, []);
 
   const Profile = () => {
-    SetPlay(false);
+    SetPlay((prev) => !prev);
     router.push("/signin");
   };
 

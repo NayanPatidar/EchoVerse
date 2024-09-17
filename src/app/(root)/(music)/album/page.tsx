@@ -1,3 +1,4 @@
+'use server'
 import TopPlaylistCard from "@/components/ui/Cards/playlistCard";
 import TopArtistCard from "@/components/ui/Cards/topArtistCard";
 import { getTopAlbums, getTopArtists } from "@/lib/api_jiosaavn";

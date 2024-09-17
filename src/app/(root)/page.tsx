@@ -8,7 +8,6 @@ import { getHomeData } from "@/lib/api_jiosaavn";
 // }
 
 export default async function Home() {
-
   const homeData = await getHomeData();
 
   if (!homeData) {
@@ -31,7 +30,7 @@ export default async function Home() {
         )
           return null;
         return (
-          <div className="text-white relative pl-8 pr-6" key={key}>
+          <div className="text-white pl-8 pr-6" key={key}>
             <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-3 cursor-default">
               {section.title}
             </div>

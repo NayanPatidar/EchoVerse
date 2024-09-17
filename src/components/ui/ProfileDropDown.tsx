@@ -40,7 +40,7 @@ export function DropdownMenuProfile() {
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/my-music")}>
             <Music className="mr-2 h-4 w-4" />
             <span>Music</span>
           </DropdownMenuItem>

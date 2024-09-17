@@ -1,16 +1,26 @@
+"use client";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import AudioPlayer from "@/components/audioplayer";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
+import { useFloatingDiv } from "@/context/FloatingDivContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { open } = useFloatingDiv();
+
   return (
     <div>
+      {open ? (
+        <div className=" absolute w-full h-screen bg-[#25252550] z-[100]"></div>
+      ) : (
+        ""
+      )}
+      <AudioPlayerProvider>
         <SidebarProvider>
           <div className="w-full flex-col">
             <div className="MainContentDiv flex flex-row ">
@@ -18,7 +28,7 @@ export default function RootLayout({
                 <Sidebar />
               </div>
               <div className="MainSongsHomeContent w-auto bg-black overflow-hidden m-2 mb-2">
-                <div className="MainPageDivBox relative text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
+                <div className="MainPageDivBox text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
                   <Navbar />
                   {children}
                 </div>
@@ -29,6 +39,7 @@ export default function RootLayout({
             </div>
           </div>
         </SidebarProvider>
+      </AudioPlayerProvider>
     </div>
   );
 }

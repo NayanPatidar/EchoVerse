@@ -3,11 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGlobalAudioPlayer } from "react-use-audio-player";
 import Slider from "@mui/material/Slider";
-import { IoMdPlay } from "react-icons/io";
-import { IoIosPause } from "react-icons/io";
-import { MdSkipNext } from "react-icons/md";
-import { IoMdSkipBackward } from "react-icons/io";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -23,6 +19,7 @@ import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
 import Image from "next/image";
 import { getImageURL } from "@/lib/utils";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { useFloatingDiv } from "@/context/FloatingDivContext";
 
 const AudioPlayer = () => {
   const {
@@ -41,6 +38,7 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
+  const { open } = useFloatingDiv();
   const {
     AudioFileLink,
     CurrentAudioIndex,
@@ -52,8 +50,14 @@ const AudioPlayer = () => {
   } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
+  const playingRef = useRef(open);
+  useEffect(() => {
+    playingRef.current = open;
+    console.log(playingRef.current);
+  }, [open]);
+
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === " ") {
+    if (event.key === " " && playingRef.current == false) {
       event.preventDefault();
       handlePlayPause();
     }
@@ -75,18 +79,14 @@ const AudioPlayer = () => {
   const handlePlayPause = () => {
     if (playing) {
       pause();
-      SetPlay(false);
     } else {
       play();
-      SetPlay(true);
     }
   };
 
   useEffect(() => {
     if (playing) {
       pause();
-    } else {
-      play();
     }
   }, [Play]);
 

@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/components/providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
+import { FloatingDivProvider } from "@/context/FloatingDivContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,9 +40,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>
-          <AudioPlayerProvider>
-            <AuthProvider>{children} </AuthProvider>
-          </AudioPlayerProvider>
+          <AuthProvider>
+            <FloatingDivProvider>
+              <div className=" w-full h-full relative">
+                {children}
+              </div>
+            </FloatingDivProvider>
+          </AuthProvider>
         </Providers>
       </body>
     </html>

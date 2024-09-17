@@ -1,11 +1,9 @@
 "use client";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { useAuthProvider } from "@/context/AuthContext";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { date } from "zod";
 
 const Profile = () => {
   const { isAuthenticated, isLoading, session, tokenDetails } =

@@ -17,7 +17,7 @@ import {
 import { useState } from "react";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { useAuthProvider } from "@/context/AuthContext";
-import { useSession } from "next-auth/react";
+import { getImageURL } from "@/lib/utils";
 
 export function DropupMenuAudioPlayer() {
   const { AudioFileLink, CurrentAudioIndex } = useAudioPlayer();
@@ -29,16 +29,24 @@ export function DropupMenuAudioPlayer() {
       return;
     }
 
-    console.log(AudioFileLink[CurrentAudioIndex]);
-
     try {
-      const res = await fetch("/api/AddLikedSong", {
+      const res = await fetch("/api/likedSong", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id: AudioFileLink[CurrentAudioIndex].id }),
+        body: JSON.stringify({
+          id: AudioFileLink[CurrentAudioIndex].id,
+          songArtistPrimary:
+            AudioFileLink[CurrentAudioIndex].artist_map.artists[0].name,
+          songArtistSecondary: AudioFileLink[CurrentAudioIndex].artist_map
+            .artists[1]
+            ? AudioFileLink[CurrentAudioIndex].artist_map.artists[1]?.name
+            : "-",
+          songImage: getImageURL(AudioFileLink[CurrentAudioIndex]?.image),
+          songName: AudioFileLink[CurrentAudioIndex]?.name,
+        }),
       });
 
       const result = await res.json();

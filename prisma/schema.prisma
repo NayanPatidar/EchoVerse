@@ -12,16 +12,20 @@ model User {
   name       String
   email      String      @unique
   googleId   String?     @unique
-  password   String?     
+  password   String?
   likedSongs LikedSong[]
   playlists  Playlist[]
 }
 
 model LikedSong {
-  id     String @id @default(uuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-  songId String
+  id                  String @id @default(uuid())
+  userId              String
+  user                User   @relation(fields: [userId], references: [id])
+  songId              String
+  songName            String
+  songArtistPrimary   String
+  songArtistSecondary String
+  songImage           String
 }
 
 model Playlist {
@@ -29,6 +33,7 @@ model Playlist {
   userId String
   user   User           @relation(fields: [userId], references: [id])
   songs  PlaylistSong[]
+  name   String
 }
 
 model PlaylistSong {

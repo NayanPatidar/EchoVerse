@@ -1,4 +1,3 @@
-// import { SliderCardSkeleton } from "@/components/skeletons";
 import { CardSkeleton, HorizontalSkeleton } from "@/components/skeletons";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Box, Skeleton } from "@mui/material";
