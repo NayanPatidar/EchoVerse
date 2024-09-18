@@ -29,11 +29,12 @@ model LikedSong {
 }
 
 model Playlist {
-  id     String         @id @default(uuid())
-  userId String
-  user   User           @relation(fields: [userId], references: [id])
-  songs  PlaylistSong[]
-  name   String
+  id          String         @id @default(uuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  songs       PlaylistSong[]
+  title       String
+  description String
 }
 
 model PlaylistSong {
