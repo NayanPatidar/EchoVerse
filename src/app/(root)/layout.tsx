@@ -4,14 +4,14 @@ import Navbar from "@/components/navbar";
 import AudioPlayer from "@/components/audioplayer";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
-import { useFloatingDiv } from "@/context/FloatingDivContext";
+import { useGeneralContext } from "@/context/GeneralContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { open } = useFloatingDiv();
+  const { open } = useGeneralContext();
 
   return (
     <div>

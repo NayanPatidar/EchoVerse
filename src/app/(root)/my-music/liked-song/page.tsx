@@ -15,7 +15,8 @@ interface AudioFiles {
 
 const LikedSongs = () => {
   const [LikedSongData, SetLikedSongsData] = useState<LikedSong[] | null>(null);
-  const [songs, SetSongs] = useState();
+  const [songs, SetSongs] = useState(null);
+  const [loading, SetLoading] = useState(true);
   const { token } = useAuthProvider();
   const {
     SetAudioFileLink,
@@ -42,6 +43,8 @@ const LikedSongs = () => {
       console.log(likedSongData.data);
     } catch (error: any) {
       console.error("Found Error : " + error.message);
+    } finally {
+      SetLoading(false);
     }
   };
 
@@ -58,13 +61,22 @@ const LikedSongs = () => {
     LikedSongsData();
   }, [token]);
 
-  if (!LikedSongData || LikedSongData.length == 0) {
+  if (loading) {
     return (
-      <div className=" p-5">
-        <div className=" text-xl font-semibold p-3 flexgap-2">Liked Songs</div>
-        <div className="h-full w-full p-2 bg-[#252525] text-white">
-          No Songs Found !
+      <div className="p-5">
+        <div className="text-xl font-semibold p-3 flex gap-2">Liked Songs</div>
+        <div className="h-full w-full p-2 text-white Montserrat-regular flex justify-center ">
+          Loading ...
         </div>
+      </div>
+    );
+  }
+
+  if (!LikedSongData || LikedSongData.length === 0) {
+    return (
+      <div className="p-5">
+        <div className="text-xl font-semibold p-3 flex gap-2">Liked Songs</div>
+        <div className="h-full w-full p-2 text-white">No Songs Found!</div>
       </div>
     );
   }
@@ -105,7 +117,7 @@ const LikedSongs = () => {
                           <span className="text-white">
                             {val.songArtistPrimary}
                           </span>
-                          {val.songArtistSecondary}
+                          , {val.songArtistSecondary}
                         </span>
                       </div>
                     </div>

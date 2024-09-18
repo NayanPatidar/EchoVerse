@@ -1,20 +1,48 @@
 "use client";
 import { useAuthProvider } from "@/context/AuthContext";
-import { Heart, Plus } from "lucide-react";
+import { Heart, ListMusic, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PlaylistForm } from "@/components/ui/NewPlaylistForm";
-import { useFloatingDiv } from "@/context/FloatingDivContext";
 import { useRouter } from "next/navigation";
+import { useGeneralContext } from "@/context/GeneralContext";
+
+type PlaylistType = {
+  id: string;
+  title: string;
+  description: string;
+};
 
 const MyMusic = () => {
   const { token } = useAuthProvider();
   const [LikedSongData, SetLikedSongsData] = useState(null);
   const [NewPlaylistFormOpen, SetNewPlaylistFormOpen] = useState(false);
-  const { open, setOpen } = useFloatingDiv();
+  const { open, setOpen } = useGeneralContext();
+  const [Playlists, SetPlaylist] = useState<PlaylistType[] | null>(null);
   const router = useRouter();
 
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+    const FetchPlaylists = async () => {
+      const res = await fetch("/api/playlistForm", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const message = await res.json();
+
+      SetPlaylist(message.data);
+      console.log(message.data);
+    };
+
+    FetchPlaylists();
+  }, [token]);
+
   const AddPlaylist = () => {
-    console.log("Add to Playlist");
     setOpen(true);
     SetNewPlaylistFormOpen(true);
   };
@@ -32,6 +60,21 @@ const MyMusic = () => {
           Liked Songs
         </span>
       </div>
+      <>
+        {Playlists &&
+          Object.entries(Playlists).map(([key, value]) => {
+            return (
+              <div className=" w-32 h-48 flex flex-col gap-y-1" key={key}>
+                <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center  rounded-xl">
+                  <ListMusic size={82} color="white" className=" bg-" />
+                </div>
+                <span className=" text-sm Montserrat-regular w-full flex justify-center">
+                  {value.title}
+                </span>
+              </div>
+            );
+          })}
+      </>
       <div
         className=" w-32 h-48 flex flex-col gap-y-1"
         onClick={() => AddPlaylist()}
