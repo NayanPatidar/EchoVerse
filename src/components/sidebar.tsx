@@ -70,7 +70,10 @@ const Sidebar = () => {
             id="1"
             onClick={() => setCategory(1)}
           >
-            <div className=" h-12 flex items-center gap-4 cursor-pointer" onClick={() => router.push("/playlist")}>
+            <div
+              className=" h-12 flex items-center gap-4 cursor-pointer"
+              onClick={() => router.push("/playlist")}
+            >
               <QueueMusicIcon width={24} />
               {sideBarOpen ? (
                 <span className=" text-md lato-regular">Top Playlists</span>
@@ -106,7 +109,10 @@ const Sidebar = () => {
             id="3"
             onClick={() => setCategory(3)}
           >
-            <div className=" h-12 flex items-center gap-4 cursor-pointer"  onClick={() => router.push("/artist")}>
+            <div
+              className=" h-12 flex items-center gap-4 cursor-pointer"
+              onClick={() => router.push("/artist")}
+            >
               <div className=" w-[23px]">
                 <FaGuitar size={20} color="#d6d6d6dc" />
               </div>
@@ -139,7 +145,10 @@ const Sidebar = () => {
                     }}
                     onClick={() => setCategory(4)}
                   >
-                    <div className="h-12 flex items-center gap-4 cursor-pointer"  onClick={() => router.push("/library")}>
+                    <div
+                      className="h-12 flex items-center gap-4 cursor-pointer"
+                      onClick={() => router.push("/my-music")}
+                    >
                       <div className=" w-[25px]">
                         <LibraryMusicIcon width={24} />
                       </div>
@@ -161,6 +170,7 @@ const Sidebar = () => {
                         paddingLeft: sideBarOpen ? "20px" : "",
                         paddingRight: sideBarOpen ? "20px" : "",
                       }}
+                      onClick={() => router.push("/my-music/liked-song")}
                     >
                       <div className="flex items-center gap-4 cursor-pointer text-regular">
                         <div className=" w-[25px]">
