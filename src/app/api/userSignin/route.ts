@@ -33,7 +33,7 @@ export async function POST(request: Request) {
         { userId: user.id, name: user.name, email: email },
         SECRET_KEY,
         {
-          expiresIn: "1h",
+          expiresIn: "24h",
         }
       );
 

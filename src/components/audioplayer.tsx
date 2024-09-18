@@ -19,7 +19,7 @@ import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
 import Image from "next/image";
 import { getImageURL } from "@/lib/utils";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { useFloatingDiv } from "@/context/FloatingDivContext";
+import { useGeneralContext } from "@/context/GeneralContext";
 
 const AudioPlayer = () => {
   const {
@@ -38,7 +38,7 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { open } = useFloatingDiv();
+  const { open } = useGeneralContext();
   const {
     AudioFileLink,
     CurrentAudioIndex,
