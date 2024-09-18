@@ -46,7 +46,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     setIsLoading(true);
     const storedToken = localStorage.getItem("token");
-
     if (storedToken) {
       setToken(storedToken);
       const decoded = jwtDecode<TokenDetails>(storedToken);

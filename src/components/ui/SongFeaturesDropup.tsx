@@ -14,15 +14,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { useAuthProvider } from "@/context/AuthContext";
 import { getImageURL } from "@/lib/utils";
+import { DropupMenuAddToPlaylist } from "./AddToPlaylist";
+import { useState } from "react";
+import { useGeneralContext } from "@/context/GeneralContext";
 
 export function DropupMenuAudioPlayer() {
   const { AudioFileLink, CurrentAudioIndex } = useAudioPlayer();
+  const { SaveToPlaylist, SetSaveToPlaylist } = useGeneralContext();
   const { token } = useAuthProvider();
-  const { session } = useAuthProvider();
 
   const AddToLikedSong = async () => {
     if (!AudioFileLink || !token) {
@@ -58,6 +60,7 @@ export function DropupMenuAudioPlayer() {
 
   return (
     <DropdownMenu>
+      {SaveToPlaylist ? <DropupMenuAddToPlaylist /> : ""}
       <DropdownMenuTrigger>
         <MoreVerticalIcon />
       </DropdownMenuTrigger>
@@ -67,7 +70,7 @@ export function DropupMenuAudioPlayer() {
             <Heart className="mr-2 h-4 w-4" />
             <span>Add to Liked Songs</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => SetSaveToPlaylist(true)}>
             <ListPlus className="mr-2 h-4 w-4" />
             <span>Add to Playlist</span>
           </DropdownMenuItem>

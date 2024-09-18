@@ -14,7 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Cross } from "lucide-react";
-import { useFloatingDiv } from "@/context/FloatingDivContext";
+import { useAuthProvider } from "@/context/AuthContext";
+import { title } from "process";
+import { useGeneralContext } from "@/context/GeneralContext";
 
 const formSchema = z.object({
   Title: z.string(),
@@ -26,7 +28,8 @@ interface SetOpenProp {
 }
 
 export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
-  const { setOpen } = useFloatingDiv();
+  const { setOpen } = useGeneralContext();
+  const { token } = useAuthProvider();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,19 +40,26 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // try {
-    //   const res = await fetch("/api/userSignin", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    console.log(values.Title, values.Description);
-    // }),
-    //   });
+    try {
+      const res = await fetch("/api/playlistForm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: values.Title,
+          description: values.Description,
+        }),
+      });
 
-    //   const message = await res.json();
-    // } catch (error: any) {
-    //   console.error("Found Error : " + error.message);
-    // }
+      const message = await res.json();
+      if (res) {
+        CloseForm();
+      }
+    } catch (error: any) {
+      console.error("New Playlist Form Found Error : " + error.message);
+    }
   }
 
   const CloseForm = () => {
@@ -64,7 +74,7 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
           New Playlist
         </div>
         <div
-          className=" flex items-center justify-center"
+          className=" flex items-center justify-center cursor-pointer"
           onClick={() => CloseForm()}
         >
           <Cross className=" rotate-45" />
@@ -88,6 +98,7 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
                     placeholder="Title"
                     type="Text"
                     color="black"
+                    autoComplete="off"
                     {...field}
                   />
                 </FormControl>
@@ -103,7 +114,12 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
               <FormItem>
                 <FormLabel className=" text-white">Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="Description" type="Text" {...field} />
+                  <Input
+                    placeholder="Description"
+                    type="Text"
+                    autoComplete="off"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
