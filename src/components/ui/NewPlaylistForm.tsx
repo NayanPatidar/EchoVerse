@@ -19,8 +19,8 @@ import { title } from "process";
 import { useGeneralContext } from "@/context/GeneralContext";
 
 const formSchema = z.object({
-  Title: z.string(),
-  Description: z.string(),
+  Title: z.string().min(1, { message: "Please Enter a Title" }),
+  Description: z.string().min(1, { message: "Please Enter a Description " }),
 });
 
 interface SetOpenProp {
@@ -28,7 +28,7 @@ interface SetOpenProp {
 }
 
 export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
-  const { setOpen } = useGeneralContext();
+  const { setOpen, setCreatePlaylist } = useGeneralContext();
   const { token } = useAuthProvider();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +41,7 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("/api/playlistForm", {
+      const res = await fetch("/api/playlistSong", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,9 +53,9 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
         }),
       });
 
-      const message = await res.json();
       if (res) {
         CloseForm();
+        setCreatePlaylist((prev) => !prev);
       }
     } catch (error: any) {
       console.error("New Playlist Form Found Error : " + error.message);

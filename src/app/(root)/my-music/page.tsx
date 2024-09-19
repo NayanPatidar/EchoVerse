@@ -14,33 +14,41 @@ type PlaylistType = {
 
 const MyMusic = () => {
   const { token } = useAuthProvider();
-  const [LikedSongData, SetLikedSongsData] = useState(null);
   const [NewPlaylistFormOpen, SetNewPlaylistFormOpen] = useState(false);
-  const { open, setOpen } = useGeneralContext();
+  const { open, setOpen, createPlaylist } = useGeneralContext();
   const [Playlists, SetPlaylist] = useState<PlaylistType[] | null>(null);
   const router = useRouter();
+
+  const FetchPlaylists = async () => {
+    const res = await fetch("/api/playlistForm", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res) {
+      return;
+    }
+
+    const message = await res.json();
+
+    SetPlaylist(message.data);
+    console.log(message.data);
+  };
 
   useEffect(() => {
     if (!token) {
       return;
     }
-    const FetchPlaylists = async () => {
-      const res = await fetch("/api/playlistForm", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const message = await res.json();
-
-      SetPlaylist(message.data);
-      console.log(message.data);
-    };
-
     FetchPlaylists();
-  }, [token]);
+    console.log("Create Playlist Updated IN mAIN ");
+  }, [token, createPlaylist]);
+
+  useEffect(() => {
+    // console.log("Create Playlist Updated");
+  }, [createPlaylist]);
 
   const AddPlaylist = () => {
     setOpen(true);
