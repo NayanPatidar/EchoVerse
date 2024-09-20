@@ -38,7 +38,7 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { open } = useGeneralContext();
+  const { IsAddToPlaylistFormOpen } = useGeneralContext();
   const {
     AudioFileLink,
     CurrentAudioIndex,
@@ -50,11 +50,11 @@ const AudioPlayer = () => {
   } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
-  const playingRef = useRef(open);
+  const playingRef = useRef(IsAddToPlaylistFormOpen);
   useEffect(() => {
-    playingRef.current = open;
+    playingRef.current = IsAddToPlaylistFormOpen;
     console.log(playingRef.current);
-  }, [open]);
+  }, [IsAddToPlaylistFormOpen]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === " " && playingRef.current == false) {
@@ -94,9 +94,10 @@ const AudioPlayer = () => {
     if (
       AudioFileLink &&
       AudioFileLink.length > 0 &&
-      typeof AudioFileLink[CurrentAudioIndex].download_url[3].link === "string"
+      typeof AudioFileLink[CurrentAudioIndex].download_url[2].link === "string"
     ) {
-      load(AudioFileLink[CurrentAudioIndex]?.download_url[3].link, {
+      console.log("Music Log Done");
+      load(AudioFileLink[CurrentAudioIndex]?.download_url[2].link, {
         autoplay: true,
       });
       setAudioDuration(AudioFileLink[CurrentAudioIndex]?.duration);

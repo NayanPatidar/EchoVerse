@@ -110,9 +110,12 @@ export async function GET(req: Request) {
     if (typeof decoded !== "string" && decoded && "userId" in decoded) {
       const userId = decoded.userId as string;
 
-      const likedSongs = await prisma.playlistSong.findMany({
+      const PlaylistSongs = await prisma.playlistSong.findMany({
         where: {
           playlistId: playlistId,
+          Playlist: {
+            userId: userId,
+          },
         },
         select: {
           songId: true,
@@ -123,7 +126,7 @@ export async function GET(req: Request) {
         },
       });
 
-      return NextResponse.json({ data: likedSongs }, { status: 200 });
+      return NextResponse.json({ data: PlaylistSongs }, { status: 200 });
     }
   } catch (error: any) {
     console.error(error.message);

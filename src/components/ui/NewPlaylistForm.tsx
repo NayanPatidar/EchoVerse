@@ -27,6 +27,7 @@ const formSchema = z.object({
 export const PlaylistForm = () => {
   const { SetNewPlaylistFormOpen, SetNewPlaylistCreated } =
     usePlaylistContext();
+  const { SetAddToPlaylistFormOpen } = useGeneralContext();
   const { token } = useAuthProvider();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,6 +39,8 @@ export const PlaylistForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    CloseForm();
+
     try {
       const res = await fetch("/api/playlistForm", {
         method: "POST",
@@ -52,7 +55,6 @@ export const PlaylistForm = () => {
       });
 
       const data = await res.json();
-      console.log(data);
 
       if (data) {
         SetNewPlaylistCreated((prev) => !prev);
@@ -64,6 +66,7 @@ export const PlaylistForm = () => {
   }
 
   const CloseForm = () => {
+    SetAddToPlaylistFormOpen(false);
     SetNewPlaylistFormOpen(false);
   };
 

@@ -14,12 +14,13 @@ type PlaylistType = {
 };
 
 const MyMusic = () => {
-  const { token } = useAuthProvider();
   const { Playlists, IsNewPlaylistFormOpen, SetNewPlaylistFormOpen } =
     usePlaylistContext();
+  const { SetAddToPlaylistFormOpen } = useGeneralContext();
   const router = useRouter();
 
   const AddPlaylist = () => {
+    SetAddToPlaylistFormOpen(true);
     SetNewPlaylistFormOpen(true);
   };
 
@@ -40,8 +41,12 @@ const MyMusic = () => {
         {Playlists &&
           Object.entries(Playlists).map(([key, value]) => {
             return (
-              <div className=" w-32 h-48 flex flex-col gap-y-1" key={key}>
-                <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center  rounded-xl">
+              <div
+                className=" w-32 h-48 flex flex-col gap-y-1"
+                key={key}
+                onClick={() => router.push(`/my-music/playlist/${value.id}`)}
+              >
+                <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center rounded-xl">
                   <ListMusic size={82} color="white" className=" bg-" />
                 </div>
                 <span className=" text-sm Montserrat-regular w-full flex justify-center">

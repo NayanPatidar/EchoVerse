@@ -2,16 +2,9 @@
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { useAuthProvider } from "@/context/AuthContext";
 import { getSongDetails } from "@/lib/api_jiosaavn";
-import { Episode, Song } from "@/types";
 import { LikedSong } from "@/types/likedSong";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
-interface AudioFiles {
-  SongsData?: (Song | Episode)[];
-  isPlaylist: boolean;
-  isArtist: boolean;
-}
 
 const LikedSongs = () => {
   const [LikedSongData, SetLikedSongsData] = useState<LikedSong[] | null>(null);

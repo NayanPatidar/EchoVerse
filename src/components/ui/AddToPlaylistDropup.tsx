@@ -13,12 +13,6 @@ import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { getImageURL } from "@/lib/utils";
 import { usePlaylistContext } from "@/context/PlaylistContext";
 
-type PlaylistType = {
-  id: string;
-  title: string;
-  description: string;
-};
-
 export function DropupMenuAddToPlaylist() {
   const { token } = useAuthProvider();
   const { Playlists, SetIsAddToPlaylistDropupOpen } = usePlaylistContext();
@@ -59,11 +53,6 @@ export function DropupMenuAddToPlaylist() {
       console.error("Error In Adding Song the Playlist :", error.message);
     }
   };
-
-  useEffect(() => {
-    console.log("Playlist Data ---");
-    console.log(Playlists);
-  }, []);
 
   return (
     <DropdownMenu open={true}>

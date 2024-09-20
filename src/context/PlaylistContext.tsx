@@ -30,6 +30,12 @@ interface PlaylistProps {
   children: ReactNode;
 }
 
+type PlaylistType = {
+  id: string;
+  title: string;
+  description: string;
+};
+
 export const PlaylistContextProvider: React.FC<PlaylistProps> = ({
   children,
 }) => {
@@ -43,8 +49,6 @@ export const PlaylistContextProvider: React.FC<PlaylistProps> = ({
 
   useEffect(() => {
     const FetchPlaylist = async () => {
-      console.log("Token - ", token);
-
       if (!token) {
         return;
       }

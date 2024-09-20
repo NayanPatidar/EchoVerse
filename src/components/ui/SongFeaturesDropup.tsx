@@ -58,7 +58,6 @@ export function DropupMenuAudioPlayer() {
       });
 
       const result = await res.json();
-      console.log(result);
     } catch (error: any) {
       console.error("Got Error :", error.message);
     }
