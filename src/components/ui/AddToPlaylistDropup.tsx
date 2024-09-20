@@ -1,4 +1,4 @@
-"use client ";
+"use client";
 import { MoreVerticalIcon, LetterText } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { useAuthProvider } from "@/context/AuthContext";
-import { useGeneralContext } from "@/context/GeneralContext";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { getImageURL } from "@/lib/utils";
+import { usePlaylistContext } from "@/context/PlaylistContext";
 
 type PlaylistType = {
   id: string;
@@ -21,29 +21,11 @@ type PlaylistType = {
 
 export function DropupMenuAddToPlaylist() {
   const { token } = useAuthProvider();
-  const [Playlist, SetPlaylist] = useState<PlaylistType[] | null>(null);
-  const { SaveToPlaylist, SetSaveToPlaylist } = useGeneralContext();
+  const { Playlists, SetIsAddToPlaylistDropupOpen } = usePlaylistContext();
   const { AudioFileLink, CurrentAudioIndex } = useAudioPlayer();
 
-  const AddToPlaylistMenu = async () => {
-    try {
-      const res = await fetch("/api/playlistForm", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const resData = await res.json();
-      SetPlaylist(resData.data);
-    } catch (error: any) {
-      console.error("Error In AddToPlaylistDropup  :", error.message);
-    }
-  };
-
   const AddSongToPlaylist = async (playlistId: string) => {
-    SetSaveToPlaylist(false);
+    SetIsAddToPlaylistDropupOpen(false);
     if (!AudioFileLink) {
       return;
     }
@@ -79,7 +61,8 @@ export function DropupMenuAddToPlaylist() {
   };
 
   useEffect(() => {
-    AddToPlaylistMenu();
+    console.log("Playlist Data ---");
+    console.log(Playlists);
   }, []);
 
   return (
@@ -90,8 +73,8 @@ export function DropupMenuAddToPlaylist() {
           <span className=" font-semibold text-sm w-full text-center flex justify-center items-center py-2">
             Add to Playlist
           </span>
-          {Playlist &&
-            Object.entries(Playlist).map(([key, val]) => {
+          {Playlists &&
+            Object.entries(Playlists).map(([key, val]) => {
               return (
                 <DropdownMenuItem onClick={() => AddSongToPlaylist(val.id)}>
                   <LetterText className="mr-2 h-4 w-4" />

@@ -17,17 +17,23 @@ import {
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import { useAuthProvider } from "@/context/AuthContext";
 import { getImageURL } from "@/lib/utils";
-import { DropupMenuAddToPlaylist } from "./AddToPlaylist";
-import { useState } from "react";
-import { useGeneralContext } from "@/context/GeneralContext";
+import { usePlaylistContext } from "@/context/PlaylistContext";
+import { DropupMenuAddToPlaylist } from "./AddToPlaylistDropup";
+import { useRouter } from "next/navigation";
 
 export function DropupMenuAudioPlayer() {
   const { AudioFileLink, CurrentAudioIndex } = useAudioPlayer();
-  const { SaveToPlaylist, SetSaveToPlaylist } = useGeneralContext();
+  const { IsAddToPlaylistDropupOpen, SetIsAddToPlaylistDropupOpen } =
+    usePlaylistContext();
   const { token } = useAuthProvider();
+  const router = useRouter();
 
   const AddToLikedSong = async () => {
-    if (!AudioFileLink || !token) {
+    if (!token) {
+      router.push("/signin");
+    }
+
+    if (!AudioFileLink) {
       return;
     }
 
@@ -60,7 +66,7 @@ export function DropupMenuAudioPlayer() {
 
   return (
     <DropdownMenu>
-      {SaveToPlaylist ? <DropupMenuAddToPlaylist /> : ""}
+      {IsAddToPlaylistDropupOpen ? <DropupMenuAddToPlaylist /> : ""}
       <DropdownMenuTrigger>
         <MoreVerticalIcon />
       </DropdownMenuTrigger>
@@ -70,7 +76,13 @@ export function DropupMenuAudioPlayer() {
             <Heart className="mr-2 h-4 w-4" />
             <span>Add to Liked Songs</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => SetSaveToPlaylist(true)}>
+          <DropdownMenuItem
+            onClick={
+              token
+                ? () => SetIsAddToPlaylistDropupOpen(true)
+                : () => router.push("/signin")
+            }
+          >
             <ListPlus className="mr-2 h-4 w-4" />
             <span>Add to Playlist</span>
           </DropdownMenuItem>

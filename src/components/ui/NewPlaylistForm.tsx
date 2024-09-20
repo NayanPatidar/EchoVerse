@@ -17,18 +17,16 @@ import { Cross } from "lucide-react";
 import { useAuthProvider } from "@/context/AuthContext";
 import { title } from "process";
 import { useGeneralContext } from "@/context/GeneralContext";
+import { usePlaylistContext } from "@/context/PlaylistContext";
 
 const formSchema = z.object({
   Title: z.string().min(1, { message: "Please Enter a Title" }),
   Description: z.string().min(1, { message: "Please Enter a Description " }),
 });
 
-interface SetOpenProp {
-  setOpenState: Dispatch<SetStateAction<boolean>>;
-}
-
-export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
-  const { setOpen, setCreatePlaylist } = useGeneralContext();
+export const PlaylistForm = () => {
+  const { SetNewPlaylistFormOpen, SetNewPlaylistCreated } =
+    usePlaylistContext();
   const { token } = useAuthProvider();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +39,7 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("/api/playlistSong", {
+      const res = await fetch("/api/playlistForm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,9 +51,12 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
         }),
       });
 
-      if (res) {
+      const data = await res.json();
+      console.log(data);
+
+      if (data) {
+        SetNewPlaylistCreated((prev) => !prev);
         CloseForm();
-        setCreatePlaylist((prev) => !prev);
       }
     } catch (error: any) {
       console.error("New Playlist Form Found Error : " + error.message);
@@ -63,8 +64,7 @@ export const PlaylistForm: React.FC<SetOpenProp> = ({ setOpenState }) => {
   }
 
   const CloseForm = () => {
-    setOpen(false);
-    setOpenState(false);
+    SetNewPlaylistFormOpen(false);
   };
 
   return (

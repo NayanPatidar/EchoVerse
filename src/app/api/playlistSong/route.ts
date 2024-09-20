@@ -75,7 +75,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error(error.message);
     return NextResponse.json(
-      { message: "Unauthorized: Invalid token" },
+      { message: "Error : " + error.message },
       { status: 401 }
     );
   }

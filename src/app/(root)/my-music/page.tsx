@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { PlaylistForm } from "@/components/ui/NewPlaylistForm";
 import { useRouter } from "next/navigation";
 import { useGeneralContext } from "@/context/GeneralContext";
+import { usePlaylistContext } from "@/context/PlaylistContext";
 
 type PlaylistType = {
   id: string;
@@ -14,44 +15,11 @@ type PlaylistType = {
 
 const MyMusic = () => {
   const { token } = useAuthProvider();
-  const [NewPlaylistFormOpen, SetNewPlaylistFormOpen] = useState(false);
-  const { open, setOpen, createPlaylist } = useGeneralContext();
-  const [Playlists, SetPlaylist] = useState<PlaylistType[] | null>(null);
+  const { Playlists, IsNewPlaylistFormOpen, SetNewPlaylistFormOpen } =
+    usePlaylistContext();
   const router = useRouter();
 
-  const FetchPlaylists = async () => {
-    const res = await fetch("/api/playlistForm", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!res) {
-      return;
-    }
-
-    const message = await res.json();
-
-    SetPlaylist(message.data);
-    console.log(message.data);
-  };
-
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-    FetchPlaylists();
-    console.log("Create Playlist Updated IN mAIN ");
-  }, [token, createPlaylist]);
-
-  useEffect(() => {
-    // console.log("Create Playlist Updated");
-  }, [createPlaylist]);
-
   const AddPlaylist = () => {
-    setOpen(true);
     SetNewPlaylistFormOpen(true);
   };
 
@@ -94,11 +62,7 @@ const MyMusic = () => {
           Add Playlist
         </span>
       </div>
-      {NewPlaylistFormOpen ? (
-        <PlaylistForm setOpenState={SetNewPlaylistFormOpen} />
-      ) : (
-        ""
-      )}
+      {IsNewPlaylistFormOpen ? <PlaylistForm /> : ""}
     </div>
   );
 };
