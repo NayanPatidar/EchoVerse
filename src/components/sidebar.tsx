@@ -59,6 +59,7 @@ const Sidebar = () => {
           ""
         )}
       </div>
+      <span>Music</span>
       <div className=" p-2 w-full">
         <ul className=" flex flex-col gap-1">
           <li
@@ -71,7 +72,7 @@ const Sidebar = () => {
             onClick={() => setCategory(1)}
           >
             <div
-              className=" h-12 flex items-center gap-4 cursor-pointer"
+              className=" h-10 flex items-center gap-4 cursor-pointer"
               onClick={() => router.push("/playlist")}
             >
               <QueueMusicIcon width={24} />
@@ -91,7 +92,7 @@ const Sidebar = () => {
             id="2"
             onClick={() => setCategory(2)}
           >
-            <div className=" h-12 flex items-center gap-4 cursor-pointer">
+            <div className=" h-10 flex items-center gap-4 cursor-pointer">
               <AlbumIcon className=" rotate-12" width={24} />
               {sideBarOpen ? (
                 <span className=" text-md lato-regular">Top Albums</span>
@@ -110,7 +111,7 @@ const Sidebar = () => {
             onClick={() => setCategory(3)}
           >
             <div
-              className=" h-12 flex items-center gap-4 cursor-pointer"
+              className=" h-10 flex items-center gap-4 cursor-pointer"
               onClick={() => router.push("/artist")}
             >
               <div className=" w-[23px]">
@@ -135,7 +136,7 @@ const Sidebar = () => {
                   className=" flex flex-col gap-1"
                 >
                   <AccordionTrigger
-                    className="h-12 flex items-center hover:bg-[#49494988] rounded-md "
+                    className="h-10 flex items-center hover:bg-[#49494988] rounded-md "
                     style={{
                       backgroundColor: musicCategory === 4 ? "#49494965" : "",
                       width: sideBarOpen ? "14rem" : "4rem",
@@ -146,7 +147,7 @@ const Sidebar = () => {
                     onClick={() => setCategory(4)}
                   >
                     <div
-                      className="h-12 flex items-center gap-4 cursor-pointer"
+                      className="h-10 flex items-center gap-4 cursor-pointer"
                       onClick={() => router.push("/my-music")}
                     >
                       <div className=" w-[25px]">
@@ -163,7 +164,7 @@ const Sidebar = () => {
                   </AccordionTrigger>
                   <AccordionContent>
                     <div
-                      className="h-12 rounded-md text-sm text-white bg-[#3939396f] flex flex-row items-center "
+                      className="h-10 rounded-md text-sm text-white bg-[#3939396f] flex flex-row items-center "
                       style={{
                         width: sideBarOpen ? "14rem" : "3rem",
                         justifyContent: sideBarOpen ? "" : "center",
@@ -193,7 +194,7 @@ const Sidebar = () => {
             id="5"
             onClick={() => setCategory(5)}
           >
-            <div className=" h-12 flex items-center gap-4 cursor-pointer">
+            <div className=" h-10 flex items-center gap-4 cursor-pointer">
               <div className=" w-[25px]">
                 <BsFillChatLeftTextFill size={20} color="#d6d6d6dc" />
               </div>

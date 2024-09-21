@@ -53,7 +53,6 @@ const AudioPlayer = () => {
   const playingRef = useRef(IsAddToPlaylistFormOpen);
   useEffect(() => {
     playingRef.current = IsAddToPlaylistFormOpen;
-    console.log(playingRef.current);
   }, [IsAddToPlaylistFormOpen]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -96,7 +95,7 @@ const AudioPlayer = () => {
       AudioFileLink.length > 0 &&
       typeof AudioFileLink[CurrentAudioIndex].download_url[2].link === "string"
     ) {
-      console.log("Music Log Done");
+      console.log(AudioFileLink[CurrentAudioIndex]?.download_url[2].link);
       load(AudioFileLink[CurrentAudioIndex]?.download_url[2].link, {
         autoplay: true,
       });
@@ -132,9 +131,15 @@ const AudioPlayer = () => {
       intervalRef.current = setInterval(() => {
         SetAudioCurrentTimeStamp(() => {
           const newVal = getPosition();
-          if (newVal >= Math.floor(duration)) {
-            if (!allowRepeat) {
+          if (newVal >= Math.floor(duration) - 0.5) {
+            if (
+              AudioFileLink &&
+              CurrentAudioIndex < AudioFileLink?.length - 1
+            ) {
+              nextClick();
+            } else if (!allowRepeat) {
               pause();
+              SetAudioCurrentTimeStamp(0);
             }
             return 0;
           }
