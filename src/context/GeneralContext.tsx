@@ -11,6 +11,8 @@ import {
 interface GeneralContextInterface {
   IsAddToPlaylistFormOpen: boolean;
   SetAddToPlaylistFormOpen: Dispatch<SetStateAction<boolean>>;
+  PostSongForm: boolean;
+  SetPostSongForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const GeneralContext = createContext<GeneralContextInterface | undefined>(
@@ -25,10 +27,13 @@ export const GeneralContextProvider: React.FC<GeneralProps> = ({
   children,
 }) => {
   const [IsAddToPlaylistFormOpen, SetAddToPlaylistFormOpen] = useState(false);
+  const [PostSongForm, SetPostSongForm] = useState(false);
 
   return (
     <GeneralContext.Provider
       value={{
+        PostSongForm,
+        SetPostSongForm,
         IsAddToPlaylistFormOpen,
         SetAddToPlaylistFormOpen,
       }}
