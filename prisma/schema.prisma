@@ -15,6 +15,7 @@ model User {
   password   String?
   likedSongs LikedSong[]
   playlists  Playlist[]
+  posts      Post[]
 }
 
 model LikedSong {
@@ -46,4 +47,12 @@ model PlaylistSong {
   songArtistPrimary   String
   songArtistSecondary String
   songImage           String
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  content   String
+  createdAt DateTime @default(now())
 }
