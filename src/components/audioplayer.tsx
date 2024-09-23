@@ -14,7 +14,6 @@ import RepeatIcon from "@mui/icons-material/Repeat";
 import RepeatOneIcon from "@mui/icons-material/RepeatOne";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DropupMenuAudioPlayer } from "./ui/SongFeaturesDropup";
 import Image from "next/image";
 import { getImageURL } from "@/lib/utils";
@@ -38,7 +37,7 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { IsAddToPlaylistFormOpen } = useGeneralContext();
+  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen } = useGeneralContext();
   const {
     AudioFileLink,
     CurrentAudioIndex,
@@ -51,12 +50,19 @@ const AudioPlayer = () => {
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
 
   const playingRef = useRef(IsAddToPlaylistFormOpen);
+  const playingRef2 = useRef(IsUploadPostFormOpen);
+
   useEffect(() => {
     playingRef.current = IsAddToPlaylistFormOpen;
-  }, [IsAddToPlaylistFormOpen]);
+    playingRef2.current = IsUploadPostFormOpen;
+  }, [IsAddToPlaylistFormOpen, IsUploadPostFormOpen]);
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === " " && playingRef.current == false) {
+    if (
+      event.key === " " &&
+      playingRef.current == false &&
+      playingRef2.current == false
+    ) {
       event.preventDefault();
       handlePlayPause();
     }
@@ -95,7 +101,6 @@ const AudioPlayer = () => {
       AudioFileLink.length > 0 &&
       typeof AudioFileLink[CurrentAudioIndex].download_url[2].link === "string"
     ) {
-      console.log(AudioFileLink[CurrentAudioIndex]?.download_url[2].link);
       load(AudioFileLink[CurrentAudioIndex]?.download_url[2].link, {
         autoplay: true,
       });

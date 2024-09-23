@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Cross } from "lucide-react";
 import { useAuthProvider } from "@/context/AuthContext";
-import { title } from "process";
 import { useGeneralContext } from "@/context/GeneralContext";
 import { usePlaylistContext } from "@/context/PlaylistContext";
 
@@ -124,7 +123,6 @@ export const PlaylistForm = () => {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}

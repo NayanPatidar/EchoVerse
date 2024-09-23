@@ -2,7 +2,7 @@
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtDecodeOptions } from "jwt-decode";
 import React, {
   createContext,
   Dispatch,
@@ -12,7 +12,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { TokenDetails } from "@/types/tokenDetails";
+import { DecodedTokenDetails, TokenDetails } from "@/types/tokenDetails";
+import { Jwt } from "jsonwebtoken";
 
 interface AuthInterface {
   isAuthenticated: boolean;
@@ -43,19 +44,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [onchange, setOnChange] = useState(false);
 
+  const VerifyExpired = (exp: number) => {
+    const currentTime = Math.floor(Date.now() / 1000);
+    const isExpired = currentTime > exp;
+    if (isExpired) {
+      localStorage.removeItem("token");
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    const storedToken = localStorage.getItem("token");
+    let storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
-      const decoded = jwtDecode<TokenDetails>(storedToken);
-      const { name, email } = decoded;
-      setTokenDetails({
-        name,
-        email,
-      });
+      const decoded = jwtDecode<DecodedTokenDetails>(storedToken);
+      if (!VerifyExpired(decoded.exp)) {
+        storedToken = null;
+      } else {
+        const { name, email } = decoded;
+        setTokenDetails({
+          name,
+          email,
+        });
+      }
     }
-    if (status === "authenticated" || storedToken) {
+    if (
+      status === "authenticated" ||
+      (storedToken != null && storedToken != undefined)
+    ) {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);

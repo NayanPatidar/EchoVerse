@@ -1,5 +1,5 @@
 "use client";
-import { Send, Underline } from "lucide-react";
+import { CrossIcon, Send, Underline } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -33,6 +33,7 @@ import { searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, Song, TopSearch } from "@/types";
 import { CiSearch } from "react-icons/ci";
 import { getImageURL } from "@/lib/utils";
+import { IoClose, IoCloseSharp } from "react-icons/io5";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -173,7 +174,24 @@ export function PostUploadForm() {
           Select Song
         </Label>
         {songData ? (
-          <div></div>
+          <div className=" w-full h-12 bg-white rounded-lg p-1">
+            <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
+              <img
+                src={getImageURL(songData.image)}
+                width={40}
+                height={40}
+                className=" rounded-lg p-1"
+              />
+              <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
+                <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
+                  {songData.name}
+                </span>
+              </div>
+              <div onClick={() => setSongData(undefined)}>
+                <IoCloseSharp />
+              </div>
+            </div>
+          </div>
         ) : (
           <Input
             id="song"
@@ -227,6 +245,7 @@ export function PostUploadForm() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Add location"
+            className=" text-black"
           />
         </div>
       </div>
