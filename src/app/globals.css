@@ -320,7 +320,7 @@ body {
 }
 
 .PostSearchBoxMain {
-  width: calc(97.2vw - 28.2rem);
+  /* width: calc(97.2vw - 28.2rem  ); */
 }
 
 .YearList li span {

@@ -1,5 +1,5 @@
 "use client";
-import { Send } from "lucide-react";
+import { Send, Underline } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { searchAll } from "@/lib/api_jiosaavn";
-import { AllSearch, TopSearch } from "@/types";
+import { AllSearch, Song, TopSearch } from "@/types";
 import { CiSearch } from "react-icons/ci";
 import { getImageURL } from "@/lib/utils";
 
@@ -68,15 +68,22 @@ export function PostUploadForm() {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [song, setSong] = useState("");
+  const [songData, setSongData] = useState<Song | undefined>(undefined);
   const [SearchData, setSearchData] = useState<AllSearch>();
   const { SetUploadPostFormOpen, SetPostSongForm } = useGeneralContext();
-  const [isVisible, setIsVisible] = useState(false); // State to control visibility
+  const [isVisible, setIsVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setIsVisible(false);
     }
+  };
+
+  const SelectSong = (data: Song) => {
+    setIsVisible(false);
+    setSongData(data);
+    setSong(data.name);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,11 +168,13 @@ export function PostUploadForm() {
         />
       </div>
 
-      <div className="space-y-2 z-[450] text-black relative">
+      <div className="space-y-2 z-[450] text-black relative" ref={wrapperRef}>
         <Label htmlFor="song" className=" text-white">
           Select Song
         </Label>
-        <div ref={wrapperRef}>
+        {songData ? (
+          <div></div>
+        ) : (
           <Input
             id="song"
             value={song}
@@ -181,8 +190,16 @@ export function PostUploadForm() {
               setIsVisible(true);
             }}
           />
-        </div>
-        {isVisible && <SearchBarBox SearchData={SearchData as AllSearch} />}
+        )}
+
+        {isVisible && (
+          <div className=" w-full">
+            <SearchBarBox
+              SearchData={SearchData as AllSearch}
+              SelectSong={SelectSong}
+            />
+          </div>
+        )}
       </div>
 
       <div className=" flex gap-5">
@@ -227,16 +244,14 @@ export default PostSong;
 
 type SearchBarBoxProps = {
   SearchData: AllSearch;
-  // closeSearchBar: () => void;
+  SelectSong: (data: Song) => void;
 };
 
-function SearchBarBox({ SearchData }: SearchBarBoxProps) {
-  const SearchColums = ["Albums", "Songs", "Artists"];
-
+function SearchBarBox({ SearchData, SelectSong }: SearchBarBoxProps) {
   const processedItems = new Set();
 
   return (
-    <div className=" absolute z-[100] PostSearchBoxMain border bg-[#efefef] h-25 rounded-lg">
+    <div className=" absolute z-[100] border bg-[#efefef] h-25 w-full rounded-lg">
       <div className=" p-5 ">
         {SearchData ? (
           <div className="flex flex-row gap-2">
@@ -255,7 +270,10 @@ function SearchBarBox({ SearchData }: SearchBarBoxProps) {
                         {value.data.map((value: any) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
-                            <div className=" flex gap-2  cursor-pointer hover:bg-[#2f2f2f45] rounded-md">
+                            <div
+                              className=" flex gap-2  cursor-pointer hover:bg-[#2f2f2f45] rounded-md"
+                              onClick={() => SelectSong(value)}
+                            >
                               <img
                                 src={SearchSong}
                                 width={50}
@@ -283,7 +301,9 @@ function SearchBarBox({ SearchData }: SearchBarBoxProps) {
             })}
           </div>
         ) : (
-          ""
+          <div className=" h-12 text-sm  flex items w-full items-center justify-center text-center">
+            "Search Songs To Add to your Post"
+          </div>
         )}
       </div>
     </div>
