@@ -17,7 +17,7 @@ import { useAuthProvider } from "@/context/AuthContext";
 import { title } from "process";
 import { useGeneralContext } from "@/context/GeneralContext";
 import { usePlaylistContext } from "@/context/PlaylistContext";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,6 +32,7 @@ import { Label } from "@/components/ui/label";
 import { searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, TopSearch } from "@/types";
 import { CiSearch } from "react-icons/ci";
+import { getImageURL } from "@/lib/utils";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -69,6 +70,26 @@ export function PostUploadForm() {
   const [song, setSong] = useState("");
   const [SearchData, setSearchData] = useState<AllSearch>();
   const { SetUploadPostFormOpen, SetPostSongForm } = useGeneralContext();
+  const [isVisible, setIsVisible] = useState(false); // State to control visibility
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: any) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setIsVisible(false);
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImage(file);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,12 +119,16 @@ export function PostUploadForm() {
   };
 
   const searchHandler = async (e: any) => {
-    setSong(e.target.value);
-    const data = await searchAll(e.target.value);
-    setSearchData(data);
+    const query = e.target.value;
+    if (query.trim()) {
+      const data = await searchAll(query);
+      setSearchData(data);
+    } else {
+      setSearchData(undefined);
+    }
   };
 
-  const searchProcess = debounce(searchHandler, 1000);
+  const searchProcess = useCallback(debounce(searchHandler, 800), []);
 
   return (
     <form
@@ -136,33 +161,49 @@ export function PostUploadForm() {
         />
       </div>
 
-      <div className="space-y-2 z-[450] text-black">
+      <div className="space-y-2 z-[450] text-black relative">
         <Label htmlFor="song" className=" text-white">
           Select Song
         </Label>
-        <Input
-          id="song"
-          value={song}
-          onChange={searchProcess}
-          onKeyDown={handleSearchBarKeyDown}
-          placeholder="Choose a song"
-          className="text-black"
-          type="text"
-        />
+        <div ref={wrapperRef}>
+          <Input
+            id="song"
+            value={song}
+            onChange={(e) => {
+              setSong(e.target.value);
+              searchProcess(e);
+            }}
+            onKeyDown={handleSearchBarKeyDown}
+            placeholder="Choose a song"
+            className="text-black"
+            type="text"
+            onClick={() => {
+              setIsVisible(true);
+            }}
+          />
+        </div>
+        {isVisible && <SearchBarBox SearchData={SearchData as AllSearch} />}
       </div>
 
-      <div className=" flex  gap-5">
-        <div className="space-y-2 w-full">
+      <div className=" flex gap-5">
+        <div className="space-y-2 w-full flex flex-col pt-[9px]">
           <Label htmlFor="image">Upload Image</Label>
           <Input
             id="image"
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files?.[0] || null)}
+            onChange={handleImageChange}
+            className="hidden"
           />
+          <label
+            htmlFor="image"
+            className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
+          >
+            {image ? image.name : "Choose File"}
+          </label>
         </div>
 
-        <div className="space-y-2 w-full">
+        <div className="space-y-2 w-full ">
           <Label htmlFor="location">Location</Label>
           <Input
             id="location"
@@ -185,17 +226,17 @@ export function PostUploadForm() {
 export default PostSong;
 
 type SearchBarBoxProps = {
-  SearchData: Object;
-  closeSearchBar: () => void;
+  SearchData: AllSearch;
+  // closeSearchBar: () => void;
 };
 
-function SearchBarBox({ SearchData, closeSearchBar }: SearchBarBoxProps) {
+function SearchBarBox({ SearchData }: SearchBarBoxProps) {
   const SearchColums = ["Albums", "Songs", "Artists"];
 
   const processedItems = new Set();
 
   return (
-    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#242424] left-[48px] top-[11px] rounded-lg">
+    <div className=" absolute z-[100] PostSearchBoxMain border bg-[#efefef] h-25 rounded-lg">
       <div className=" p-5 ">
         {SearchData ? (
           <div className="flex flex-row gap-2">
@@ -209,17 +250,12 @@ function SearchBarBox({ SearchData, closeSearchBar }: SearchBarBoxProps) {
                 processedItems.add(identifier);
                 return (
                   <>
-                    {value.data[0].type === "song" ||
-                    value.data[0].type === "artist" ||
-                    value.data[0].type === "album" ? (
-                      <div className="Montserrat-regular flex flex-col gap-1 w-1/3">
-                        <span className=" pb-1 mb-2 border-b-[1px] text-[#bababa] first-letter:capitalize">
-                          {value.data[0].type}
-                        </span>
+                    {value.data[0].type === "song" ? (
+                      <div className="Montserrat-regular grid grid-cols-3 gap-1">
                         {value.data.map((value: any) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
-                            <div className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md">
+                            <div className=" flex gap-2  cursor-pointer hover:bg-[#2f2f2f45] rounded-md">
                               <img
                                 src={SearchSong}
                                 width={50}

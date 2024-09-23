@@ -12,11 +12,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { IsAddToPlaylistFormOpen } = useGeneralContext();
+  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen } = useGeneralContext();
 
   return (
     <div>
-      {IsAddToPlaylistFormOpen ? (
+      {IsAddToPlaylistFormOpen || IsUploadPostFormOpen ? (
         <div className=" absolute w-full h-screen bg-[#25252550] z-[100]"></div>
       ) : (
         ""
@@ -45,7 +45,4 @@ export default function RootLayout({
       </AudioPlayerProvider>
     </div>
   );
-}
-
-{
 }

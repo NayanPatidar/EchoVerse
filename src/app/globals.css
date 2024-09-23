@@ -319,6 +319,10 @@ body {
   width: calc(97.2vw - 21rem);
 }
 
+.PostSearchBoxMain {
+  width: calc(97.2vw - 28.2rem);
+}
+
 .YearList li span {
   left: -10px;
   position: relative;
@@ -412,7 +416,12 @@ body {
 }
 
 .gradientText {
-  background: linear-gradient(-45deg, rgb(255, 255, 255), rgb(128, 128, 128), rgb(153, 153, 153));
+  background: linear-gradient(
+    -45deg,
+    rgb(255, 255, 255),
+    rgb(128, 128, 128),
+    rgb(153, 153, 153)
+  );
   -webkit-background-clip: text;
   color: transparent;
 }
