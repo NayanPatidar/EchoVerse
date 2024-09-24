@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { searchAll } from "@/lib/api_jiosaavn";
+import { getSongDetails, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, Song, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
 import { IoCloseSharp } from "react-icons/io5";
+import Mirt from "react-mirt";
+import "react-mirt/dist/css/react-mirt.css";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -29,6 +31,8 @@ const PostSong = () => {
     </div>
   );
 };
+
+export default PostSong;
 
 const postSchema = z.object({
   image: z
@@ -58,6 +62,8 @@ export function PostUploadForm() {
   const { SetUploadPostFormOpen, SetPostSongForm } = useGeneralContext();
   const [isVisible, setIsVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const [page, SetPage] = useState(1);
+  const [file, setFile] = useState<File | null>(null);
 
   const [errors, setErrors] = useState({
     description: "",
@@ -99,7 +105,6 @@ export function PostUploadForm() {
     };
 
     const result = postSchema.safeParse(formData);
-    console.log(formData);
 
     if (!result.success) {
       const errors = result.error.format();
@@ -108,11 +113,13 @@ export function PostUploadForm() {
         songData: errors.songData?._errors[0] || "",
       });
       console.log(errors);
+
       return;
     }
 
     console.log("Form data is valid:", result.data);
 
+    SetPage(2);
     setImage(null);
     setDescription("");
     setLocation("");
@@ -156,156 +163,218 @@ export function PostUploadForm() {
 
   const searchProcess = useCallback(debounce(searchHandler, 800), []);
 
+  const handleFileDownload = async (url: string): Promise<File | null> => {
+    try {
+      const response = await fetch(url);
+      console.log(response);
+
+      const blob = await response.blob();
+      const file = new File([blob], "downloadedFile.mp3", { type: blob.type });
+      return file;
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      return null;
+    }
+  };
+
+  const handleFileFetch = async () => {
+    if (songData) {
+      const song = await getSongDetails(songData?.id as string);
+      console.log(song + " Song  ");
+      const fetchedFile = await handleFileDownload(
+        song?.songs[0].download_url[2].link as string
+      );
+      setFile(fetchedFile);
+    } else {
+      console.error("Link is not a string or does not exist.");
+    }
+  };
+
+  const TrimmerValueOnChange = ({
+    start,
+    current,
+    end,
+  }: {
+    start: number;
+    current: number;
+    end: number;
+  }) => {};
+
+  useEffect(() => {
+    handleFileFetch();
+  }, [songData]);
+
   return (
     <form
       onSubmit={handleSubmit}
       className="absolute w-[45rem] h-auto z-[400] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[40%]  p-2 bg-[#0b0b0b] rounded-md px-5  space-y-6 shadow-md
       border-white border "
     >
-      <div className=" flex">
-        <h2 className=" font-semibold text-xl text-center w-full pt-2 text-white">
-          Upload a Post
-        </h2>
-        <div
-          className=" flex items-center justify-center cursor-pointer"
-          onClick={() => {
-            SetPostSongForm(false),
-              SetUploadPostFormOpen(false),
-              setErrorToNull();
-          }}
-        >
-          <Cross className=" rotate-45" />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <div className=" flex  w-full">
-          <Label
-            htmlFor="description"
-            className=" flex gap-2  w-full items-center "
-          >
-            Description{" "}
-            {errors.description && (
-              <p className="text-red-500 text-sm">{errors.description}</p>
-            )}
-          </Label>
-        </div>
-        <Textarea
-          id="description"
-          value={description}
-          onChange={(e: any) => {
-            setDescription(e.target.value);
-            setErrorToNull();
-          }}
-          placeholder="Write a caption for your post..."
-          className=" text-black"
-          data-gramm="false"
-          autoComplete="off"
-        />
-      </div>
-
-      <div className="space-y-2 z-[450] text-black relative" ref={wrapperRef}>
-        <Label htmlFor="song" className=" text-white flex gap-2 items-center">
-          Select Song
-          {errors.songData && (
-            <p className="text-red-500 text-sm items-center flex">
-              {errors.songData}
-            </p>
-          )}
-        </Label>
-        {songData ? (
-          <div className=" w-full h-12 bg-white rounded-lg p-1">
-            <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
-              <img
-                src={getImageURL(songData.image)}
-                width={40}
-                height={40}
-                className=" rounded-lg p-1"
-              />
-              <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
-                <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
-                  {songData.name}
-                </span>
-              </div>
-              <div
-                onClick={() => {
-                  setSong(""), setErrorToNull(), setSongData(undefined);
-                }}
-              >
-                <IoCloseSharp />
-              </div>
+      {page == 1 ? (
+        <>
+          <div className=" flex">
+            <h2 className=" font-semibold text-xl text-center w-full pt-2 text-white">
+              Upload a Post
+            </h2>
+            <div
+              className=" flex items-center justify-center cursor-pointer"
+              onClick={() => {
+                SetPostSongForm(false),
+                  SetUploadPostFormOpen(false),
+                  setErrorToNull();
+              }}
+            >
+              <Cross className=" rotate-45" />
             </div>
           </div>
-        ) : (
-          <Input
-            id="song"
-            value={song}
-            onChange={(e) => {
-              setSong(e.target.value);
-              searchProcess(e);
-            }}
-            onKeyDown={handleSearchBarKeyDown}
-            placeholder="Choose a song"
-            className="text-black"
-            type="text"
-            autoComplete="off"
-            onClick={() => {
-              setIsVisible(true);
-              setErrorToNull();
-            }}
-          />
-        )}
-
-        {isVisible && (
-          <div className=" w-full">
-            <SearchBarBox
-              SearchData={SearchData as AllSearch}
-              SelectSong={SelectSong}
+          <div className="space-y-2">
+            <div className=" flex  w-full">
+              <Label
+                htmlFor="description"
+                className=" flex gap-2  w-full items-center"
+              >
+                Description
+                {errors.description && (
+                  <p className="text-red-500 text-sm">{errors.description}</p>
+                )}
+              </Label>
+            </div>
+            <Textarea
+              id="description"
+              value={description}
+              onChange={(e: any) => {
+                setDescription(e.target.value);
+                setErrorToNull();
+              }}
+              placeholder="Write a caption for your post..."
+              className=" text-black"
+              data-gramm="false"
+              autoComplete="off"
             />
           </div>
-        )}
-      </div>
-
-      <div className=" flex gap-5">
-        <div className="space-y-2 w-full flex flex-col pt-[9px]">
-          <Label htmlFor="image">Upload Image</Label>
-          <Input
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-          <label
-            htmlFor="image"
-            className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
+          <div
+            className="space-y-2 z-[450] text-black relative"
+            ref={wrapperRef}
           >
-            {image ? image.name : "Choose File"}
-          </label>
-        </div>
+            <Label
+              htmlFor="song"
+              className=" text-white flex gap-2 items-center"
+            >
+              Select Song
+              {errors.songData && (
+                <p className="text-red-500 text-sm items-center flex">
+                  {errors.songData}
+                </p>
+              )}
+            </Label>
+            {songData ? (
+              <div className=" w-full h-12 bg-white rounded-lg p-1">
+                <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
+                  <img
+                    src={getImageURL(songData.image)}
+                    width={40}
+                    height={40}
+                    className=" rounded-lg p-1"
+                  />
+                  <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
+                    <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
+                      {songData.name}
+                    </span>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setSong(""), setErrorToNull(), setSongData(undefined);
+                    }}
+                  >
+                    <IoCloseSharp />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Input
+                id="song"
+                value={song}
+                onChange={(e) => {
+                  setSong(e.target.value);
+                  searchProcess(e);
+                }}
+                onKeyDown={handleSearchBarKeyDown}
+                placeholder="Choose a song"
+                className="text-black"
+                type="text"
+                autoComplete="off"
+                onClick={() => {
+                  setIsVisible(true);
+                  setErrorToNull();
+                }}
+              />
+            )}
 
-        <div className="space-y-2 w-full ">
-          <Label htmlFor="location">Location</Label>
-          <Input
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Add location"
-            className=" text-black"
-            autoComplete="off"
-          />
+            {isVisible && (
+              <div className=" w-full">
+                <SearchBarBox
+                  SearchData={SearchData as AllSearch}
+                  SelectSong={SelectSong}
+                />
+              </div>
+            )}
+          </div>
+          <div className=" flex gap-5">
+            <div className="space-y-2 w-full flex flex-col pt-[9px]">
+              <Label htmlFor="image">Upload Image</Label>
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
+              <label
+                htmlFor="image"
+                className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
+              >
+                {image ? image.name : "Choose File"}
+              </label>
+            </div>
+
+            <div className="space-y-2 w-full ">
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Add location"
+                className=" text-black"
+                autoComplete="off"
+              />
+            </div>
+          </div>
+        </>
+      ) : page == 2 ? (
+        <div>
+          <div className=" w-full text-center text-2xl font-semibold ">
+            Song Details
+          </div>
+          <div className=" mt-5">
+            <Mirt
+              file={file}
+              onChange={TrimmerValueOnChange}
+              className=" custom-audio-trimmer"
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
 
       <div className=" flex justify-center w-full">
-        <Button type="submit" className="w-2/5 " >
+        <Button type="submit" className="w-2/5 ">
           Next
         </Button>
       </div>
     </form>
   );
 }
-
-export default PostSong;
 
 type SearchBarBoxProps = {
   SearchData: AllSearch;
