@@ -425,3 +425,14 @@ body {
   -webkit-background-clip: text;
   color: transparent;
 }
+
+.custom-audio-trimmer {
+  --mirt-height: 3rem; /* Increase height */
+  --mirt-border-radius: 0.5rem; /* Modify border radius */
+  --mirt-background-color: #1a1a1a; /* Change background color */
+  --mirt-playhead-color: #af001d; /* Change playhead color to tomato */
+  --mirt-frame-color: #454545; /* Change frame color to blue */
+  --mirt-handle-icon-color: #ffffff; /* Change handle icon color */
+  --mirt-button-hover-color: #1a1a1a; /* Change button hover color */
+  --mirt-button-width: 3rem;
+}
