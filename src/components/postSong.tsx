@@ -1,39 +1,17 @@
 "use client";
 import { CrossIcon, Send, Underline } from "lucide-react";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Cross } from "lucide-react";
-import { useAuthProvider } from "@/context/AuthContext";
-import { title } from "process";
 import { useGeneralContext } from "@/context/GeneralContext";
-import { usePlaylistContext } from "@/context/PlaylistContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, Song, TopSearch } from "@/types";
-import { CiSearch } from "react-icons/ci";
 import { getImageURL } from "@/lib/utils";
-import { IoClose, IoCloseSharp } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -58,10 +36,16 @@ const postSchema = z.object({
     .nullable()
     .refine((file) => file !== null, {
       message: "Image is required.",
-    }),
+    })
+    .optional(),
   description: z.string().min(1, { message: "Description is required." }),
+  songData: z
+    .object({})
+    .optional()
+    .refine((data) => data !== undefined, {
+      message: "Song is required.",
+    }),
   location: z.string().optional(),
-  song: z.string().min(1, { message: "Song is required." }),
 });
 
 export function PostUploadForm() {
@@ -74,6 +58,11 @@ export function PostUploadForm() {
   const { SetUploadPostFormOpen, SetPostSongForm } = useGeneralContext();
   const [isVisible, setIsVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const [errors, setErrors] = useState({
+    description: "",
+    songData: "",
+  });
 
   const handleClickOutside = (event: any) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -101,11 +90,40 @@ export function PostUploadForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ image, description, location, song });
+
+    const formData = {
+      image,
+      description,
+      location,
+      songData,
+    };
+
+    const result = postSchema.safeParse(formData);
+    console.log(formData);
+
+    if (!result.success) {
+      const errors = result.error.format();
+      setErrors({
+        description: errors.description?._errors[0] || "",
+        songData: errors.songData?._errors[0] || "",
+      });
+      console.log(errors);
+      return;
+    }
+
+    console.log("Form data is valid:", result.data);
+
     setImage(null);
     setDescription("");
     setLocation("");
     setSong("");
+  };
+
+  const setErrorToNull = () => {
+    setErrors({
+      description: "",
+      songData: "",
+    });
   };
 
   const debounce = (cb: Function, delay: number) => {
@@ -151,27 +169,48 @@ export function PostUploadForm() {
         <div
           className=" flex items-center justify-center cursor-pointer"
           onClick={() => {
-            SetPostSongForm(false), SetUploadPostFormOpen(false);
+            SetPostSongForm(false),
+              SetUploadPostFormOpen(false),
+              setErrorToNull();
           }}
         >
           <Cross className=" rotate-45" />
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <div className=" flex  w-full">
+          <Label
+            htmlFor="description"
+            className=" flex gap-2  w-full items-center "
+          >
+            Description{" "}
+            {errors.description && (
+              <p className="text-red-500 text-sm">{errors.description}</p>
+            )}
+          </Label>
+        </div>
         <Textarea
           id="description"
           value={description}
-          onChange={(e: any) => setDescription(e.target.value)}
+          onChange={(e: any) => {
+            setDescription(e.target.value);
+            setErrorToNull();
+          }}
           placeholder="Write a caption for your post..."
           className=" text-black"
           data-gramm="false"
+          autoComplete="off"
         />
       </div>
 
       <div className="space-y-2 z-[450] text-black relative" ref={wrapperRef}>
-        <Label htmlFor="song" className=" text-white">
+        <Label htmlFor="song" className=" text-white flex gap-2 items-center">
           Select Song
+          {errors.songData && (
+            <p className="text-red-500 text-sm items-center flex">
+              {errors.songData}
+            </p>
+          )}
         </Label>
         {songData ? (
           <div className=" w-full h-12 bg-white rounded-lg p-1">
@@ -187,7 +226,11 @@ export function PostUploadForm() {
                   {songData.name}
                 </span>
               </div>
-              <div onClick={() => setSongData(undefined)}>
+              <div
+                onClick={() => {
+                  setSong(""), setErrorToNull(), setSongData(undefined);
+                }}
+              >
                 <IoCloseSharp />
               </div>
             </div>
@@ -204,8 +247,10 @@ export function PostUploadForm() {
             placeholder="Choose a song"
             className="text-black"
             type="text"
+            autoComplete="off"
             onClick={() => {
               setIsVisible(true);
+              setErrorToNull();
             }}
           />
         )}
@@ -246,13 +291,14 @@ export function PostUploadForm() {
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Add location"
             className=" text-black"
+            autoComplete="off"
           />
         </div>
       </div>
 
       <div className=" flex justify-center w-full">
-        <Button type="submit" className="w-2/5 ">
-          Upload Post
+        <Button type="submit" className="w-2/5 " >
+          Next
         </Button>
       </div>
     </form>
@@ -276,22 +322,26 @@ function SearchBarBox({ SearchData, SelectSong }: SearchBarBoxProps) {
           <div className="flex flex-row gap-2">
             {Object.entries(SearchData).map(([key, value]) => {
               if (value.data.length == 0) {
-                return;
+                return null;
               }
               const identifier = `${value.data[0].type}`;
 
               if (!processedItems.has(identifier)) {
                 processedItems.add(identifier);
                 return (
-                  <>
+                  <div
+                    key={key}
+                    className=" p-0 m-0 Montserrat-regular grid grid-cols-3 gap-1"
+                  >
                     {value.data[0].type === "song" ? (
-                      <div className="Montserrat-regular grid grid-cols-3 gap-1">
+                      <>
                         {value.data.map((value: any) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
                             <div
                               className=" flex gap-2  cursor-pointer hover:bg-[#2f2f2f45] rounded-md"
                               onClick={() => SelectSong(value)}
+                              key={value?.id}
                             >
                               <img
                                 src={SearchSong}
@@ -310,11 +360,11 @@ function SearchBarBox({ SearchData, SelectSong }: SearchBarBoxProps) {
                             </div>
                           );
                         })}
-                      </div>
+                      </>
                     ) : (
                       ""
                     )}
-                  </>
+                  </div>
                 );
               }
             })}
