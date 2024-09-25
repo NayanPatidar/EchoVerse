@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 const FeedPage = () => {
   const { PostSongForm } = useGeneralContext();
   return (
-    <div className=" flex flex-row w-full gap-3">
+    <div className=" flex flex-row w-full gap-3 p-2">
       {PostSongForm ? <PostUploadForm /> : ""}
       <div className=" w-8/12 h-full overflow-y-visible"></div>
       <div
