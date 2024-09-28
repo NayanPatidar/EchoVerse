@@ -14,6 +14,10 @@ import { getImageURL } from "@/lib/utils";
 import { IoCloseSharp } from "react-icons/io5";
 import Mirt from "react-mirt";
 import "react-mirt/dist/css/react-mirt.css";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "@/lib/firebase";
+import { v4 as uuidv4 } from "uuid";
+import { AuthProvider, useAuthProvider } from "@/context/AuthContext";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -64,6 +68,13 @@ export function PostUploadForm() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [page, SetPage] = useState(1);
   const [file, setFile] = useState<File | null>(null);
+  const [initialVal, setInitialVal] = useState<string>("0");
+  const [finalVal, setFinalVal] = useState<string>("0");
+  const [progress, setProgress] = useState(0);
+  const [downloadURL, setDownloadURL] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [SongLink, setSongLink] = useState<string>("");
+  const { token } = useAuthProvider();
 
   const [errors, setErrors] = useState({
     description: "",
@@ -84,6 +95,7 @@ export function PostUploadForm() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
+    console.log(file);
     setImage(file);
   };
 
@@ -97,33 +109,94 @@ export function PostUploadForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = {
-      image,
-      description,
-      location,
-      songData,
-    };
+    if (page == 1) {
+      const formData = {
+        image,
+        description,
+        location,
+        songData,
+      };
 
-    const result = postSchema.safeParse(formData);
+      const result = postSchema.safeParse(formData);
 
-    if (!result.success) {
-      const errors = result.error.format();
-      setErrors({
-        description: errors.description?._errors[0] || "",
-        songData: errors.songData?._errors[0] || "",
-      });
-      console.log(errors);
+      if (!result.success) {
+        const errors = result.error.format();
+        setErrors({
+          description: errors.description?._errors[0] || "",
+          songData: errors.songData?._errors[0] || "",
+        });
+        console.log(errors);
 
-      return;
+        return;
+      } else {
+        SetPage(2);
+      }
+    } else {
+      uploadPost();
     }
+  };
 
-    console.log("Form data is valid:", result.data);
+  const uploadPost = () => {
+    console.log("Function Called");
 
-    SetPage(2);
-    setImage(null);
-    setDescription("");
-    setLocation("");
-    setSong("");
+    if (!image) return;
+    console.log("hereee");
+
+    setIsUploading(true);
+    const uniqueFileName = `${uuidv4()}.${image.name.split(".").pop()}`;
+    setImageUniqueName(uniqueFileName);
+    const storageRef = ref(storage, `uploads/${uniqueFileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress);
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+        setIsUploading(false);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setDownloadURL(downloadURL);
+          setIsUploading(false);
+        });
+
+        const uploadToDB = async () => {
+          try {
+            const response = await fetch("/api/uploadPost", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                Description: description,
+                AudioStartTime: initialVal,
+                AudioEndTime: finalVal,
+                ImageDownloadLink: downloadURL,
+                Location: location,
+                AudioLink: SongLink,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to upload post: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Post uploaded successfully:", data);
+          } catch (error) {
+            console.error("Error uploading post:", error);
+          }
+        };
+
+        uploadToDB();
+      }
+    );
   };
 
   const setErrorToNull = () => {
@@ -166,8 +239,6 @@ export function PostUploadForm() {
   const handleFileDownload = async (url: string): Promise<File | null> => {
     try {
       const response = await fetch(url);
-      console.log(response);
-
       const blob = await response.blob();
       const file = new File([blob], "downloadedFile.mp3", { type: blob.type });
       return file;
@@ -180,7 +251,7 @@ export function PostUploadForm() {
   const handleFileFetch = async () => {
     if (songData) {
       const song = await getSongDetails(songData?.id as string);
-      console.log(song + " Song  ");
+      setSongLink(song?.songs[0].download_url[2].link as string);
       const fetchedFile = await handleFileDownload(
         song?.songs[0].download_url[2].link as string
       );
@@ -198,7 +269,17 @@ export function PostUploadForm() {
     start: number;
     current: number;
     end: number;
-  }) => {};
+  }) => {
+    setInitialVal(convertSecondsToMinutes(start));
+    setFinalVal(convertSecondsToMinutes(end));
+  };
+
+  function convertSecondsToMinutes(milliseconds: number) {
+    const seconds = milliseconds / 1000;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds}`;
+  }
 
   useEffect(() => {
     handleFileFetch();
@@ -322,7 +403,7 @@ export function PostUploadForm() {
           <div className=" flex gap-5">
             <div className="space-y-2 w-full flex flex-col pt-[9px]">
               <Label htmlFor="image">Upload Image</Label>
-              <Input
+              <input
                 id="image"
                 type="file"
                 accept="image/*"
@@ -356,20 +437,27 @@ export function PostUploadForm() {
             Song Details
           </div>
           <div className=" mt-5">
+            <div className=" mb-2">Select the song clip to be added:</div>
             <Mirt
               file={file}
               onChange={TrimmerValueOnChange}
-              className=" custom-audio-trimmer"
+              className=" custom-audio-trimmer mb-2"
             />
+            From{" "}
+            <span className=" flex gap-3 text-red-500">
+              {initialVal} - {finalVal}
+            </span>
           </div>
         </div>
       ) : (
         ""
       )}
 
+      {isUploading ? <p>Progress: {progress}%</p> : ""}
+
       <div className=" flex justify-center w-full">
         <Button type="submit" className="w-2/5 ">
-          Next
+          {page == 1 ? "Next" : "Upload"}
         </Button>
       </div>
     </form>
