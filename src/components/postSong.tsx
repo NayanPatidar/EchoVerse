@@ -12,12 +12,11 @@ import { getSongDetails, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, Song, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
 import { IoCloseSharp } from "react-icons/io5";
-import Mirt from "react-mirt";
-import "react-mirt/dist/css/react-mirt.css";
+import Mirt from "./external/Mirt";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { AuthProvider, useAuthProvider } from "@/context/AuthContext";
+import { useAuthProvider } from "@/context/AuthContext";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -75,6 +74,8 @@ export function PostUploadForm() {
   const [isUploading, setIsUploading] = useState(false);
   const [SongLink, setSongLink] = useState<string>("");
   const { token } = useAuthProvider();
+  const [newStartAudioVal, setNewStartAudioVal] = useState<number>(5);
+  const [playing, setPlaying] = useState<boolean>(false);
 
   const [errors, setErrors] = useState({
     description: "",
@@ -137,14 +138,11 @@ export function PostUploadForm() {
   };
 
   const uploadPost = () => {
-    console.log("Function Called");
-
     if (!image) return;
-    console.log("hereee");
+    if (isUploading) return;
 
     setIsUploading(true);
     const uniqueFileName = `${uuidv4()}.${image.name.split(".").pop()}`;
-    setImageUniqueName(uniqueFileName);
     const storageRef = ref(storage, `uploads/${uniqueFileName}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -165,38 +163,39 @@ export function PostUploadForm() {
           setIsUploading(false);
         });
 
-        const uploadToDB = async () => {
-          try {
-            const response = await fetch("/api/uploadPost", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                Description: description,
-                AudioStartTime: initialVal,
-                AudioEndTime: finalVal,
-                ImageDownloadLink: downloadURL,
-                Location: location,
-                AudioLink: SongLink,
-              }),
-            });
-
-            if (!response.ok) {
-              throw new Error(`Failed to upload post: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log("Post uploaded successfully:", data);
-          } catch (error) {
-            console.error("Error uploading post:", error);
-          }
-        };
-
         uploadToDB();
       }
     );
+  };
+
+  const uploadToDB = async () => {
+    try {
+      const response = await fetch("/api/uploadPost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          Description: description,
+          AudioStartTime: initialVal,
+          AudioEndTime: finalVal,
+          ImageDownloadLink: downloadURL,
+          Location: location,
+          AudioLink: SongLink,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to upload post: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Post uploaded successfully:", data);
+      closeForm();
+    } catch (error) {
+      console.error("Error uploading post:", error);
+    }
   };
 
   const setErrorToNull = () => {
@@ -235,6 +234,15 @@ export function PostUploadForm() {
   };
 
   const searchProcess = useCallback(debounce(searchHandler, 800), []);
+
+  const closeForm = () => {
+    setPlaying((prev) => !prev);
+    setImage(null);
+    setDescription("");
+    setLocation("");
+    setSong("");
+    SetPostSongForm(false), SetUploadPostFormOpen(false), setErrorToNull();
+  };
 
   const handleFileDownload = async (url: string): Promise<File | null> => {
     try {
@@ -299,11 +307,7 @@ export function PostUploadForm() {
             </h2>
             <div
               className=" flex items-center justify-center cursor-pointer"
-              onClick={() => {
-                SetPostSongForm(false),
-                  SetUploadPostFormOpen(false),
-                  setErrorToNull();
-              }}
+              onClick={() => closeForm()}
             >
               <Cross className=" rotate-45" />
             </div>
@@ -433,15 +437,23 @@ export function PostUploadForm() {
         </>
       ) : page == 2 ? (
         <div>
-          <div className=" w-full text-center text-2xl font-semibold ">
-            Song Details
+          <div className=" w-full text-center text-2xl font-semibold flex justify-center items-center pt-2">
+            <div className=" w-10/12 text-end"> Song Details</div>
+            <div
+              className=" flex justify-end cursor-pointer w-6/12"
+              onClick={() => closeForm()}
+            >
+              <Cross className=" rotate-45" />
+            </div>
           </div>
+
           <div className=" mt-5">
             <div className=" mb-2">Select the song clip to be added:</div>
             <Mirt
               file={file}
               onChange={TrimmerValueOnChange}
               className=" custom-audio-trimmer mb-2"
+              pausePlaying={playing}
             />
             From{" "}
             <span className=" flex gap-3 text-red-500">
