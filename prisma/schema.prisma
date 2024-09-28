@@ -50,9 +50,14 @@ model PlaylistSong {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  userId    String
-  User      User     @relation(fields: [userId], references: [id])
-  content   String
-  createdAt DateTime @default(now())
+  id                Int      @id @default(autoincrement())
+  userId            String
+  User              User     @relation(fields: [userId], references: [id])
+  description       String
+  audioStartTime    String
+  audioEndTime      String
+  imageDownloadLink String
+  location          String
+  audioLink         String
+  createdAt         DateTime @default(now())
 }
