@@ -1,11 +1,31 @@
 "use client";
 import PostSong, { PostUploadForm } from "@/components/postSong";
 import SearchFriends from "@/components/searchFriends";
+import { useAuthProvider } from "@/context/AuthContext";
 import { useGeneralContext } from "@/context/GeneralContext";
 import React, { useEffect } from "react";
 
 const FeedPage = () => {
   const { PostSongForm } = useGeneralContext();
+  const { token } = useAuthProvider();
+
+  const FetchAllPosts = async () => {
+    const posts = await fetch("api/posts/getAllPosts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Beared ${token}`,
+      },
+    });
+
+    const postsData = await posts.json();
+    console.log(postsData);
+  };
+
+  useEffect(() => {
+    FetchAllPosts();
+  }, []);
+
   return (
     <div className=" flex flex-row w-full gap-3 p-2">
       {PostSongForm ? <PostUploadForm /> : ""}

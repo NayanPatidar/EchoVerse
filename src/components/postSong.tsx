@@ -70,11 +70,9 @@ export function PostUploadForm() {
   const [initialVal, setInitialVal] = useState<string>("0");
   const [finalVal, setFinalVal] = useState<string>("0");
   const [progress, setProgress] = useState(0);
-  const [downloadURL, setDownloadURL] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [SongLink, setSongLink] = useState<string>("");
   const { token } = useAuthProvider();
-  const [newStartAudioVal, setNewStartAudioVal] = useState<number>(5);
   const [playing, setPlaying] = useState<boolean>(false);
 
   const [errors, setErrors] = useState({
@@ -159,18 +157,21 @@ export function PostUploadForm() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setDownloadURL(downloadURL);
+          uploadToDB(downloadURL);
           setIsUploading(false);
         });
-
-        uploadToDB();
       }
     );
   };
 
-  const uploadToDB = async () => {
+  const uploadToDB = async (downloadurl: string) => {
+    if (!downloadurl) {
+      console.log("Download URL Not Found !!");
+      return;
+    }
+
     try {
-      const response = await fetch("/api/uploadPost", {
+      const response = await fetch("/api/posts/upload/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +181,7 @@ export function PostUploadForm() {
           Description: description,
           AudioStartTime: initialVal,
           AudioEndTime: finalVal,
-          ImageDownloadLink: downloadURL,
+          ImageDownloadLink: downloadurl,
           Location: location,
           AudioLink: SongLink,
         }),
@@ -264,8 +265,6 @@ export function PostUploadForm() {
         song?.songs[0].download_url[2].link as string
       );
       setFile(fetchedFile);
-    } else {
-      console.error("Link is not a string or does not exist.");
     }
   };
 

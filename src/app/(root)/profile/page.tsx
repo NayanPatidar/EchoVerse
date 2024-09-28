@@ -13,7 +13,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log(isAuthenticated);
       if (!isAuthenticated) {
         router.push("/");
       } else {

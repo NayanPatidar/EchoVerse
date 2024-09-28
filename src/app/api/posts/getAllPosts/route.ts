@@ -5,18 +5,7 @@ import prisma from "@/lib/prisma";
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY_API;
 
-export async function POST(req: Request) {
-  const data = await req.json();
-  const {
-    Description,
-    AudioStartTime,
-    AudioEndTime,
-    ImageDownloadLink,
-    Location,
-    AudioLink,
-    ImageUniqueName,
-  } = data;
-
+export async function GET(req: Request) {
   const token = req.headers.get("Authorization");
 
   if (!token) {
@@ -35,24 +24,22 @@ export async function POST(req: Request) {
     if (typeof decoded !== "string" && decoded && "userId" in decoded) {
       const userId = decoded.userId as string;
 
-      const newPost = await prisma.post.create({
-        data: {
-          userId,
-          description: Description,
-          audioStartTime: AudioStartTime,
-          audioEndTime: AudioEndTime,
-          imageDownload: ImageDownloadLink,
-          location: Location,
-          audioLink: AudioLink,
+      const posts = await prisma.post.findMany({
+        include: {
+          User: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc", 
         },
       });
 
-      console.log("Post created successfully:", newPost);
-
-      return NextResponse.json(
-        { message: "Post Upload To DB" },
-        { status: 200 }
-      );
+      return NextResponse.json({ post: posts }, { status: 200 });
     }
   } catch (error: any) {
     console.error(error.message);
