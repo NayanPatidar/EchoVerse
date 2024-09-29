@@ -3,6 +3,7 @@ import PostSong, { PostUploadForm } from "@/components/postSong";
 import SearchFriends from "@/components/searchFriends";
 import UserPostCard from "@/components/ui/Cards/userPostCard";
 import { useAuthProvider } from "@/context/AuthContext";
+import { useFeedContext } from "@/context/FeedContext";
 import { useGeneralContext } from "@/context/GeneralContext";
 import { PostProps } from "@/types/post";
 import React, { useEffect, useState } from "react";
@@ -10,32 +11,13 @@ import React, { useEffect, useState } from "react";
 const FeedPage = () => {
   const { PostSongForm } = useGeneralContext();
   const { token } = useAuthProvider();
-  const [PostsData, SetPostsData] = useState<PostProps[] | undefined>(
-    undefined
-  );
-
-  const FetchAllPosts = async () => {
-    const posts = await fetch("api/posts/getAllPosts", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Beared ${token}`,
-      },
-    });
-
-    const postsData = await posts.json();
-    SetPostsData(postsData.post);
-    console.log(postsData.post);
-  };
-
-  useEffect(() => {
-    FetchAllPosts();
-  }, []);
+  const [isMuted, setIsMuted] = useState(true);
+  const { PostsData } = useFeedContext();
 
   return (
-    <div className=" flex flex-row w-full gap-3 p-2">
+    <div className=" Feed-Page flex flex-row w-full gap-3 p-2 overflow-hidden">
       {PostSongForm ? <PostUploadForm /> : ""}
-      <div className=" w-8/12 h-full overflow-y-visible">
+      <div className=" FeedContent w-8/12 h-full overflow-y-scroll">
         {PostsData &&
           Object.entries(PostsData).map(([key, val]) => {
             return (
@@ -49,6 +31,8 @@ const FeedPage = () => {
                 imageDownload={val.imageDownload}
                 location={val.location}
                 userId={val.userId}
+                isMuted={isMuted}
+                setIsMuted={setIsMuted}
               />
             );
           })}

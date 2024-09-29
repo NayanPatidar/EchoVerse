@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/components/providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { GeneralContextProvider } from "@/context/GeneralContext";
+import { FeedContextProvider } from "@/context/FeedContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +42,9 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <GeneralContextProvider>
-              <div className=" w-full h-full relative">{children}</div>
+              <FeedContextProvider>
+                <div className=" w-full h-full relative">{children}</div>
+              </FeedContextProvider>
             </GeneralContextProvider>
           </AuthProvider>
         </Providers>

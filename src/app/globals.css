@@ -319,10 +319,6 @@ body {
   width: calc(97.2vw - 21rem);
 }
 
-.PostSearchBoxMain {
-  /* width: calc(97.2vw - 28.2rem  ); */
-}
-
 .YearList li span {
   left: -10px;
   position: relative;
@@ -427,12 +423,39 @@ body {
 }
 
 .custom-audio-trimmer {
-  --mirt-height: 3rem; /* Increase height */
-  --mirt-border-radius: 0.5rem; /* Modify border radius */
-  --mirt-background-color: #1a1a1a; /* Change background color */
-  --mirt-playhead-color: #af001d; /* Change playhead color to tomato */
-  --mirt-frame-color: #454545; /* Change frame color to blue */
-  --mirt-handle-icon-color: #ffffff; /* Change handle icon color */
-  --mirt-button-hover-color: #1a1a1a; /* Change button hover color */
+  --mirt-height: 3rem;
+  --mirt-border-radius: 0.5rem;
+  --mirt-background-color: #1a1a1a;
+  --mirt-playhead-color: #af001d;
+  --mirt-frame-color: #454545;
+  --mirt-handle-icon-color: #ffffff;
+  --mirt-button-hover-color: #1a1a1a;
   --mirt-button-width: 3rem;
+}
+
+.Feed-Page {
+  height: calc(100vh - 160px);
+}
+
+.FeedContent::-webkit-scrollbar {
+  width: 10px; /* Adjust the width of the scrollbar */
+  background-color: rgba(202, 202, 202, 0); /* Background of the scrollbar */
+}
+
+.FeedContent::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5); /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Make the thumb rounded */
+}
+
+.FeedContent::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.8); /* Thumb color on hover */
+}
+
+.FeedContent::-webkit-scrollbar-track {
+  background-color: rgba(
+    202,
+    202,
+    202,
+    0.1
+  ); /* Background track of the scrollbar */
 }
