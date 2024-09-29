@@ -3,9 +3,17 @@ import { timeStringToSeconds } from "@/lib/utils";
 import { PostProps } from "@/types/post";
 import { Pause, Play } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { AiFillMuted } from "react-icons/ai";
+import { VscUnmute } from "react-icons/vsc";
+import { IoVolumeMuteOutline } from "react-icons/io5";
 
-const UserPostCard: React.FC<PostProps> = ({
+type MuteProp = {
+  isMuted: boolean;
+  setIsMuted: Dispatch<SetStateAction<boolean>>;
+};
+
+const UserPostCard: React.FC<PostProps & MuteProp> = ({
   audioEndTime,
   audioLink,
   audioStartTime,
@@ -15,11 +23,14 @@ const UserPostCard: React.FC<PostProps> = ({
   imageDownload,
   location,
   userId,
+  isMuted,
+  setIsMuted,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -28,10 +39,13 @@ const UserPostCard: React.FC<PostProps> = ({
 
     const playAudio = async () => {
       if (audioElement) {
+        audioElement.autoplay = true;
+        // audioElement.muted = isMuted;
         audioElement.currentTime = startTime;
         try {
           await audioElement.play();
           setIsPlaying(true);
+          setHasPlayedOnce(true);
         } catch (err) {
           console.error("Autoplay failed", err);
         }
@@ -77,7 +91,7 @@ const UserPostCard: React.FC<PostProps> = ({
         observer.unobserve(cardRef.current);
       }
     };
-  }, [audioStartTime, audioEndTime, isPlaying, hasPlayed]);
+  }, [audioStartTime, audioEndTime]);
 
   const togglePlayPause = () => {
     const audioElement = audioRef.current;
@@ -95,11 +109,17 @@ const UserPostCard: React.FC<PostProps> = ({
     }
   };
 
+  const unmuteAudio = () => {
+    const audioElement = audioRef.current;
+    if (audioElement && isMuted) {
+      setIsMuted(false);
+    } else if (audioElement && !isMuted) {
+      setIsMuted(true);
+    }
+  };
+
   return (
-    <div
-      ref={cardRef}
-      className="w-full max-w-xl mx-auto bg-[#181818] border border-[#343434] rounded-lg shadow-md p-4 mb-6"
-    >
+    <div ref={cardRef} className="w-full max-w-xl mx-auto rounded-lg p-4 mb-6">
       {/* User Info */}
       <div className="flex items-center mb-4">
         <img
@@ -121,10 +141,19 @@ const UserPostCard: React.FC<PostProps> = ({
         />
         {audioLink && (
           <div
-            onClick={togglePlayPause}
+            onClick={() => togglePlayPause()}
             className="absolute bottom-1 left-1 z-[100] text-white px-4 py-2 rounded-md "
           >
             {isPlaying ? <Pause /> : <Play />}
+          </div>
+        )}
+
+        {audioLink && (
+          <div
+            onClick={() => unmuteAudio()}
+            className="absolute bottom-1 right-1 text-white px-4 py-2 rounded-md mb-2"
+          >
+            {isMuted ? <IoVolumeMuteOutline /> : <VscUnmute />}
           </div>
         )}
       </div>
@@ -136,7 +165,7 @@ const UserPostCard: React.FC<PostProps> = ({
       {/* Audio Info */}
       {audioLink && (
         <div className="mb-4">
-          <audio ref={audioRef}>
+          <audio ref={audioRef} muted={isMuted}>
             <source src={audioLink} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
