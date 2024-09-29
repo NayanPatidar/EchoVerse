@@ -37,16 +37,26 @@ export const debounce = (fn: Function, ms = 3000) => {
   };
 };
 
-export const getMinValue = (fineTuning: number, fineTuningResolution: number, duration: number): number => {
+export const getMinValue = (
+  fineTuning: number,
+  fineTuningResolution: number,
+  duration: number
+): number => {
   if (fineTuning === -1) return 0;
 
   return fineTuning - (fineTuningResolution * fineTuning) / duration;
 };
 
-export const getMaxValue = (fineTuning: number, fineTuningResolution: number, duration: number): number => {
+export const getMaxValue = (
+  fineTuning: number,
+  fineTuningResolution: number,
+  duration: number
+): number => {
   if (fineTuning === -1) return duration;
 
-  return fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration;
+  return (
+    fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration
+  );
 };
 
 export const getStartHandleValue = (
@@ -86,7 +96,8 @@ export const getEndHandleValue = (
   let value = 0;
 
   if (fineTuning >= 0 && fineTuningResolution) {
-    const max = fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration;
+    const max =
+      fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration;
 
     value = ((position - max) * 100 * -1) / fineTuningResolution;
   } else {
@@ -110,7 +121,8 @@ export const getWaveformData = async (
 
   if (fineTuning >= 0) {
     const ftStart = fineTuning - (fineTuningResolution * fineTuning) / duration;
-    const ftEnd = fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration;
+    const ftEnd =
+      fineTuning + (fineTuningResolution * (duration - fineTuning)) / duration;
     const min = Math.floor((rawData.length * ftStart) / duration);
     const max = Math.floor((rawData.length * ftEnd) / duration);
 
@@ -137,4 +149,9 @@ export const getWaveformData = async (
   const normalizedData = filteredData.map((n) => n * multiplier);
 
   return normalizedData;
+};
+
+export const timeStringToSeconds = (time: string): number => {
+  const [minutes, seconds] = time.split(":").map(Number);
+  return minutes * 60 + seconds;
 };
