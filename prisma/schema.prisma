@@ -8,14 +8,36 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  name       String
-  email      String      @unique
-  googleId   String?     @unique
-  password   String?
-  likedSongs LikedSong[]
-  playlists  Playlist[]
-  posts      Post[]
+  id              String          @id @default(uuid())
+  name            String
+  email           String          @unique
+  googleId        String?         @unique
+  password        String?
+  likedSongs      LikedSong[]
+  playlists       Playlist[]
+  posts           Post[]
+  friendsAsUser1  Friends[]       @relation("UserFriends1")
+  friendsAsUser2  Friends[]       @relation("UserFriends2")
+  sendRequest     FriendRequest[] @relation("SentRequests")
+  recievedRequest FriendRequest[] @relation("ReceivedRequests")
+}
+
+model Friends {
+  id        String   @id @default(uuid())
+  user1     User     @relation("UserFriends1", fields: [user1Id], references: [id])
+  user1Id   String
+  user2     User     @relation("UserFriends2", fields: [user2Id], references: [id])
+  user2Id   String
+  createdAt DateTime @default(now())
+}
+
+model FriendRequest {
+  id         String @id @default(uuid())
+  senderId   String
+  sender     User   @relation("SentRequests", fields: [senderId], references: [id])
+  receiverId String
+  receiver   User   @relation("ReceivedRequests", fields: [receiverId], references: [id])
+  status     String // "PENDING" "ACCEPTED" "REJECTED"
 }
 
 model LikedSong {
