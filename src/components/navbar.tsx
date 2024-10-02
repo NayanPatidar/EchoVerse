@@ -157,6 +157,7 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
           onChange={searchProcess}
           className="bg-[#242424] border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
           onKeyDown={handleSearchBarKeyDown}
+          type="text"
         />
       </div>
       <div className=" p-5 ">

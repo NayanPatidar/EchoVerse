@@ -35,12 +35,13 @@ export const FeedContextProvider: React.FC<GeneralFeedProp> = ({
 
   const FetchAllPosts = async () => {
     if (!token) return;
+    console.log(token);
 
-    const posts = await fetch("api/posts/getAllPosts", {
+    const posts = await fetch("/api/posts/getAllPosts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Beared ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

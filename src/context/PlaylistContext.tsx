@@ -95,7 +95,7 @@ export const PlaylistContextProvider: React.FC<PlaylistProps> = ({
 export const usePlaylistContext = (): PlaylistContextProps => {
   const context = useContext(PlaylistContext);
   if (!context) {
-    throw new Error("Use Playlist Context has to bee used in the ");
+    throw new Error("Use Playlist Context has to bee used ");
   }
   return context;
 };
