@@ -1,12 +1,18 @@
 "use client";
 
+import { useAuthProvider } from "@/context/AuthContext";
+import { database } from "@/lib/firebase";
 import { CompleteUserData, UserData } from "@/types/user";
+import { onValue, ref, set } from "firebase/database";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Socket } from "socket.io";
+import { io } from "socket.io-client";
 
 const User = ({ params }: { params: { id: string } }) => {
   const [AllUser, SetAllUser] = useState<CompleteUserData | undefined>();
   const [posts, setPosts] = useState(null);
+  const { token, tokenDetails } = useAuthProvider();
 
   const GetUsers = async () => {
     try {
@@ -23,6 +29,83 @@ const User = ({ params }: { params: { id: string } }) => {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
+  };
+
+  const SendRequest = async () => {
+    try {
+      const res = await fetch("/api/friends/friendRequest/sent", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          senderId: tokenDetails.userId,
+          receiverId: params.id,
+        }),
+      });
+    } catch (error: any) {
+      console.error("Error is sending friends Request : ", error.message);
+    }
+  };
+
+  const [status, setStatus] = useState("FOLLOW"); // "FOLLOW", "FOLLOW_REQUEST_SENT", "FOLLOW_BACK", "FRIENDS"
+
+  useEffect(() => {
+    const followRequestRef = ref(
+      database,
+      `followRequests/${tokenDetails.userId}/${params.id}`
+    );
+
+    const unsubscribe = onValue(followRequestRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setStatus(data.status === "PENDING" ? "FOLLOW_BACK" : "FRIENDS");
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [tokenDetails.userId, params.id]);
+
+  const sendFollowRequest = async () => {
+    await set(
+      ref(database, `followRequests/${tokenDetails.userId}/${params.id}`),
+      {
+        status: "PENDING",
+      }
+    );
+    await set(
+      ref(database, `followRequests/${params.id}/${tokenDetails.userId}`),
+      {
+        status: "PENDING",
+      }
+    );
+
+    setStatus("FOLLOW_REQUEST_SENT");
+  };
+
+  const acceptFollowRequest = async () => {
+    await set(
+      ref(database, `friends/${tokenDetails.userId}/${params.id}`),
+      true
+    );
+    await set(
+      ref(database, `friends/${params.id}/${tokenDetails.userId}`),
+      true
+    );
+
+    await set(
+      ref(database, `followRequests/${tokenDetails.userId}/${params.id}`),
+      null
+    );
+    await set(
+      ref(database, `followRequests/${params.id}/${tokenDetails.userId}`),
+      null
+    );
+
+    setStatus("FRIENDS");
   };
 
   useEffect(() => {
@@ -57,14 +140,19 @@ const User = ({ params }: { params: { id: string } }) => {
           </div>
 
           <div className="mt-4">
-            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md">
-              Follow
-            </button>
+            {status === "FOLLOW" && (
+              <button onClick={sendFollowRequest}>Follow</button>
+            )}
+            {status === "FOLLOW_REQUEST_SENT" && (
+              <button disabled>Follow Request Sent</button>
+            )}
+            {status === "FOLLOW_BACK" && (
+              <button onClick={acceptFollowRequest}>Follow Back</button>
+            )}
+            {status === "FRIENDS" && <button disabled>Friends</button>}
           </div>
         </div>
       </div>
-
-      {/* Posts Section */}
       <div className="w-full max-w-4xl mt-8 p-5">
         <h2 className="text-2xl font-bold mb-4">Posts</h2>
         {posts ? (
