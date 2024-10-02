@@ -5,8 +5,6 @@ import { request } from "http";
 import prisma from "@/lib/prisma";
 dotenv.config();
 
-const SECRET_KEY = process.env.SECRET_KEY_API;
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userName = searchParams.get("searchTerm");
@@ -19,8 +17,13 @@ export async function GET(request: Request) {
           mode: "insensitive",
         },
       },
+      select: {
+        id: true,
+        name: true,
+        googleId: true,
+        email: true,
+      },
     });
-    console.log(Users);
 
     return NextResponse.json({ Users });
   } catch (error: any) {
