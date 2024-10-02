@@ -39,6 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [tokenDetails, setTokenDetails] = useState<TokenDetails>({
     name: "",
     email: "",
+    userId: "",
   });
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
@@ -60,13 +61,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (storedToken) {
       setToken(storedToken);
       const decoded = jwtDecode<DecodedTokenDetails>(storedToken);
+      console.log(decoded);
       if (!VerifyExpired(decoded.exp)) {
         storedToken = null;
       } else {
-        const { name, email } = decoded;
+        const { name, email, userId } = decoded;
         setTokenDetails({
           name,
           email,
+          userId,
         });
       }
     }
