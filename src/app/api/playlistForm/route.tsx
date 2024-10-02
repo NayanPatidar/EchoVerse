@@ -9,15 +9,10 @@ const SECRET_KEY = process.env.SECRET_KEY_API;
 export async function POST(request: Request) {
   const data = await request.json();
   const { title, description } = data;
-  const token = request.headers.get("Authorization");
+  let token = request.headers.get("Authorization");
 
   if (!token) {
-    return NextResponse.json(
-      {
-        message: "Unauthorized: Token not provided",
-      },
-      { status: 401 }
-    );
+    token = "";
   }
 
   try {

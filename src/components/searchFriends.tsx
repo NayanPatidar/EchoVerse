@@ -4,10 +4,12 @@ import { Input } from "./ui/input";
 import { User, User2Icon } from "lucide-react";
 import { UserData } from "@/types/user";
 import { useRouter } from "next/navigation";
+import { useAuthProvider } from "@/context/AuthContext";
 
 const SearchFriends = () => {
   const [AllUser, SetAllUser] = useState<UserData[] | undefined>([]);
   const [InputData, setInputData] = useState();
+  const { token } = useAuthProvider();
   const router = useRouter();
 
   const GetUsers = async (e: any) => {
@@ -18,7 +20,13 @@ const SearchFriends = () => {
 
     if (value.length > 0) {
       try {
-        const res = await fetch(`/api/friends/searchAll?searchTerm=${value}`);
+        const res = await fetch(`/api/friends/searchAll?searchTerm=${value}`, {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           const errorData = await res.json();

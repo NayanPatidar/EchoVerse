@@ -295,7 +295,10 @@ const Sidebar = () => {
                   id="1"
                   onClick={() => setCategory(7)}
                 >
-                  <div className=" h-10 flex items-center gap-4 cursor-pointer">
+                  <div
+                    className=" h-10 flex items-center gap-4 cursor-pointer"
+                    onClick={() => router.push("/notifications")}
+                  >
                     <Heart width={24} />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">
