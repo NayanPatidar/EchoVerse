@@ -1,44 +1,31 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
+import { GetUsers } from "@/components/user/details";
 import { useAuthProvider } from "@/context/AuthContext";
 import { database } from "@/lib/firebase";
-import { CompleteUserData, UserData } from "@/types/user";
-import { timeStamp } from "console";
+import { CompleteUserData } from "@/types/user";
 import { onValue, ref, set } from "firebase/database";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Socket } from "socket.io";
-import { io } from "socket.io-client";
 
 const User = ({ params }: { params: { id: string } }) => {
   const [status, setStatus] = useState("FOLLOW"); // "FOLLOW", "FOLLOW_REQUEST_SENT", "FOLLOW_BACK", "FRIENDS"
   const [followRequests, setFollowRequests] = useState([]);
   const [unsubscribe, setUnsubscribe] = useState<null | (() => void)>(null);
   const [isFriendsChecked, setIsFriendsChecked] = useState(false);
-  const [AllUser, SetAllUser] = useState<CompleteUserData | undefined>();
   const [posts, setPosts] = useState(null);
   const { token, tokenDetails } = useAuthProvider();
-
-  const GetUsers = async () => {
-    try {
-      const res = await fetch(`/api/friends/searchUser?id=${params.id}`);
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error("Search error:", errorData.error);
-        return;
-      }
-
-      const data = await res.json();
-      SetAllUser(data.Users);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
+  const [AllUser, setAllUser] = useState<CompleteUserData | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    GetUsers();
+    const fetchUserData = async () => {
+      const user = await GetUsers(params.id);
+      setAllUser(user);
+    };
+
+    fetchUserData();
   }, []);
 
   const AddFriend = async () => {
@@ -56,7 +43,6 @@ const User = ({ params }: { params: { id: string } }) => {
       });
 
       const result = await response.json();
-      console.log(result);
     } catch (error: any) {
       console.error("Error is sending friends Request : ", error.message);
     }
@@ -67,7 +53,6 @@ const User = ({ params }: { params: { id: string } }) => {
       database,
       `friendRequest/${tokenDetails.userId}`
     );
-    console.log(`Listening on friendRequest/${tokenDetails.userId}`);
 
     const unsubscribeFunction = onValue(friendRequestRef, (snapshot) => {
       const data = snapshot.val();
@@ -76,10 +61,8 @@ const User = ({ params }: { params: { id: string } }) => {
         const senderId = params.id;
         if (data[senderId] && data[senderId].status === "PENDING") {
           setStatus("FOLLOW_BACK");
-          console.log(`Received a follow request from User ${senderId}`);
         } else if (data[senderId] && data[senderId].status === "ACCEPTED") {
           setStatus("FRIENDS");
-          console.log(`Follow request accepted from User ${senderId}`);
         }
       }
     });
@@ -88,7 +71,6 @@ const User = ({ params }: { params: { id: string } }) => {
   };
 
   const checkFriendStatus = async () => {
-    console.log(token);
     try {
       const response = await fetch(
         `/api/friends/addFriend?userId=${tokenDetails.userId}&friendID=${params.id}`,
@@ -102,8 +84,7 @@ const User = ({ params }: { params: { id: string } }) => {
       );
 
       const result = await response.json();
-      console.log(response);
-
+      
       if (result.isFriends) {
         setStatus("FRIENDS");
       } else {
