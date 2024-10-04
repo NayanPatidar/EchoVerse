@@ -4,7 +4,7 @@ import { GetUsers } from "@/components/user/details";
 import { useAuthProvider } from "@/context/AuthContext";
 import { database } from "@/lib/firebase";
 import { CompleteUserData } from "@/types/user";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -49,6 +49,8 @@ const User = ({ params }: { params: { id: string } }) => {
   };
 
   const listenForFriendRequests = () => {
+    console.log("It is called : " + tokenDetails.userId);
+
     const friendRequestRef = ref(
       database,
       `friendRequest/${tokenDetails.userId}`
@@ -63,6 +65,13 @@ const User = ({ params }: { params: { id: string } }) => {
           setStatus("FOLLOW_BACK");
         } else if (data[senderId] && data[senderId].status === "ACCEPTED") {
           setStatus("FRIENDS");
+          remove(friendRequestRef)
+            .then(() => {
+              console.log("Request removed successfully");
+            })
+            .catch((error) => {
+              console.error("Error removing request:", error);
+            });
         }
       }
     });
@@ -84,7 +93,7 @@ const User = ({ params }: { params: { id: string } }) => {
       );
 
       const result = await response.json();
-      
+
       if (result.isFriends) {
         setStatus("FRIENDS");
       } else {
@@ -113,11 +122,11 @@ const User = ({ params }: { params: { id: string } }) => {
       database,
       `friendRequest/${params.id}/${tokenDetails.userId}`
     );
-    console.log("Sent " + friendRequestRef);
 
     set(friendRequestRef, {
       status: "PENDING",
       timeStamp: Date.now(),
+      name: AllUser?.name,
     });
 
     setStatus("FOLLOW_REQUEST_SENT");
@@ -135,6 +144,13 @@ const User = ({ params }: { params: { id: string } }) => {
     });
 
     AddFriend();
+    remove(friendRequestRef)
+      .then(() => {
+        console.log("Request removed successfully");
+      })
+      .catch((error) => {
+        console.error("Error removing request:", error);
+      });
 
     setStatus("FRIENDS");
   };
