@@ -13,3 +13,8 @@ export type CompleteUserData = {
   followers: number;
   following: number;
 };
+
+export type FriendData = {
+  friendName: String;
+  friendId: String;
+};
