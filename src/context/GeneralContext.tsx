@@ -15,6 +15,8 @@ interface GeneralContextInterface {
   SetPostSongForm: Dispatch<SetStateAction<boolean>>;
   IsUploadPostFormOpen: boolean;
   SetUploadPostFormOpen: Dispatch<SetStateAction<boolean>>;
+  NewMessage: boolean;
+  SetNewMessage: Dispatch<SetStateAction<boolean>>;
 }
 
 const GeneralContext = createContext<GeneralContextInterface | undefined>(
@@ -31,6 +33,7 @@ export const GeneralContextProvider: React.FC<GeneralProps> = ({
   const [IsAddToPlaylistFormOpen, SetAddToPlaylistFormOpen] = useState(false);
   const [IsUploadPostFormOpen, SetUploadPostFormOpen] = useState(false);
   const [PostSongForm, SetPostSongForm] = useState(false);
+  const [NewMessage, SetNewMessage] = useState(false);
 
   return (
     <GeneralContext.Provider
@@ -41,6 +44,8 @@ export const GeneralContextProvider: React.FC<GeneralProps> = ({
         SetAddToPlaylistFormOpen,
         IsUploadPostFormOpen,
         SetUploadPostFormOpen,
+        NewMessage,
+        SetNewMessage,
       }}
     >
       {children}
