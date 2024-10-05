@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 
 const FeedPage = () => {
   const { PostSongForm } = useGeneralContext();
-  const { token } = useAuthProvider();
   const [isMuted, setIsMuted] = useState(true);
   const { PostsData } = useFeedContext();
 

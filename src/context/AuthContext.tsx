@@ -61,7 +61,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (storedToken) {
       setToken(storedToken);
       const decoded = jwtDecode<DecodedTokenDetails>(storedToken);
-      console.log(decoded);
       if (!VerifyExpired(decoded.exp)) {
         storedToken = null;
       } else {

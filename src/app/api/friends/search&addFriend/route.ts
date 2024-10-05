@@ -9,8 +9,6 @@ export async function POST(request: Request) {
   const data = await request.json();
   const { receiverId, senderId } = data;
   const headers = request.headers.get("Authorization");
-  console.log("Reciever ID : " + receiverId);
-  console.log("Sender ID : " + senderId);
 
   if (!headers) {
     return NextResponse.json(
@@ -32,6 +30,7 @@ export async function POST(request: Request) {
         },
       });
 
+      console.log("Added Friend : ", res);
       return NextResponse.json({ res });
     }
     return NextResponse.json({ message: "Error in sending request" });
@@ -47,7 +46,7 @@ export async function GET(request: Request) {
   const headers = request.headers.get("Authorization");
   const url = new URL(request.url);
   const friendID = url.searchParams.get("friendID");
-  const userId = url.searchParams.get("friendID");
+  const userId = url.searchParams.get("userId");
 
   if (!headers) {
     return NextResponse.json(
@@ -71,7 +70,7 @@ export async function GET(request: Request) {
 
       const isFriends = res.length > 0;
 
-      return NextResponse.json({ isFriends });
+      return NextResponse.json({ isFriends: isFriends });
     }
     return NextResponse.json({ message: "Error in sending request" });
   } catch (error: any) {

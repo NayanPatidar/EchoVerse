@@ -276,7 +276,7 @@ const Sidebar = () => {
                 >
                   <div
                     className=" h-10 flex items-center gap-4 cursor-pointer"
-                    onClick={() => router.push("/playlist")}
+                    onClick={() => router.push("/inbox")}
                   >
                     <MessagesSquare width={24} />
                     {sideBarOpen ? (

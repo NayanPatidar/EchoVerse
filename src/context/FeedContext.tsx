@@ -47,7 +47,6 @@ export const FeedContextProvider: React.FC<GeneralFeedProp> = ({
 
     const postsData = await posts.json();
     SetPostsData(postsData.post);
-    console.log(postsData.post);
   };
 
   useEffect(() => {

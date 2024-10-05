@@ -1,8 +1,9 @@
-import { CompleteUserData } from "@/types/user";
-
+"use server";
 export const GetUsers = async (id: string) => {
   try {
-    const res = await fetch(`/api/friends/searchUser?id=${id}`);
+    const res = await fetch(
+      `http://localhost:3000/api/friends/searchUser?id=${id}`
+    );
 
     if (!res.ok) {
       const errorData = await res.json();
