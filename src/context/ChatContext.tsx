@@ -10,10 +10,13 @@ import React, {
   useState,
 } from "react";
 import { useAuthProvider } from "./AuthContext";
+import { FriendData } from "@/types/user";
 
 interface ChatProps {
-  Friends: Object | undefined;
-  SetFriends: Dispatch<SetStateAction<Object | undefined>>;
+  Friends: FriendData[] | undefined;
+  SetFriends: Dispatch<SetStateAction<FriendData[] | undefined>>;
+  FriendsAdded: boolean;
+  SetFriendAdded: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatProps | undefined>(undefined);
@@ -25,11 +28,12 @@ interface ChatContextProviderProps {
 export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
   children,
 }) => {
-  const [Friends, SetFriends] = useState<Object | undefined>(undefined);
+  const [Friends, SetFriends] = useState<FriendData[] | undefined>(undefined);
+  const [FriendsAdded, SetFriendAdded] = useState(false);
   const { token } = useAuthProvider();
 
   const FetchFriends = async () => {
-    const res = await fetch("api/friends/getAllFriends", {
+    const res = await fetch("api/friends/getAllChatFriends", {
       method: "GET",
       headers: {
         "Context-Type": "application/json",
@@ -38,16 +42,19 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
     });
 
     const data = await res.json();
-    console.log(data);
+    console.log(data.res);
+    SetFriends(data.res);
   };
 
   useEffect(() => {
     if (!token) return;
     FetchFriends();
-  }, [token]);
+  }, [token, FriendsAdded]);
 
   return (
-    <ChatContext.Provider value={{ Friends, SetFriends }}>
+    <ChatContext.Provider
+      value={{ Friends, SetFriends, FriendsAdded, SetFriendAdded }}
+    >
       {children}
     </ChatContext.Provider>
   );

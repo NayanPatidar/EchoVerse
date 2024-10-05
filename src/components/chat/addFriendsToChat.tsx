@@ -1,36 +1,67 @@
 "use client";
 
 import { useAuthProvider } from "@/context/AuthContext";
-import { UserData } from "@/types/user";
+import { FriendData, UserData } from "@/types/user";
 import { Cross, User2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { useGeneralContext } from "@/context/GeneralContext";
+import { useChatContext } from "@/context/ChatContext";
 
 const AddFriendToChat = () => {
-  const [AllUser, SetAllUser] = useState<UserData[] | undefined>([]);
+  const [Friend, SetFriend] = useState<FriendData[] | undefined>([]);
   const { SetNewMessage } = useGeneralContext();
+  const { SetFriendAdded } = useChatContext();
   const [InputData, setInputData] = useState();
   const { token } = useAuthProvider();
   const router = useRouter();
 
+  const AddFriendToChatList = async (id: String, name: String) => {
+    try {
+      const res = await fetch(`/api/friends/searchAllFriends`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          friendId: id,
+          friendName: name,
+        }),
+      });
+
+      console.log("Add to the Friend Chat List");
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Search error:", errorData.error);
+        return;
+      }
+
+      SetNewMessage(false);
+      SetFriendAdded((prev) => !prev);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
   const GetUsers = async (e: any) => {
     setInputData(e.target.value);
-
     const value = e.target.value;
-    console.log(value);
 
     if (value.length > 0) {
       try {
-        const res = await fetch(`/api/friends/searchAll?searchTerm=${value}`, {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const res = await fetch(
+          `/api/friends/searchAllFriends?searchTerm=${value}`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!res.ok) {
           const errorData = await res.json();
           console.error("Search error:", errorData.error);
@@ -38,13 +69,12 @@ const AddFriendToChat = () => {
         }
 
         const data = await res.json();
-        console.log(data.Users);
-        SetAllUser(data.Users);
+        SetFriend(data.friends);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     } else {
-      SetAllUser([]);
+      SetFriend([]);
     }
   };
 
@@ -66,7 +96,7 @@ const AddFriendToChat = () => {
     }
   };
 
-  const searchProcess = debounce(GetUsers, 1000);
+  const searchProcess = debounce(GetUsers, 200);
 
   return (
     <div className=" absolute z-[150] w-2/5 p-3 bg-[#060606] rounded-md h-1/2 overflow-hidden top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -93,15 +123,21 @@ const AddFriendToChat = () => {
         </span>
       </span>
 
-      {AllUser && AllUser.length ? (
-        <div className=" absolute bg-[#383838] top-[5rem] w-10/12 right-1/2 transform translate-x-1/2 rounded-md flex flex-col p-2 gap-1">
-          {AllUser.map((val, key) => {
+      {Friend && Friend.length ? (
+        <div className=" absolute bg-black w-10/12 top-[5rem] right-1/2 transform translate-x-1/2 rounded-md flex flex-col gap-2">
+          {Friend.map((val, key) => {
+            console.log(val);
+
             return (
               <div
-                className=" flex px-2 h-6 justify-start items-center gap-2 hover:bg-black rounded-md"
+                key={key}
+                onClick={() =>
+                  AddFriendToChatList(val.friendId, val.friendName)
+                }
+                className=" h-8 flex justify-start items-center gap-2  rounded-md bg-[#161616] hover:bg-[#333333] pl-2"
               >
                 <User2Icon className=" rounded-full bg-black" />
-                <span className=" text-sm">{val.name}</span>
+                <span className=" text-sm">{val.friendName}</span>
               </div>
             );
           })}
