@@ -20,24 +20,35 @@ model User {
   friendsAsUser2  Friends[]       @relation("UserFriends2")
   sendRequest     FriendRequest[] @relation("SentRequests")
   recievedRequest FriendRequest[] @relation("ReceivedRequests")
+  FriendChat      ChatFriends[]
 }
 
 model Friends {
   id        String   @id @default(uuid())
   user1     User     @relation("UserFriends1", fields: [user1Id], references: [id])
   user1Id   String
+  user1Name String
   user2     User     @relation("UserFriends2", fields: [user2Id], references: [id])
   user2Id   String
+  user2Name String
   createdAt DateTime @default(now())
 }
 
 model FriendRequest {
+  id           String @id @default(uuid())
+  senderId     String
+  sender       User   @relation("SentRequests", fields: [senderId], references: [id])
+  receiverId   String
+  receiver     User   @relation("ReceivedRequests", fields: [receiverId], references: [id])
+  receiverName String
+  status       String // "PENDING" "ACCEPTED" "REJECTED"
+}
+
+model ChatFriends {
   id         String @id @default(uuid())
-  senderId   String
-  sender     User   @relation("SentRequests", fields: [senderId], references: [id])
-  receiverId String
-  receiver   User   @relation("ReceivedRequests", fields: [receiverId], references: [id])
-  status     String // "PENDING" "ACCEPTED" "REJECTED"
+  friendId   String
+  friendName String
+  Friend     User   @relation(fields: [friendId], references: [id])
 }
 
 model LikedSong {

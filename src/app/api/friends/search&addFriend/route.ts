@@ -7,7 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY_API;
 
 export async function POST(request: Request) {
   const data = await request.json();
-  const { receiverId, senderId } = data;
+  const { receiverId, senderId, senderName, receiverName } = data;
   const headers = request.headers.get("Authorization");
 
   if (!headers) {
@@ -27,6 +27,8 @@ export async function POST(request: Request) {
         data: {
           user1Id: senderId,
           user2Id: receiverId,
+          user1Name: senderName,
+          user2Name: receiverName,
         },
       });
 

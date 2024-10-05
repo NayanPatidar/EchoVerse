@@ -36,7 +36,9 @@ const User = ({ params }: { params: { id: string } }) => {
         },
         body: JSON.stringify({
           senderId: tokenDetails.userId,
+          senderName: tokenDetails.name,
           receiverId: params.id,
+          receiverName: AllUser?.name,
         }),
       });
 
