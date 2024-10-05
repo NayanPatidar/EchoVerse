@@ -13,11 +13,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen } = useGeneralContext();
+  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, NewMessage } =
+    useGeneralContext();
 
   return (
     <div>
-      {IsAddToPlaylistFormOpen || IsUploadPostFormOpen ? (
+      {IsAddToPlaylistFormOpen || IsUploadPostFormOpen || NewMessage ? (
         <div className=" absolute w-full h-screen bg-[#25252550] z-[100]"></div>
       ) : (
         ""
