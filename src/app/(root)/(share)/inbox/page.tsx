@@ -16,7 +16,12 @@ const Inbox = () => {
           Chats
         </div>
 
-        <ChatFriends />
+        <div
+          className="bg-[#212121] rounded-md flex justify-center items-start text-sm gap-1  "
+          style={{ height: "calc(100vh - 15rem)" }}
+        >
+          <ChatFriends />
+        </div>
       </div>
       <div
         className=" w-8/12 h-full overflow-y-hidden p-3 bg-[#212121] rounded-md flex justify-center items-center text-sm gap-1  "

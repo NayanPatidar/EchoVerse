@@ -32,7 +32,6 @@ export async function POST(request: Request) {
         },
       });
 
-      console.log("Added Friend : ", res);
       return NextResponse.json({ res });
     }
     return NextResponse.json({ message: "Error in sending request" });
@@ -44,6 +43,7 @@ export async function POST(request: Request) {
     );
   }
 }
+
 export async function GET(request: Request) {
   const headers = request.headers.get("Authorization");
   const url = new URL(request.url);

@@ -46,6 +46,7 @@ model FriendRequest {
 
 model ChatFriends {
   id         String @id @default(uuid())
+  userId     String
   friendId   String
   friendName String
   Friend     User   @relation(fields: [friendId], references: [id])
