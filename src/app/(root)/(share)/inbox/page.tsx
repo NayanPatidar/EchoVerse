@@ -23,6 +23,7 @@ const Inbox = () => {
           Send Message
         </Button>
       </div>
+      {NewMessage ? <AddFriendToChat /> : null}
     </div>
   );
 };

@@ -171,6 +171,7 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
                   <div
                     className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
                     onClick={() => OpenSong(val)}
+                    key={key}
                   >
                     <img
                       src={TrendingSong}
@@ -210,12 +211,13 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
                         <span className=" pb-1 mb-2 border-b-[1px] text-[#bababa] first-letter:capitalize">
                           {value.data[0].type}
                         </span>
-                        {value.data.map((value) => {
+                        {value.data.map((value, key) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
                             <div
                               className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md"
                               onClick={() => OpenSong(value)}
+                              key={key}
                             >
                               <img
                                 src={SearchSong}

@@ -21,6 +21,7 @@ const FeedPage = () => {
           Object.entries(PostsData).map(([key, val]) => {
             return (
               <UserPostCard
+                key={key}
                 audioEndTime={val.audioEndTime}
                 audioLink={val.audioLink}
                 audioStartTime={val.audioStartTime}

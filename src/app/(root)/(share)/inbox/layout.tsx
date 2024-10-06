@@ -9,7 +9,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { NewMessage, SetNewMessage } = useGeneralContext();
 
   return (
     <div className=" w-full flex flex-row gap-2 p-2">
@@ -31,7 +30,6 @@ export default function RootLayout({
       >
         {children}
       </div>
-      {NewMessage ? <AddFriendToChat /> : null}
     </div>
   );
 }

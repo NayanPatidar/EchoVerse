@@ -74,13 +74,9 @@ const SearchFriends = () => {
         type="text"
         onKeyDown={handleSearchBarKeyDown}
       />
-      <span className=" text-xs text-[#606060] w-full flex items-center justify-center mt-5">
-        {
-          <div className=" w-10/12">
-            "Search by name and connect with your friends!"
-          </div>
-        }
-      </span>
+      <div className=" w-10/12 text-xs text-[#606060] flex items-center justify-center mt-5">
+        &quot;Search by name and connect with your friends!&quot;
+      </div>
 
       {AllUser && AllUser.length ? (
         <div className=" absolute bg-[#383838] top-[4rem] w-full right-1/2 transform translate-x-1/2 rounded-md flex flex-col p-2 gap-1">
@@ -89,6 +85,7 @@ const SearchFriends = () => {
               <div
                 className=" flex px-4 py-1 justify-start items-center gap-2 hover:bg-slate-400"
                 onClick={() => router.push(`/user/${val.id}`)}
+                key={key}
               >
                 <User2Icon className=" rounded-full bg-black" />
                 <span className=" text-sm">{val.name}</span>

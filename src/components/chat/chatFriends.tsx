@@ -12,7 +12,10 @@ const ChatFriends = () => {
       {Friends ? (
         Friends.map((val, key) => {
           return (
-            <div className=" bg-[#1c1c1c] hover:bg-[#101010] px-2 font-medium text-sm p-3">
+            <div
+              className=" bg-[#1c1c1c] hover:bg-[#101010] px-2 font-medium text-sm p-3"
+              key={key}
+            >
               {val.friendName}
             </div>
           );

@@ -65,7 +65,7 @@ export function DropupMenuAddToPlaylist() {
           {Playlists &&
             Object.entries(Playlists).map(([key, val]) => {
               return (
-                <DropdownMenuItem onClick={() => AddSongToPlaylist(val.id)}>
+                <DropdownMenuItem onClick={() => AddSongToPlaylist(val.id)} key={key}>
                   <LetterText className="mr-2 h-4 w-4" />
                   <span>{val.title}</span>
                 </DropdownMenuItem>

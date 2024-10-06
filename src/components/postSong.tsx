@@ -17,6 +17,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthProvider } from "@/context/AuthContext";
+import Image from "next/image";
 
 const PostSong = () => {
   const { SetPostSongForm, SetUploadPostFormOpen } = useGeneralContext();
@@ -354,11 +355,12 @@ export function PostUploadForm() {
             {songData ? (
               <div className=" w-full h-12 bg-white rounded-lg p-1">
                 <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
-                  <img
+                  <Image
                     src={getImageURL(songData.image)}
                     width={40}
                     height={40}
                     className=" rounded-lg p-1"
+                    alt="Song Icon"
                   />
                   <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
                     <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
@@ -539,7 +541,7 @@ function SearchBarBox({ SearchData, SelectSong }: SearchBarBoxProps) {
           </div>
         ) : (
           <div className=" h-12 text-sm  flex items w-full items-center justify-center text-center">
-            "Search Songs To Add to your Post"
+            &quot;Search Songs To Add to your Post&quot;
           </div>
         )}
       </div>

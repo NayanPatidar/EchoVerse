@@ -114,13 +114,9 @@ const AddFriendToChat = () => {
           type="text"
           onKeyDown={handleSearchBarKeyDown}
         />
-        <span className=" text-xs text-[#606060] w-full flex items-center justify-center mt-5">
-          {
-            <div className=" w-10/12 flex justify-center">
-              "Search by name and chat with your friends!"
-            </div>
-          }
-        </span>
+        <div className=" w-10/12 flex justify-center text-xs text-[#606060]items-center  mt-5">
+        &quot;Search by name and chat with your friends!&quot;
+        </div>
       </span>
 
       {Friend && Friend.length ? (

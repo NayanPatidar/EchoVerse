@@ -50,7 +50,6 @@ export default function HomePageSkeleton() {
         </div>
       </div>
       <div>
-        <QuickMusicActions />
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <span className=" w-6/12">

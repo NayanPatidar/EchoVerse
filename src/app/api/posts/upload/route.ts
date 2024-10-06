@@ -40,9 +40,9 @@ export async function POST(req: Request) {
           description: Description,
           audioStartTime: AudioStartTime,
           audioEndTime: AudioEndTime,
-          imageDownload: ImageDownloadLink,
           location: Location,
           audioLink: AudioLink,
+          imageDownloadLink: ImageDownloadLink,
         },
       });
 

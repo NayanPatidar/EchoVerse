@@ -42,7 +42,7 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
     });
 
     const data = await res.json();
-    console.log(data.res);
+    console.log(data);
     SetFriends(data.res);
   };
 
