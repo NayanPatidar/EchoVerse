@@ -14,9 +14,26 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    socket.on("message", (payload) => {
-      console.log("The first message is: ", payload);
+
+    socket.on("joinRoom", ({ userId, friendId }) => {
+      const roomId = [userId, friendId].sort().join("_");
+
+      socket.join(roomId);
+      console.log(`${userId} joined room: ${roomId}`);
+
+      socket.to(roomId).emit("roomMessage", `${userId} has joined the chat`);
+
+      socket.on("sendMessage", (message: string) => {
+        console.log(`Message from ${userId} to room ${roomId}: ${message}`);
+        io.to(roomId).emit("receiveMessage", { userId, message });
+      });
+
+      socket.on("disconnect", () => {
+        console.log(`${userId} disconnected from room: ${roomId}`);
+        socket.leave(roomId);
+      });
     });
+    
   });
 
   httpServer
