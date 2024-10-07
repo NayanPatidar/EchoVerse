@@ -15,6 +15,7 @@ export type CompleteUserData = {
 };
 
 export type FriendData = {
+  id: String;
   friendName: String;
   friendId: String;
 };

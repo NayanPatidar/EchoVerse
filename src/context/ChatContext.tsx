@@ -17,6 +17,8 @@ interface ChatProps {
   SetFriends: Dispatch<SetStateAction<FriendData[] | undefined>>;
   FriendsAdded: boolean;
   SetFriendAdded: Dispatch<SetStateAction<boolean>>;
+  ChatUserName: String | undefined;
+  SetChatUserName: Dispatch<SetStateAction<String | undefined>>;
 }
 
 const ChatContext = createContext<ChatProps | undefined>(undefined);
@@ -30,10 +32,14 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
 }) => {
   const [Friends, SetFriends] = useState<FriendData[] | undefined>(undefined);
   const [FriendsAdded, SetFriendAdded] = useState(false);
+  const [ChatUserName, SetChatUserName] = useState<String | undefined>(
+    undefined
+  );
+
   const { token } = useAuthProvider();
 
   const FetchFriends = async () => {
-    const res = await fetch("api/friends/getAllChatFriends", {
+    const res = await fetch("/api/friends/getAllChatFriends", {
       method: "GET",
       headers: {
         "Context-Type": "application/json",
@@ -42,7 +48,6 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
     });
 
     const data = await res.json();
-    console.log(data);
     SetFriends(data.res);
   };
 
@@ -53,7 +58,14 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
 
   return (
     <ChatContext.Provider
-      value={{ Friends, SetFriends, FriendsAdded, SetFriendAdded }}
+      value={{
+        Friends,
+        SetFriends,
+        FriendsAdded,
+        SetFriendAdded,
+        SetChatUserName,
+        ChatUserName,
+      }}
     >
       {children}
     </ChatContext.Provider>

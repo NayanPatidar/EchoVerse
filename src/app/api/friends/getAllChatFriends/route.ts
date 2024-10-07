@@ -24,9 +24,7 @@ export async function GET(request: Request) {
       const res = await prisma.chatFriends.findMany({
         where: {
           userId: userId,
-        }, include: {
-          
-        }
+        },
       });
 
       console.log(res);

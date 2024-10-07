@@ -2,10 +2,12 @@
 
 import { useChatContext } from "@/context/ChatContext";
 import { MessageCircleX } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ChatFriends = () => {
-  const { Friends } = useChatContext();
+  const { Friends, SetChatUserName } = useChatContext();
+  const router = useRouter();
 
   return (
     <div className=" h-full  bg-[#212121]  text-white flex flex-col w-full">
@@ -15,6 +17,10 @@ const ChatFriends = () => {
             <div
               className=" bg-[#1c1c1c] hover:bg-[#101010] px-2 font-medium text-sm p-3"
               key={key}
+              onClick={() => {
+                router.push(`/inbox/direct/${val.id}`),
+                  SetChatUserName(val.friendName);
+              }}
             >
               {val.friendName}
             </div>
