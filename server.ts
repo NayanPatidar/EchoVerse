@@ -14,10 +14,7 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-
-    socket.on("joinRoom", ({ userId, friendId }) => {
-      const roomId = [userId, friendId].sort().join("_");
-
+    socket.on("joinRoom", ({ userId, roomId }) => {
       socket.join(roomId);
       console.log(`${userId} joined room: ${roomId}`);
 
@@ -33,7 +30,6 @@ app.prepare().then(() => {
         socket.leave(roomId);
       });
     });
-    
   });
 
   httpServer

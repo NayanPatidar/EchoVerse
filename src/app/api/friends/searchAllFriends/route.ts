@@ -34,8 +34,6 @@ export async function POST(request: Request) {
         },
       });
 
-      console.log("UserAdded");
-
       return NextResponse.json({ res });
     }
     return NextResponse.json({ message: "Error in sending request" });
