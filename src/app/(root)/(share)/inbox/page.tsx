@@ -10,7 +10,7 @@ const Inbox = () => {
 
   return (
     <div
-      className=" w-8/12 h-full overflow-y-hidden p-3 bg-[#212121] rounded-md flex justify-center items-center text-sm gap-1  "
+      className=" w-8/12 h-full overflow-y-hidden p-3 bg-[#212121] rounded-md flex justify-center items-center text-sm gap-1"
       style={{ height: "calc(100vh - 11.5rem)" }}
     >
       <div className=" flex flex-col justify-center items-center gap-2">

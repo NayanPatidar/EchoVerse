@@ -17,7 +17,13 @@ const AddFriendToChat = () => {
   const { token } = useAuthProvider();
   const router = useRouter();
 
-  const AddFriendToChatList = async (id: String, name: String) => {
+  const AddFriendToChatList = async (
+    id: String,
+    name: String,
+    relationshipId: String
+  ) => {
+    console.log("RelationShipId : ", relationshipId);
+
     try {
       const res = await fetch(`/api/friends/searchAllFriends`, {
         method: "POST",
@@ -28,6 +34,7 @@ const AddFriendToChat = () => {
         body: JSON.stringify({
           friendId: id,
           friendName: name,
+          relationId: relationshipId,
         }),
       });
 
@@ -115,20 +122,22 @@ const AddFriendToChat = () => {
           onKeyDown={handleSearchBarKeyDown}
         />
         <div className=" w-10/12 flex justify-center text-xs text-[#606060]items-center  mt-5">
-        &quot;Search by name and chat with your friends!&quot;
+          &quot;Search by name and chat with your friends!&quot;
         </div>
       </span>
 
       {Friend && Friend.length ? (
         <div className=" absolute bg-black w-10/12 top-[5rem] right-1/2 transform translate-x-1/2 rounded-md flex flex-col gap-2">
           {Friend.map((val, key) => {
-            console.log(val);
-
             return (
               <div
                 key={key}
                 onClick={() =>
-                  AddFriendToChatList(val.friendId, val.friendName)
+                  AddFriendToChatList(
+                    val.friendId,
+                    val.friendName,
+                    val.relationId
+                  )
                 }
                 className=" h-8 flex justify-start items-center gap-2  rounded-md bg-[#161616] hover:bg-[#333333] pl-2"
               >

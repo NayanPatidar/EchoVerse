@@ -15,7 +15,13 @@ export type CompleteUserData = {
 };
 
 export type FriendData = {
-  id: String;
+  relationId: String;
   friendName: String;
   friendId: String;
+};
+
+export type Messages = {
+  name: String;
+  userId: String;
+  message: String;
 };

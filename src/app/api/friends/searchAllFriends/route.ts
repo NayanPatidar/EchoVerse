@@ -9,8 +9,9 @@ const SECRET_KEY = process.env.SECRET_KEY_API;
 
 export async function POST(request: Request) {
   const data = await request.json();
-  const { friendId, friendName } = data;
+  const { friendId, friendName, relationId } = data;
   const headers = request.headers.get("Authorization");
+  console.log(relationId + " Id ");
 
   if (!headers) {
     return NextResponse.json(
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
           friendName: friendName,
           friendId: friendId,
           userId: userId,
+          relationId: relationId,
         },
       });
 
@@ -85,20 +87,24 @@ export async function GET(request: Request) {
           ],
         },
       });
-
       const friends = res
         .map((friend) => {
           if (friend.user1Id === userId) {
-            return { friendId: friend.user2Id, friendName: friend.user2Name };
+            return {
+              friendId: friend.user2Id,
+              friendName: friend.user2Name,
+              relationId: friend.id,
+            };
           } else if (friend.user2Id === userId) {
-            return { friendId: friend.user1Id, friendName: friend.user1Name };
+            return {
+              friendId: friend.user1Id,
+              friendName: friend.user1Name,
+              relationId: friend.id,
+            };
           }
           return null;
         })
         .filter(Boolean);
-
-      console.log(friends);
-
       return NextResponse.json({ friends });
     }
   } catch (error: any) {

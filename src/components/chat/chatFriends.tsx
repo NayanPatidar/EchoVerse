@@ -18,7 +18,7 @@ const ChatFriends = () => {
               className=" bg-[#1c1c1c] hover:bg-[#101010] px-2 font-medium text-sm p-3"
               key={key}
               onClick={() => {
-                router.push(`/inbox/direct/${val.id}`),
+                router.push(`/inbox/direct/${val.relationId}`),
                   SetChatUserName(val.friendName);
               }}
             >
