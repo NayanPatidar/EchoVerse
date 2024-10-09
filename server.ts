@@ -14,15 +14,15 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    socket.on("joinRoom", ({ userId, roomId }) => {
+    socket.on("joinRoom", ({ name, userId, roomId }) => {
       socket.join(roomId);
-      console.log(`${userId} joined room: ${roomId}`);
+      console.log(`${name} with id ${userId} joined room: ${roomId}`);
 
       socket.to(roomId).emit("roomMessage", `${userId} has joined the chat`);
 
       socket.on("sendMessage", (message: string) => {
         console.log(`Message from ${userId} to room ${roomId}: ${message}`);
-        io.to(roomId).emit("receiveMessage", { userId, message });
+        io.to(roomId).emit("receiveMessage", { name, userId, message });
       });
 
       socket.on("disconnect", () => {

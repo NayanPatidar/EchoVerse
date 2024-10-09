@@ -49,6 +49,7 @@ model ChatFriends {
   userId     String
   friendId   String
   friendName String
+  relationId String
   Friend     User   @relation(fields: [friendId], references: [id])
 }
 
