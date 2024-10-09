@@ -457,5 +457,28 @@ body {
     202,
     202,
     0.1
+  );
+}
+
+.MyChat::-webkit-scrollbar {
+  width: 2px; 
+  background-color: rgba(220, 0, 0, 0); /* Background of the scrollbar */
+}
+
+.MyChat::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5); /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Make the thumb rounded */
+}
+
+.MyChat::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.8); /* Thumb color on hover */
+}
+
+.MyChat::-webkit-scrollbar-track {
+  background-color: rgba(
+    202,
+    202,
+    202,
+    0.1
   ); /* Background track of the scrollbar */
 }

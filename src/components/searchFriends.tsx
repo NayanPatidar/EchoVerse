@@ -13,14 +13,13 @@ const SearchFriends = () => {
   const router = useRouter();
 
   const GetUsers = async (e: any) => {
-    setInputData(e.target.value);
-
+    setInputData(e.target.value);    
     const value = e.target.value;
     console.log(value);
 
     if (value.length > 0) {
       try {
-        const res = await fetch(`/api/friends/searchAll?searchTerm=${value}`, {
+        const res = await fetch(`/api/friends/searchAllUsers?searchTerm=${value}`, {
           method: "GET",
           headers: {
             "content-type": "application/json",

@@ -24,14 +24,25 @@ model User {
 }
 
 model Friends {
-  id        String   @id @default(uuid())
-  user1     User     @relation("UserFriends1", fields: [user1Id], references: [id])
+  id        String    @id @default(uuid())
+  user1     User      @relation("UserFriends1", fields: [user1Id], references: [id])
   user1Id   String
   user1Name String
-  user2     User     @relation("UserFriends2", fields: [user2Id], references: [id])
+  user2     User      @relation("UserFriends2", fields: [user2Id], references: [id])
   user2Id   String
   user2Name String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  messages  Message[] @relation("FriendMessages")
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  friend     Friends  @relation("FriendMessages", fields: [friendId], references: [id])
+  friendId   String
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
 }
 
 model FriendRequest {
