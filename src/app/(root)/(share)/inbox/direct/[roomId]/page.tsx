@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
 import { Messages } from "@/types/user";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
 interface Message {
@@ -19,6 +19,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [roomMessages, setRoomMessages] = useState<string[]>([]);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -47,7 +48,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
           senderId: message.senderId,
         }));
 
-        messages(filteredMessage);
+        setMessages(filteredMessage);
       } catch (error: any) {
         console.error("Error fetching messages:", error.message);
       }
@@ -78,7 +79,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
         if (message) {
           setMessages((prevMessages) => [
             ...prevMessages,
-            { content: message, senderId: name },
+            { content: message, senderId: userId },
           ]);
         } else {
           console.warn("Received empty message from user:", userId);
@@ -100,7 +101,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
   };
 
   useEffect(() => {
-    console.log(messages);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const AddMessageToDB = async () => {
@@ -157,6 +158,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
               </div>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
       </div>
       <div className="w-full flex flex-row">
