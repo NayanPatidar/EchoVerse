@@ -3,22 +3,58 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
+import { Messages } from "@/types/user";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-// Define the Message type
 interface Message {
-  text: string;
-  sender: string;
+  content: string;
+  senderId: string;
 }
 
 const FriendChat = ({ params }: { params: { roomId: string } }) => {
-  const { ChatUserName } = useChatContext();
-  const { tokenDetails } = useAuthProvider();
+  const { ChatUserName, Friends, ChatFriendId } = useChatContext();
+  const { tokenDetails, token } = useAuthProvider();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]); // Use Message type
+  const [messages, setMessages] = useState<Message[]>([]);
   const [roomMessages, setRoomMessages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(
+          `/api/friends/chat?relationId=${params.roomId}`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`Error: ${res.status}`);
+        }
+
+        const messages = await res.json();
+
+        console.log(messages);
+
+        const filteredMessage: Message[] = messages.res.map((message: any) => ({
+          content: message.content,
+          senderId: message.senderId,
+        }));
+
+        messages(filteredMessage);
+      } catch (error: any) {
+        console.error("Error fetching messages:", error.message);
+      }
+    };
+
+    fetchMessages();
+  }, []);
 
   useEffect(() => {
     if (tokenDetails && tokenDetails.userId) {
@@ -42,7 +78,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
         if (message) {
           setMessages((prevMessages) => [
             ...prevMessages,
-            { text: message, sender: name },
+            { content: message, senderId: name },
           ]);
         } else {
           console.warn("Received empty message from user:", userId);
@@ -59,7 +95,31 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
     if (message.trim()) {
       socket?.emit("sendMessage", message);
       setMessage("");
+      AddMessageToDB();
     }
+  };
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
+
+  const AddMessageToDB = async () => {
+    if (!ChatFriendId) {
+      return;
+    }
+
+    const res = await fetch("/api/friends/chat/", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        friendId: ChatFriendId,
+        relationId: params.roomId as string,
+        message: message,
+      }),
+    });
   };
 
   const handleSearchBarKeyDown = (
@@ -81,19 +141,19 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
             <div
               key={index}
               className={`flex ${
-                msg.sender === tokenDetails.name
+                msg.senderId === tokenDetails.userId
                   ? "justify-end"
                   : "justify-start"
               }`}
             >
               <div
                 className={`p-2 rounded-md text-white ${
-                  msg.sender === tokenDetails.name
+                  msg.senderId === tokenDetails.userId
                     ? "bg-blue-500"
                     : "bg-gray-700"
                 }`}
               >
-                {msg.text}
+                {msg.content}
               </div>
             </div>
           ))}
