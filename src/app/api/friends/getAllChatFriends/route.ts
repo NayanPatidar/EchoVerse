@@ -27,8 +27,6 @@ export async function GET(request: Request) {
         },
       });
 
-      console.log(res);
-
       return NextResponse.json({ res });
     }
     return NextResponse.json({ message: "Error in sending request" });

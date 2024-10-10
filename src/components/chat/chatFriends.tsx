@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ChatFriends = () => {
-  const { Friends, SetChatUserName } = useChatContext();
+  const { Friends, SetChatUserName, SetChatFriendId } = useChatContext();
   const router = useRouter();
 
   return (
@@ -20,6 +20,7 @@ const ChatFriends = () => {
               onClick={() => {
                 router.push(`/inbox/direct/${val.relationId}`),
                   SetChatUserName(val.friendName);
+                SetChatFriendId(val.friendId);
               }}
             >
               {val.friendName}

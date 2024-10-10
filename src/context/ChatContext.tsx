@@ -19,6 +19,8 @@ interface ChatProps {
   SetFriendAdded: Dispatch<SetStateAction<boolean>>;
   ChatUserName: String | undefined;
   SetChatUserName: Dispatch<SetStateAction<String | undefined>>;
+  ChatFriendId: String | undefined;
+  SetChatFriendId: Dispatch<SetStateAction<String | undefined>>;
 }
 
 const ChatContext = createContext<ChatProps | undefined>(undefined);
@@ -33,6 +35,9 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
   const [Friends, SetFriends] = useState<FriendData[] | undefined>(undefined);
   const [FriendsAdded, SetFriendAdded] = useState(false);
   const [ChatUserName, SetChatUserName] = useState<String | undefined>(
+    undefined
+  );
+  const [ChatFriendId, SetChatFriendId] = useState<String | undefined>(
     undefined
   );
 
@@ -65,6 +70,8 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
         SetFriendAdded,
         SetChatUserName,
         ChatUserName,
+        ChatFriendId,
+        SetChatFriendId,
       }}
     >
       {children}
