@@ -59,7 +59,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (tokenDetails && tokenDetails.userId) {
-      const socketInstance: Socket = io("http://localhost:3000");
+      const socketInstance: Socket = io("");
       setSocket(socketInstance);
       const userId = tokenDetails.userId;
       const name = tokenDetails.name;

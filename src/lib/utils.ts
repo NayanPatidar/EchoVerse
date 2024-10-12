@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ImageQuality, Quality, Type } from "@/types";
 import { MirtOptions } from "@/components/external/Mirt";
+import { Notifications } from "@/types/notification";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -154,4 +155,31 @@ export const getWaveformData = async (
 export const timeStringToSeconds = (time: string): number => {
   const [minutes, seconds] = time.split(":").map(Number);
   return minutes * 60 + seconds;
+};
+
+export const SendNotification = async (
+  type: Notifications,
+  senderId: String,
+  receiverId: String,
+  token: String
+) => {
+  try {
+    const res = await fetch("", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        type: type,
+        senderId: senderId,
+        receiverId: receiverId,
+      }),
+    });
+
+    const update = await res.json();
+    return update;
+  } catch (error: any) {
+    console.error("Got Error in Sending Notification : ", error.message);
+  }
 };
