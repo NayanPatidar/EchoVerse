@@ -82,7 +82,7 @@ const SearchFriends = () => {
           {AllUser.map((val, key) => {
             return (
               <div
-                className=" flex px-4 py-1 justify-start items-center gap-2 hover:bg-slate-400"
+                className=" flex px-4 py-1 justify-start items-center gap-2 hover:bg-[#171717] rounded-md cursor-pointer"
                 onClick={() => router.push(`/user/${val.id}`)}
                 key={key}
               >

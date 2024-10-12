@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ImageQuality, Quality, Type } from "@/types";
 import { MirtOptions } from "@/components/external/Mirt";
-import { Notifications } from "@/types/notification";
+import { NotificationsType } from "@/types/notification";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -158,14 +158,14 @@ export const timeStringToSeconds = (time: string): number => {
 };
 
 export const SendNotification = async (
-  type: Notifications,
+  type: NotificationsType,
   senderId: String,
   receiverId: String,
   token: String,
   name: String
 ) => {
   try {
-    const res = await fetch("", {
+    const res = await fetch("/api/friends/notification", {
       method: "POST",
       headers: {
         "content-type": "application/json",

@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { GetUsers } from "@/components/user/details";
 import { useAuthProvider } from "@/context/AuthContext";
 import { database } from "@/lib/firebase";
+import { SendNotification } from "@/lib/utils";
+import { Notifications } from "@/types/notification";
 import { CompleteUserData } from "@/types/user";
 import { onValue, ref, remove, set } from "firebase/database";
 import Image from "next/image";
@@ -146,6 +148,13 @@ const User = ({ params }: { params: { id: string } }) => {
     });
 
     setStatus("FOLLOW_REQUEST_SENT");
+    SendNotification(
+      "FOLLOW",
+      tokenDetails.userId,
+      params.id,
+      token as string,
+      tokenDetails.name
+    );
   };
 
   const acceptFollowRequest = () => {
