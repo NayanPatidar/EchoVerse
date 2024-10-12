@@ -161,7 +161,8 @@ export const SendNotification = async (
   type: Notifications,
   senderId: String,
   receiverId: String,
-  token: String
+  token: String,
+  name: String
 ) => {
   try {
     const res = await fetch("", {
@@ -174,6 +175,7 @@ export const SendNotification = async (
         type: type,
         senderId: senderId,
         receiverId: receiverId,
+        name: name,
       }),
     });
 
