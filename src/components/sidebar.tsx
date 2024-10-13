@@ -85,9 +85,21 @@ const Sidebar = () => {
                 paddingRight: sideBarOpen ? "20px" : "",
               }}
             >
-              <div className=" px-7 flex flex-row gap-3 items-center w-full">
+              <div
+                className=" flex flex-row gap-3 items-center w-full"
+                style={{
+                  justifyContent: sideBarOpen ? "" : "center",
+                  paddingLeft: sideBarOpen ? "1.75rem" : "",
+                  paddingRight: sideBarOpen ? "1.75rem" : "",
+                }}
+              >
                 <Music size={20} color="#9c9c9c88" />
-                <h2 className="gradientText font-bold text-xl ">Music</h2>
+
+                {sideBarOpen ? (
+                  <h2 className="gradientText font-bold text-xl ">Music</h2>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </AccordionTrigger>
@@ -236,9 +248,20 @@ const Sidebar = () => {
                 paddingRight: sideBarOpen ? "20px" : "",
               }}
             >
-              <div className=" px-7 flex flex-row gap-3 items-center w-full">
+              <div
+                className="flex flex-row gap-3 items-center w-full"
+                style={{
+                  justifyContent: sideBarOpen ? "" : "center",
+                  paddingLeft: sideBarOpen ? "1.75rem" : "",
+                  paddingRight: sideBarOpen ? "1.75rem" : "",
+                }}
+              >
                 <MessageCircleHeart size={20} color="#9c9c9c88" />
-                <h2 className="gradientText font-bold text-xl ">Share</h2>
+                {sideBarOpen ? (
+                  <h2 className="gradientText font-bold text-xl ">Share</h2>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </AccordionTrigger>

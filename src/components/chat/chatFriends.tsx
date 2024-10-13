@@ -11,7 +11,7 @@ const ChatFriends = () => {
 
   return (
     <div className=" h-full  bg-[#212121]  text-white flex flex-col w-full">
-      {Friends ? (
+      {Friends && Friends.length > 0 ? (
         Friends.map((val, key) => {
           return (
             <div
