@@ -1,35 +1,15 @@
 "use client";
 import { useAuthProvider } from "@/context/AuthContext";
+import { useNotificationContext } from "@/context/NotificationContext";
 import { Notification } from "@/types/notification";
 import { useEffect, useState } from "react";
 
 const Notifications = () => {
-  const { token, tokenDetails } = useAuthProvider();
-  const [Notifications, SetNotifications] = useState<
-    undefined | Notification[]
-  >(undefined);
-
-  const FetchNotification = async () => {
-    const res = await fetch(
-      `/api/friends/notification?userId=${tokenDetails.userId}`,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const data = await res.json();
-    console.log(data);
-
-    SetNotifications(data.notifications);
-  };
+  const { OriginialNotifications } = useNotificationContext();
 
   useEffect(() => {
-    FetchNotification();
-  }, []);
+    console.log(OriginialNotifications);
+  }, [OriginialNotifications]);
 
   return (
     <div
@@ -40,8 +20,8 @@ const Notifications = () => {
         Notifications
       </div>
       <div className="font-medium mt-2">
-        {Notifications &&
-          Object.entries(Notifications).map(([key, val]) => {
+        {OriginialNotifications &&
+          Object.entries(OriginialNotifications).map(([key, val]) => {
             return (
               <div key={key} className=" bg-[#121212] p-4">
                 {val.content}
