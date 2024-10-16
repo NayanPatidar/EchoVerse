@@ -155,6 +155,19 @@ const User = ({ params }: { params: { id: string } }) => {
       token as string,
       tokenDetails.name
     );
+
+    const NotificationRequestRef = ref(
+      database,
+      `notifications/${params.id}/${tokenDetails.userId}`
+    );
+
+    set(NotificationRequestRef, {
+      content: `${tokenDetails.name} followed you!`,
+      receiver: `${AllUser?.name}`,
+      recevierId: params.id,
+      senderId: tokenDetails.userId,
+      type: "FOLLOW",
+    });
   };
 
   const acceptFollowRequest = () => {
