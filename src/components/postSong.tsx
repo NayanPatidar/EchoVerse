@@ -38,26 +38,33 @@ const PostSong = () => {
 
 export default PostSong;
 
-const postSchema = z.object({
-  image: z
+const postSchemaPage1 = z.object({
+  description: z.string().min(1, { message: "Description is required." }),
+});
+
+const postSchemaPage2 = z.object({
+  imageOrVideo: z
     .instanceof(File)
     .nullable()
     .refine((file) => file !== null, {
-      message: "Image is required.",
-    })
-    .optional(),
-  description: z.string().min(1, { message: "Description is required." }),
-  songData: z
-    .object({})
-    .optional()
-    .refine((data) => data !== undefined, {
-      message: "Song is required.",
+      message: "Image / Video is required.",
+    }),
+  songData: z.object({}),
+  location: z.string().optional(),
+});
+
+const postSchemaPage3 = z.object({
+  imageOrVideo: z
+    .instanceof(File)
+    .nullable()
+    .refine((file) => file !== null, {
+      message: "Image / Video is required.",
     }),
   location: z.string().optional(),
 });
 
 export function PostUploadForm() {
-  const [image, setImage] = useState<File | null>(null);
+  const [imageOrVideo, setImageOrVideo] = useState<File | null>(null);
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [song, setSong] = useState("");
@@ -75,10 +82,13 @@ export function PostUploadForm() {
   const [SongLink, setSongLink] = useState<string>("");
   const { token } = useAuthProvider();
   const [playing, setPlaying] = useState<boolean>(false);
+  type PostType = "photo" | "video";
+  const [postType, setPostType] = useState<PostType>("photo");
 
   const [errors, setErrors] = useState({
     description: "",
     songData: "",
+    imageOrVideo: " ",
   });
 
   const handleClickOutside = (event: any) => {
@@ -96,7 +106,7 @@ export function PostUploadForm() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     console.log(file);
-    setImage(file);
+    setImageOrVideo(file);
   };
 
   useEffect(() => {
@@ -111,25 +121,61 @@ export function PostUploadForm() {
 
     if (page == 1) {
       const formData = {
-        image,
         description,
-        location,
-        songData,
       };
-
-      const result = postSchema.safeParse(formData);
+      const result = postSchemaPage1.safeParse(formData);
 
       if (!result.success) {
         const errors = result.error.format();
         setErrors({
           description: errors.description?._errors[0] || "",
-          songData: errors.songData?._errors[0] || "",
+          songData: "",
+          imageOrVideo: "",
         });
-        console.log(errors);
-
         return;
       } else {
-        SetPage(2);
+        SetPage(postType == "photo" ? 2 : 3);
+      }
+    } else if (page == 2) {
+      const formData = {
+        imageOrVideo,
+        location,
+        songData,
+      };
+
+      const result = postSchemaPage2.safeParse(formData);
+
+      if (!result.success) {
+        const errors = result.error.format();
+        setErrors({
+          description: "",
+          songData: errors.songData?._errors[0] || "",
+          imageOrVideo: errors.imageOrVideo?._errors[0] || "",
+        });
+        console.log(errors);
+        return;
+      } else {
+        SetPage(4);
+      }
+    } else if (page == 3) {
+      const formData = {
+        imageOrVideo,
+        location,
+      };
+
+      const result = postSchemaPage3.safeParse(formData);
+
+      if (!result.success) {
+        const errors = result.error.format();
+        setErrors({
+          description: "",
+          imageOrVideo: errors.imageOrVideo?._errors[0] || "",
+          songData: "",
+        });
+        console.log(errors);
+        return;
+      } else {
+        uploadPost();
       }
     } else {
       uploadPost();
@@ -137,13 +183,13 @@ export function PostUploadForm() {
   };
 
   const uploadPost = () => {
-    if (!image) return;
+    if (!imageOrVideo) return;
     if (isUploading) return;
 
     setIsUploading(true);
-    const uniqueFileName = `${uuidv4()}.${image.name.split(".").pop()}`;
+    const uniqueFileName = `${uuidv4()}.${imageOrVideo.name.split(".").pop()}`;
     const storageRef = ref(storage, `uploads/${uniqueFileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, image);
+    const uploadTask = uploadBytesResumable(storageRef, imageOrVideo);
 
     uploadTask.on(
       "state_changed",
@@ -204,6 +250,7 @@ export function PostUploadForm() {
     setErrors({
       description: "",
       songData: "",
+      imageOrVideo: "",
     });
   };
 
@@ -239,7 +286,7 @@ export function PostUploadForm() {
 
   const closeForm = () => {
     setPlaying((prev) => !prev);
-    setImage(null);
+    setImageOrVideo(null);
     setDescription("");
     setLocation("");
     setSong("");
@@ -337,131 +384,248 @@ export function PostUploadForm() {
               autoComplete="off"
             />
           </div>
-          <div
-            className="space-y-2 z-[450] text-black relative"
-            ref={wrapperRef}
-          >
-            <Label
-              htmlFor="song"
-              className=" text-white flex gap-2 items-center"
-            >
-              Select Song
-              {errors.songData && (
-                <p className="text-red-500 text-sm items-center flex">
-                  {errors.songData}
-                </p>
-              )}
-            </Label>
-            {songData ? (
-              <div className=" w-full h-12 bg-white rounded-lg p-1">
-                <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
-                  <Image
-                    src={getImageURL(songData.image)}
-                    width={40}
-                    height={40}
-                    className=" rounded-lg p-1"
-                    alt="Song Icon"
-                  />
-                  <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
-                    <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
-                      {songData.name}
-                    </span>
-                  </div>
-                  <div
-                    onClick={() => {
-                      setSong(""), setErrorToNull(), setSongData(undefined);
-                    }}
-                  >
-                    <IoCloseSharp />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Input
-                id="song"
-                value={song}
-                onChange={(e) => {
-                  setSong(e.target.value);
-                  searchProcess(e);
-                }}
-                onKeyDown={handleSearchBarKeyDown}
-                placeholder="Choose a song"
-                className="text-black"
-                type="text"
-                autoComplete="off"
-                onClick={() => {
-                  setIsVisible(true);
-                  setErrorToNull();
-                }}
-              />
-            )}
-
-            {isVisible && (
-              <div className=" w-full">
-                <SearchBarBox
-                  SearchData={SearchData as AllSearch}
-                  SelectSong={SelectSong}
-                />
-              </div>
-            )}
-          </div>
-          <div className=" flex gap-5">
-            <div className="space-y-2 w-full flex flex-col pt-[9px]">
-              <Label htmlFor="image">Upload Image</Label>
+          <div className="flex gap-4 mb-4">
+            <label className=" flex gap-1">
               <input
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
+                type="radio"
+                value="photo"
+                checked={postType === "photo"}
+                onChange={() => setPostType("photo")}
               />
-              <label
-                htmlFor="image"
-                className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
-              >
-                {image ? image.name : "Choose File"}
-              </label>
-            </div>
-
-            <div className="space-y-2 w-full ">
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Add location"
-                className=" text-black"
-                autoComplete="off"
+              Photo
+            </label>
+            <label className=" flex gap-1">
+              <input
+                type="radio"
+                value="video"
+                checked={postType === "video"}
+                onChange={() => setPostType("video")}
               />
-            </div>
+              Video
+            </label>
           </div>
         </>
-      ) : page == 2 ? (
-        <div>
-          <div className=" w-full text-center text-2xl font-semibold flex justify-center items-center pt-2">
-            <div className=" w-10/12 text-end"> Song Details</div>
+      ) : (
+        ""
+      )}
+
+      {page == 2 && postType == "photo" ? (
+        <>
+          <div className=" flex">
+            <h2 className=" font-semibold text-xl text-center w-full pt-2 text-white">
+              Select Photo
+            </h2>
             <div
-              className=" flex justify-end cursor-pointer w-6/12"
+              className=" flex items-center justify-center cursor-pointer"
               onClick={() => closeForm()}
             >
               <Cross className=" rotate-45" />
             </div>
           </div>
 
-          <div className=" mt-5">
-            <div className=" mb-2">Select the song clip to be added:</div>
-            <Mirt
-              file={file}
-              onChange={TrimmerValueOnChange}
-              className=" custom-audio-trimmer mb-2"
-              pausePlaying={playing}
-            />
-            From{" "}
-            <span className=" flex gap-3 text-red-500">
-              {initialVal} - {finalVal}
-            </span>
+          <div className=" flex flex-col gap-4">
+            <div
+              className="space-y-2 z-[450] text-black relative"
+              ref={wrapperRef}
+            >
+              <Label
+                htmlFor="song"
+                className=" text-white flex gap-2 items-center"
+              >
+                Select Song
+                {errors.songData && (
+                  <p className="text-red-500 text-sm items-center flex">
+                    {errors.songData}
+                  </p>
+                )}
+              </Label>
+              {songData ? (
+                <div className=" w-full h-12 bg-white rounded-lg p-1">
+                  <div className=" flex gap-2 w-fit cursor-pointer hover:bg-[#2f2f2f45] rounded-md items-center pr-1">
+                    <Image
+                      src={getImageURL(songData.image)}
+                      width={40}
+                      height={40}
+                      className=" rounded-lg p-1"
+                      alt="Song Icon"
+                    />
+                    <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
+                      <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
+                        {songData.name}
+                      </span>
+                    </div>
+                    <div
+                      onClick={() => {
+                        setSong(""), setErrorToNull(), setSongData(undefined);
+                      }}
+                    >
+                      <IoCloseSharp />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Input
+                  id="song"
+                  value={song}
+                  onChange={(e) => {
+                    setSong(e.target.value);
+                    searchProcess(e);
+                  }}
+                  onKeyDown={handleSearchBarKeyDown}
+                  placeholder="Choose a song"
+                  className="text-black"
+                  type="text"
+                  autoComplete="off"
+                  onClick={() => {
+                    setIsVisible(true);
+                    setErrorToNull();
+                  }}
+                />
+              )}
+
+              {isVisible && (
+                <div className=" w-full">
+                  <SearchBarBox
+                    SearchData={SearchData as AllSearch}
+                    SelectSong={SelectSong}
+                  />
+                </div>
+              )}
+            </div>
+            <div className=" flex gap-5">
+              <div className="space-y-2 w-full flex flex-col pt-[9px]">
+                <Label
+                  htmlFor="image"
+                  className=" text-white flex gap-2 items-center"
+                >
+                  Upload Photo{" "}
+                  {errors.imageOrVideo && (
+                    <p className="text-red-500 text-sm items-center flex">
+                      {errors.imageOrVideo}
+                    </p>
+                  )}
+                </Label>
+                <input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="image"
+                  className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
+                >
+                  {imageOrVideo ? imageOrVideo.name : "Choose File"}
+                </label>
+              </div>
+
+              <div className="space-y-2 w-full ">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Add location"
+                  className=" text-black"
+                  autoComplete="off"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </>
+      ) : page == 3 && postType == "video" ? (
+        <>
+          <div className=" flex">
+            <h2 className=" font-semibold text-xl text-center w-full pt-2 text-white">
+              Select Video
+            </h2>
+            <div
+              className=" flex items-center justify-center cursor-pointer"
+              onClick={() => closeForm()}
+            >
+              <Cross className=" rotate-45" />
+            </div>
+          </div>
+          <div className=" flex flex-col gap-4">
+            <div className=" flex gap-5">
+              <div className="space-y-2 w-full flex flex-col pt-[9px]">
+                <Label htmlFor="image" className=" flex gap-3">
+                  Upload Video
+                  {errors.imageOrVideo && (
+                    <p className="text-red-500 text-sm items-center flex">
+                      {errors.imageOrVideo}
+                    </p>
+                  )}
+                </Label>
+                <input
+                  id="image"
+                  type="file"
+                  accept="video/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="image"
+                  className="cursor-pointer px-3 py-[10px] text-sm font-medium border border-gray-300 rounded-md text-gray-700 bg-gray-100"
+                >
+                  {imageOrVideo ? imageOrVideo.name : "Choose File"}
+                </label>
+              </div>
+
+              <div className="space-y-2 w-full ">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Add location"
+                  className=" text-black"
+                  autoComplete="off"
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
+      {page == 4 && postType == "photo" ? (
+        <>
+          <div>
+            <div className=" w-full text-center text-2xl font-semibold flex justify-center items-center pt-2">
+              <div className=" w-10/12 text-end"> Song Details</div>
+              <div
+                className=" flex justify-end cursor-pointer w-6/12"
+                onClick={() => closeForm()}
+              >
+                <Cross className=" rotate-45" />
+              </div>
+            </div>
+            {songData != null ? (
+              <div className=" mt-5">
+                <div className=" mb-2">Select the song clip to be added:</div>
+                <Mirt
+                  file={file}
+                  onChange={TrimmerValueOnChange}
+                  className=" custom-audio-trimmer mb-2"
+                  pausePlaying={playing}
+                />
+                From{" "}
+                <span className=" flex gap-3 text-red-500">
+                  {initialVal} - {finalVal}
+                </span>
+              </div>
+            ) : (
+              <div className=" mt-5">
+                <div className=" mb-2">
+                  Click Enter if you want to upload the file
+                </div>
+              </div>
+            )}
+          </div>
+        </>
       ) : (
         ""
       )}
@@ -470,7 +634,7 @@ export function PostUploadForm() {
 
       <div className=" flex justify-center w-full">
         <Button type="submit" className="w-2/5 ">
-          {page == 1 ? "Next" : "Upload"}
+          {page == 2 || page == 1 ? "Next" : "Upload"}
         </Button>
       </div>
     </form>
