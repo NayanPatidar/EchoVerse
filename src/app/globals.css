@@ -165,57 +165,95 @@ body {
 }
 
 .media-element {
-  padding: 1rem;
+  padding: 0.5rem;
   height: auto;
   background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
-  width: 190px;
-  position: relative;
-}
-
-.media-element:hover {
-  padding: 1rem;
-  height: auto;
-  background-color: rgba(71, 71, 71, 0.434);
-  border-radius: 10px;
-  width: 190px;
+  width: 110px;
   position: relative;
 }
 
 .media-elements-image {
   border-radius: 5px;
-  width: 160px;
-  height: 160px;
+  width: 90px;
+  height: 90px;
 }
 
-.PlaySymbolCard {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
-  bottom: 75px;
-  right: 25px;
-  opacity: 0;
-  transition: 0.3s;
+@media (min-width: 768px) {
+  .media-element {
+    padding: 1rem;
+    height: auto;
+    background-color: rgba(76, 76, 76, 0);
+    border-radius: 1rem;
+    width: 190px;
+    position: relative;
+  }
+
+  .media-element:hover {
+    padding: 1rem;
+    height: auto;
+    background-color: rgba(71, 71, 71, 0.434);
+    border-radius: 10px;
+    width: 190px;
+    position: relative;
+  }
+
+  .media-elements-image {
+    border-radius: 5px;
+    width: 160px;
+    height: 160px;
+  }
+
+  .PlaySymbolCard {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    bottom: 75px;
+    right: 25px;
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  .media-element:hover .PlaySymbolCard {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 100%;
+    bottom: 85px;
+    right: 20px;
+    opacity: 1;
+  }
+
+  .PlayIcon {
+    position: absolute;
+    left: 35%;
+    top: 50%;
+    transform: translateX(-50%);
+    transform: translateY(-50%);
+  }
 }
 
-.media-element:hover .PlaySymbolCard {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  background-color: rgb(0, 0, 0);
-  border-radius: 100%;
-  bottom: 85px;
-  right: 20px;
-  opacity: 1;
+.audio-player {
+  transition: height 0.3s ease;
 }
 
-.PlayIcon {
-  position: absolute;
-  left: 35%;
-  top: 50%;
-  transform: translateX(-50%);
-  transform: translateY(-50%);
+/* styles.css or a relevant CSS module */
+.icon {
+  transition: transform 0.3s ease; /* Transition for size change */
+}
+
+.icon.size-6 {
+  transform: scale(1); /* Original size */
+}
+
+.icon.size-8 {
+  transform: scale(1); /* Scaled size for larger icons */
+}
+
+.icon.size-12 {
+  transform: scale(1); /* Even larger size */
 }
 
 .Montserrat-thin {
@@ -300,10 +338,17 @@ body {
 }
 
 .MainContentDiv {
-  height: calc(100vh - 80px);
+  height: calc(100vh - 72px);
+}
+
+.css-1sp8okk-MuiSlider-root {
+  padding: 0px;
 }
 
 @media (min-width: 768px) {
+  .MainContentDiv {
+    height: calc(100vh - 80px);
+  }
   .NavbarMain {
     width: calc(97.2vw - 15rem);
   }

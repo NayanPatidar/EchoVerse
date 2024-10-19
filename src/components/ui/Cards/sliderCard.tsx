@@ -71,13 +71,16 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
         alt=""
         onClick={() => MediaClick()}
       />
-      <div className="PlaySymbolCard" onClick={() => PlayMedia()}>
-        <FaPlay className=" PlayIcon" />
+      <div
+        className="PlaySymbolCard hidden md:visible"
+        onClick={() => PlayMedia()}
+      >
+        <FaPlay className=" PlayIcon hidden md:visible" />
       </div>
-      <span className=" text-base lato-regular mt-5  overflow-hidden whitespace-nowrap text-ellipsis">
+      <span className="lato-regular mt-5 md:text-base text-xs overflow-hidden whitespace-nowrap text-ellipsis">
         {name}
       </span>
-      <span className=" lato-regular text-gray-400 text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+      <span className=" lato-regular text-gray-400 text-xs md:text-sm overflow-hidden whitespace-nowrap text-ellipsis">
         {subtitle}
       </span>
     </div>
