@@ -20,7 +20,7 @@ const UserPostCard: React.FC<PostProps & MuteProp> = ({
   createdAt,
   description,
   id,
-  imageDownload,
+  imageDownloadLink,
   location,
   userId,
   isMuted,
@@ -135,7 +135,7 @@ const UserPostCard: React.FC<PostProps & MuteProp> = ({
 
       <div className=" relative w-full h-76 mb-4">
         <img
-          src={imageDownload}
+          src={imageDownloadLink}
           alt="Post Image"
           className="w-full h-full object-cover rounded-lg"
         />
