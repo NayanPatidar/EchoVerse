@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
-import { Messages } from "@/types/user";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -59,7 +58,9 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (tokenDetails && tokenDetails.userId) {
-      const socketInstance: Socket = io("");
+      const socketInstance: Socket = io(
+        "https://socket-io-echoverse-1.onrender.com/"
+      );
       setSocket(socketInstance);
       const userId = tokenDetails.userId;
       const name = tokenDetails.name;
