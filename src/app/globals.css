@@ -303,16 +303,21 @@ body {
   height: calc(100vh - 80px);
 }
 
+@media (min-width: 768px) {
+  .NavbarMain {
+    width: calc(97.2vw - 15rem);
+  }
+
+  .NavbarMainOnSideBarOpen {
+    width: calc(97.2vw - 15rem);
+  }
+
+  .NavbarMainOnSideBarClose {
+    width: calc(97.2vw - 4rem);
+  }
+}
 .NavbarMain {
-  width: calc(97.2vw - 15rem);
-}
-
-.NavbarMainOnSideBarOpen {
-  width: calc(97.2vw - 15rem);
-}
-
-.NavbarMainOnSideBarClose {
-  width: calc(97.2vw - 4rem);
+  width: 100%;
 }
 
 .SearchBoxMain {
@@ -452,16 +457,11 @@ body {
 }
 
 .FeedContent::-webkit-scrollbar-track {
-  background-color: rgba(
-    202,
-    202,
-    202,
-    0.1
-  );
+  background-color: rgba(202, 202, 202, 0.1);
 }
 
 .MyChat::-webkit-scrollbar {
-  width: 2px; 
+  width: 2px;
   background-color: rgba(220, 0, 0, 0); /* Background of the scrollbar */
 }
 

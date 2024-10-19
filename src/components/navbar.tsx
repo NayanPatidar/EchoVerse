@@ -12,6 +12,8 @@ import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 import { useSession, signIn } from "next-auth/react";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
+import LoadingSpinner from "./ui/LoadingSpinner";
+import { PiListLight } from "react-icons/pi";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -57,39 +59,46 @@ const Navbar = () => {
 
   return (
     <div
-      className={`NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex justify-between items-center h-auto text-white rounded-t-lg `}
+      className={` NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex  items-center h-auto text-white rounded-t-lg max-w-full`}
     >
-      <div className=" border-white h-16 flex items-center ">
-        <form className="h-16 pl-[48px] flex items-center">
-          <div
-            ref={searchBarRef}
-            className=" z-50 border-[1px] border-zinc-600  w-[480px] rounded-md flex flex-row items-center bg-[#242424] pl-4"
-          >
-            <CiSearch color="zinc" size={24} />
-            <Input
-              readOnly
-              placeholder="Search songs, albums, artists, podcasts"
-              className="bg-[#242424] border-none w-[440px] rounded-lg placeholder-[#535353] cursor-pointer "
-              onClick={() => setSearchBarOpen(true)}
-            ></Input>
-            {isSearchBarOpen ? (
-              <SearchBarBox
-                trendingSearches={trendingSearches}
-                closeSearchBar={() => setSearchBarOpen(false)}
+      <div
+        className=" cursor-pointer px-2 md:hidden "
+      >
+        <PiListLight size={24} onClick={() => toggleSideBar()} />
+      </div>
+      <div className=" flex flex-row justify-between min-w-full gap-2">
+        <div className=" border-white h-16 flex items-center w-full gap-3">
+          <form className="h-16 md:pl-[48px] flex items-center w-full">
+            <div
+              ref={searchBarRef}
+              className=" z-50 border-[1px] border-zinc-600 md:w-[480px] w-full rounded-md flex flex-row items-center bg-[#242424] pl-4"
+            >
+              <CiSearch color="zinc" className=" size-4 md:size-6" />
+              <Input
+                readOnly
+                placeholder="Search songs, albums, artists, podcasts"
+                className="bg-[#242424]  flex-grow border-none rounded-lg placeholder-[#535353] cursor-pointer w-full placeholder:text-xs md:placeholder:text-sm"
+                onClick={() => setSearchBarOpen(true)}
               />
+              {isSearchBarOpen ? (
+                <SearchBarBox
+                  trendingSearches={trendingSearches}
+                  closeSearchBar={() => setSearchBarOpen(false)}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+          </form>
+        </div>
+        <div className="NavbarBarProfile flex items-center mr-5">
+          <div className=" w-10 mr-5 cursor-pointer rounded-full z-[100] flex justify-center items-center">
+            {isAuthenticated ? (
+              <DropdownMenuProfile />
             ) : (
-              ""
+              <MdAccountCircle size={40} onClick={() => Profile()} />
             )}
           </div>
-        </form>
-      </div>
-      <div className="NavbarBarProfile flex">
-        <div className=" w-10 mr-5 cursor-pointer rounded-full z-[100]">
-          {isAuthenticated ? (
-            <DropdownMenuProfile />
-          ) : (
-            <MdAccountCircle size={40} onClick={() => Profile()} />
-          )}
         </div>
       </div>
     </div>
@@ -141,8 +150,6 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
       event.stopPropagation();
     }
   };
-
-  const SearchColums = ["Albums", "Songs", "Artists"];
 
   const searchProcess = debounce(searchHandler, 1000);
   const processedItems = new Set();
@@ -246,7 +253,9 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
             })}
           </div>
         ) : (
-          ""
+          <div className=" flex justify-center">
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>

@@ -31,10 +31,10 @@ export default function RootLayout({
               <div className="w-full flex-col">
                 <NotificationProvider>
                   <div className="MainContentDiv flex flex-row ">
-                    <div className="flex flex-row z-0">
+                    <div className="md:flex hidden flex-row z-0 ">
                       <Sidebar />
                     </div>
-                    <div className="MainSongsHomeContent w-auto bg-black overflow-hidden m-2 mb-2">
+                    <div className="MainSongsHomeContent md:w-auto w-full  bg-black overflow-hidden m-2 mb-2">
                       <div className="MainPageDivBox text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
                         <Navbar />
                         {children}
