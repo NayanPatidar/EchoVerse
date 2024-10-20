@@ -160,12 +160,11 @@ const AudioPlayer = () => {
   }, [playing]);
 
   return (
-    <div className="audio-player fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black h-20  flex flex-col">
+    <div className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col">
       <Slider
         sx={{
           padding: "0px",
           width: "100%",
-          height: "5px",
           color: "red",
           "& .MuiSlider-rail": {
             color: "white",
@@ -181,9 +180,8 @@ const AudioPlayer = () => {
         max={audioDuration}
         step={1}
         onChange={(_, value) => sliderPositionChange(value)}
-        className=""
       />
-      <div className=" flex flex-row items-center justify-center align-middle md:h-20 h-16 ">
+      <div className=" flex flex-row items-center justify-center align-middle h-full ">
         <div className=" h-full w-full hidden md:block">
           <div className=" flex justify-start items-center h-full pl-5 gap-2  ">
             <div>
@@ -245,22 +243,16 @@ const AudioPlayer = () => {
             }}
           >
             {allowRepeat ? (
-              <RepeatOneIcon
-                sx={{ color: "white" }}
-                className="icon md:size-8 size-6 "
-              />
+              <RepeatOneIcon sx={{ color: "white" }} className="SideIcons " />
             ) : (
-              <RepeatIcon
-                sx={{ color: "grey" }}
-                className="icon md:size-8 size-6"
-              />
+              <RepeatIcon sx={{ color: "grey" }} className="SideIcons" />
             )}
           </span>
           <span
             className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
             onClick={() => prevClick()}
           >
-            <SkipPreviousIcon className="icon md:size-12 size-8" />
+            <SkipPreviousIcon className="MainIcons  " />
           </span>
           <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
             {!isReady && AudioFileLink ? (
@@ -268,13 +260,13 @@ const AudioPlayer = () => {
                 <LoadingSpinner />
               </div>
             ) : !playing ? (
-              <PlayArrowIcon className="icon md:size-12 size-8" />
+              <PlayArrowIcon className="MainIcons " />
             ) : (
-              <PauseIcon className="icon md:size-12 size-8" />
+              <PauseIcon className="MainIcons " />
             )}
           </span>
           <span className=" cursor-pointer" onClick={() => nextClick()}>
-            <SkipNextIcon className="icon md:size-12 size-8" />
+            <SkipNextIcon className="MainIcons  " />
           </span>
           <span
             className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
@@ -282,7 +274,7 @@ const AudioPlayer = () => {
           >
             <ShuffleIcon
               sx={{ color: allowShuffle ? "white" : "grey" }}
-              className="icon size-6 md:size-8"
+              className="SideIcons "
             />
           </span>
         </div>

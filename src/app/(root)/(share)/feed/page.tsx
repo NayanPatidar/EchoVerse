@@ -26,7 +26,6 @@ const FeedPage = () => {
                   ?.toLowerCase()
               : null;
 
-
             const isVideo = ["mp4", "webm", "ogg"].includes(
               fileExtension as string
             );
@@ -34,6 +33,7 @@ const FeedPage = () => {
             if (isVideo) {
               return (
                 <VideoPostCard
+                  key={key}
                   createdAt={val.createdAt}
                   description={val.description}
                   id={key}

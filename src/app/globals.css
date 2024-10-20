@@ -235,25 +235,37 @@ body {
   }
 }
 
-.audio-player {
-  transition: height 0.3s ease;
+.MainAudioPlayer {
+  height: 4rem !important;
 }
 
-/* styles.css or a relevant CSS module */
-.icon {
-  transition: transform 0.3s ease; /* Transition for size change */
+.SideIcons {
+  size: 1.5rem;
 }
 
-.icon.size-6 {
-  transform: scale(1); /* Original size */
+.MainIcons {
+  width: 2rem /* 32px */ !important;
+  height: 2rem /* 32px */ !important;
 }
 
-.icon.size-8 {
-  transform: scale(1); /* Scaled size for larger icons */
+@media (min-width: 768px) {
+  .MainAudioPlayer {
+    height: 5rem !important;
+  }
+
+  .SideIcons {
+    width: 2rem /* 32px */ !important;
+    height: 2rem /* 32px */ !important;
+  }
+
+  .MainIcons {
+    width: 2.5rem /* 32px */ !important;
+    height: 2.5rem /* 32px */ !important;
+  }
 }
 
-.icon.size-12 {
-  transform: scale(1); /* Even larger size */
+.css-itsp47-MuiSlider-root {
+  padding: 0px !important;
 }
 
 .Montserrat-thin {
@@ -327,18 +339,8 @@ body {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.11), #121212);
 }
 
-.MainPageDivBox::-webkit-scrollbar {
-  width: 10px;
-  background-color: rgba(21, 21, 21, 1);
-}
-
-.MainPageDivBox::-webkit-scrollbar-thumb {
-  background: #2d2d2d;
-  border-radius: 1px;
-}
-
 .MainContentDiv {
-  height: calc(100vh - 72px);
+  height: calc(100vh - 64px);
 }
 
 .css-1sp8okk-MuiSlider-root {
@@ -359,6 +361,16 @@ body {
 
   .NavbarMainOnSideBarClose {
     width: calc(97.2vw - 4rem);
+  }
+
+  .MainPageDivBox::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(21, 21, 21, 1);
+  }
+
+  .MainPageDivBox::-webkit-scrollbar-thumb {
+    background: #2d2d2d;
+    border-radius: 1px;
   }
 }
 .NavbarMain {

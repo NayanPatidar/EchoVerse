@@ -59,25 +59,23 @@ const Navbar = () => {
 
   return (
     <div
-      className={` NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex  items-center h-auto text-white rounded-t-lg max-w-full`}
+      className={` NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex items-center h-14 md:h-16 text-white rounded-t-lg max-w-full`}
     >
-      <div
-        className=" cursor-pointer px-2 md:hidden "
-      >
+      <div className=" cursor-pointer px-2 md:hidden ">
         <PiListLight size={24} onClick={() => toggleSideBar()} />
       </div>
       <div className=" flex flex-row justify-between min-w-full gap-2">
         <div className=" border-white h-16 flex items-center w-full gap-3">
-          <form className="h-16 md:pl-[48px] flex items-center w-full">
+          <form className="md:h-16 h-12 md:pl-[48px] flex items-center w-full">
             <div
               ref={searchBarRef}
-              className=" z-50 border-[1px] border-zinc-600 md:w-[480px] w-full rounded-md flex flex-row items-center bg-[#242424] pl-4"
+              className=" md:h-[42px] h-[38px] z-50 border-[1px] border-zinc-600 md:w-[480px] w-full rounded-md flex flex-row items-center bg-[#242424] pl-4"
             >
               <CiSearch color="zinc" className=" size-4 md:size-6" />
               <Input
                 readOnly
                 placeholder="Search songs, albums, artists, podcasts"
-                className="bg-[#242424]  flex-grow border-none rounded-lg placeholder-[#535353] cursor-pointer w-full placeholder:text-xs md:placeholder:text-sm"
+                className="bg-[#242424] md:h-[40px] h-[36px]  flex-grow border-none rounded-lg placeholder-[#535353] cursor-pointer w-full placeholder:text-xs md:placeholder:text-sm"
                 onClick={() => setSearchBarOpen(true)}
               />
               {isSearchBarOpen ? (
@@ -92,7 +90,7 @@ const Navbar = () => {
           </form>
         </div>
         <div className="NavbarBarProfile flex items-center mr-5">
-          <div className=" w-10 mr-5 cursor-pointer rounded-full z-[100] flex justify-center items-center">
+          <div className=" w-10  md:mr-0 mr-5 cursor-pointer rounded-full z-[100] flex justify-center items-center">
             {isAuthenticated ? (
               <DropdownMenuProfile />
             ) : (
