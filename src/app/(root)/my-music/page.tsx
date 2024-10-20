@@ -25,15 +25,15 @@ const MyMusic = () => {
   };
 
   return (
-    <div className=" w-full p-5 grid grid-cols-5	">
+    <div className=" w-full md:p-5 p-2 flex flex-wrap md:gap-10 gap-3 justify-around md:justify-start md:items-start	">
       <div
-        className=" w-32 h-48 flex flex-col gap-y-1"
+        className=" w-24 md:w-32 md:h-48 h-[120px] flex flex-col gap-y-1"
         onClick={() => router.push("/my-music/liked-song")}
       >
-        <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#2219798c] hover:bg-[#4f43ba8c] flex justify-center items-center  rounded-xl">
+        <div className=" p-5 LikedSong w-24 md:w-32 h-24 md:h-32 transition-background bg-[#2219798c] hover:bg-[#4f43ba8c] flex justify-center items-center  rounded-xl">
           <Heart size={82} color="white" />
         </div>
-        <span className=" text-sm Montserrat-regular w-full flex justify-center">
+        <span className=" text-xs md:text-sm Montserrat-regular w-full flex justify-center">
           Liked Songs
         </span>
       </div>
@@ -42,14 +42,14 @@ const MyMusic = () => {
           Object.entries(Playlists).map(([key, value]) => {
             return (
               <div
-                className=" w-32 h-48 flex flex-col gap-y-1"
+                className=" w-24 md:w-32 md:h-48 h-[120px] flex flex-col gap-y-1"
                 key={key}
                 onClick={() => router.push(`/my-music/playlist/${value.id}`)}
               >
-                <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center rounded-xl">
+                <div className=" p-5 LikedSong w-24 md:w-32 h-24 md:h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center rounded-xl">
                   <ListMusic size={82} color="white" className=" bg-" />
                 </div>
-                <span className=" text-sm Montserrat-regular w-full flex justify-center">
+                <span className=" text-xs md:text-sm Montserrat-regular w-full flex justify-center">
                   {value.title}
                 </span>
               </div>
@@ -57,13 +57,13 @@ const MyMusic = () => {
           })}
       </>
       <div
-        className=" w-32 h-48 flex flex-col gap-y-1"
+        className=" w-24 md:w-32 md:h-48 h-[120px] flex flex-col gap-y-1"
         onClick={() => AddPlaylist()}
       >
-        <div className=" p-5 LikedSong w-32 h-32 transition-background bg-[#4545458c] hover:bg-[#a9a9a98c] flex justify-center items-center  rounded-xl">
+        <div className=" p-5 LikedSong w-24 md:w-32 h-24 md:h-32 transition-background bg-[#e42121b9] hover:bg-[#ff5c5c] flex justify-center items-center rounded-xl">
           <Plus size={82} color="white" className=" bg-" />
         </div>
-        <span className=" text-sm Montserrat-regular w-full flex justify-center">
+        <span className=" text-xs md:text-sm Montserrat-regular w-full flex justify-center">
           Add Playlist
         </span>
       </div>

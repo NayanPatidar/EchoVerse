@@ -405,9 +405,13 @@ body {
 }
 
 /* Artist Page */
+@media (min-width: 768px) {
+  .TopArtistPage {
+    padding: 1rem;
+  }
+}
 .TopArtistPage {
-  width: 100%;
-  padding: 1rem;
+  padding: 0.25rem;
 }
 
 /* Top Artist Card  */
@@ -416,7 +420,7 @@ body {
   padding: 6px;
   background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
-  width: 180px;
+  width: 100px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -425,19 +429,10 @@ body {
   position: relative;
 }
 
-.top-artist-card:hover {
-  padding: 6px;
-  background-color: rgba(71, 71, 71, 0.434);
-  border-radius: 10px;
-  width: 180px;
-  height: auto;
-  position: relative;
-}
-
 .top-artist-card-image {
   border-radius: 100%;
-  width: 160px;
-  height: 160px;
+  width: 80px;
+  height: 80px;
 }
 
 /* Top Playlist Card */
@@ -445,7 +440,7 @@ body {
   padding: 6px;
   background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
-  width: 180px;
+  width: 110px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -454,19 +449,68 @@ body {
   position: relative;
 }
 
-.top-playlist-card:hover {
-  padding: 6px;
-  background-color: rgba(71, 71, 71, 0.434);
-  border-radius: 10px;
-  width: 180px;
-  height: auto;
-  position: relative;
-}
-
 .top-playlist-card-image {
   border-radius: 5%;
-  width: 160px;
-  height: 160px;
+  width: 90px;
+  height: 90px;
+}
+
+@media (min-width: 768px) {
+  .top-playlist-card {
+    padding: 6px;
+    background-color: rgba(76, 76, 76, 0);
+    border-radius: 1rem;
+    width: 180px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .top-playlist-card:hover {
+    padding: 6px;
+    background-color: rgba(71, 71, 71, 0.434);
+    border-radius: 10px;
+    width: 180px;
+    height: auto;
+    position: relative;
+  }
+
+  .top-playlist-card-image {
+    border-radius: 5%;
+    width: 160px;
+    height: 160px;
+  }
+
+  .top-artist-card {
+    padding: 6px;
+    background-color: rgba(76, 76, 76, 0);
+    border-radius: 1rem;
+    width: 180px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .top-artist-card:hover {
+    padding: 6px;
+    background-color: rgba(71, 71, 71, 0.434);
+    border-radius: 10px;
+    width: 180px;
+    height: auto;
+    position: relative;
+  }
+
+  .top-artist-card-image {
+    border-radius: 100%;
+    width: 160px;
+    height: 160px;
+  }
 }
 
 .transition-background {

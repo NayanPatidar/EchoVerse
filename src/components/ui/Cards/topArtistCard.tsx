@@ -37,7 +37,7 @@ const TopArtistCard: React.FC<Artist> = ({
   return (
     <div className="top-artist-card" onClick={() => MediaClick()}>
       <img src={imageUrl} className="top-artist-card-image" alt="" />
-      <span className=" text-base lato-regular mt-1  overflow-hidden whitespace-nowrap text-ellipsis">
+      <span className=" text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
         {name}
       </span>
     </div>

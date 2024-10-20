@@ -40,8 +40,8 @@ const TopPlaylistCard: React.FC<Artist> = ({
   return (
     <div className="top-playlist-card" onClick={() => MediaClick()}>
       <img src={imageUrl} className="top-playlist-card-image" alt="" />
-      <div className="  flex justify-center items-center w-[160px]">
-        <span className=" text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
+      <div className="  flex justify-center items-center w-[90px] md:w-[160px]">
+        <span className=" text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
           {name}
         </span>
       </div>
