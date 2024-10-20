@@ -34,7 +34,7 @@ export default function RootLayout({
                     <div className="md:flex hidden flex-row z-0 ">
                       <Sidebar />
                     </div>
-                    <div className="MainSongsHomeContent md:w-auto w-full  bg-black overflow-hidden m-2 mb-2">
+                    <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden m-2 mb-2">
                       <div className="MainPageDivBox text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
                         <Navbar />
                         {children}
