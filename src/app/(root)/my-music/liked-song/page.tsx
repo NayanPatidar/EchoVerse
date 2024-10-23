@@ -56,9 +56,11 @@ const LikedSongs = () => {
 
   if (loading) {
     return (
-      <div className="p-5">
-        <div className="text-xl font-semibold p-3 flex gap-2">Liked Songs</div>
-        <div className="h-full w-full p-2 text-white Montserrat-regular flex justify-center ">
+      <div className="md:p-5 p-3">
+        <div className="md:text-xl text-base font-semibold p-3 flex gap-2">
+          Liked Songs
+        </div>
+        <div className="h-full w-full p-2 text-white Montserrat-regular flex justify-center text-base ">
           Loading ...
         </div>
       </div>
@@ -67,16 +69,22 @@ const LikedSongs = () => {
 
   if (!LikedSongData || LikedSongData.length === 0) {
     return (
-      <div className="p-5">
-        <div className="text-xl font-semibold p-3 flex gap-2">Liked Songs</div>
-        <div className="h-full w-full p-2 text-white">No Songs Found!</div>
+      <div className="md:p-5 p-3">
+        <div className="md:text-xl text-base font-semibold p-3 flex gap-2 ">
+          Liked Songs
+        </div>
+        <div className="h-full w-full p-2 text-white md:text-base text-sm pl-3">
+          No Songs Found !
+        </div>
       </div>
     );
   }
 
   return (
-    <div className=" p-5">
-      <div className=" text-xl font-semibold p-3 flexgap-2">Liked Songs</div>
+    <div className=" md:p-5 p-2">
+      <div className=" md:text-xl text-base font-semibold p-3 flexgap-2">
+        Liked Songs
+      </div>
       <div className=" flex flex-col gap-2">
         {Object.entries(LikedSongData).map(([key, val]) => {
           return (
