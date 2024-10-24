@@ -583,3 +583,14 @@ body {
     0.1
   ); /* Background track of the scrollbar */
 }
+
+.SidebarMain::-webkit-scrollbar {
+  height: 5px;
+  background-color: rgba(21, 21, 21, 0);
+  width: 5px;
+}
+
+.SidebarMain::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 1px;
+}

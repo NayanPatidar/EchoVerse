@@ -31,7 +31,7 @@ export default function RootLayout({
               <div className="w-full flex-col">
                 <NotificationProvider>
                   <div className="MainContentDiv flex flex-row ">
-                    <div className="md:flex hidden flex-row z-0 ">
+                    <div className="flex flex-row z-[1000] h-full ">
                       <Sidebar />
                     </div>
                     <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden m-2 mb-2">

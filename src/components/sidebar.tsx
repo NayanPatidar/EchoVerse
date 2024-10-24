@@ -43,10 +43,14 @@ const Sidebar = () => {
 
   return (
     <div
-      className="bg-[#0e0e0e] w-[15rem] h-auto text-white rounded-lg my-2 ml-2"
-      style={{ width: sideBarOpen ? "15rem" : "4rem" }}
+      className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg my-2 ml-2 z-[1000] 
+                 transition-all duration-300 ease-in-out 
+                 sm:relative absolute top-0 left-0  
+                 ${sideBarOpen ? "sm:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"} 
+                 ${sideBarOpen ? "block" : "hidden sm:block"} `}
+      style={{ height: "calc(100% - 1rem)", overflowY: "auto" }}
     >
-      <div className=" flex gap-4 h-12 items-center text-center justify-center">
+      <div className=" flex md:gap-4 gap-1 h-12 items-center text-center md:justify-center justify-start md:pt-0 pt-2 md:pl-0 pl-[6px]">
         <div
           className=" cursor-pointer"
           style={{ paddingLeft: sideBarOpen ? "2px" : "" }}
@@ -60,21 +64,19 @@ const Sidebar = () => {
               width={144}
               height={32}
               alt="Logo"
+              className="md:w-[144px] md:h-[32px] w-[120px] h-[25px]"
             />
           </span>
         ) : (
           ""
         )}
       </div>
-      <Accordion type="single" defaultValue="Music" collapsible={false}>
+      <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
           value="Music"
-          className=" flex- flex-col w-full justify-center"
+          className=" flex flex-col w-full justify-center md:mt-0 md:p-0 p-2"
         >
-          <AccordionTrigger
-            className=" w-full flex justify-center items-center"
-            defaultValue={"open"}
-          >
+          <div className=" w-full flex justify-center items-center mt-2 md:mt-4 px-2">
             <div
               className="h-10 flex flex-row w-full items-center justify-items-center hover:bg-[#171717b3] rounded-md "
               style={{
@@ -93,18 +95,23 @@ const Sidebar = () => {
                   paddingRight: sideBarOpen ? "1.75rem" : "",
                 }}
               >
-                <Music size={20} color="#9c9c9c88" />
+                <Music
+                  color="#9c9c9c88"
+                  className=" md:size-[20px] size-[16px]"
+                />
 
                 {sideBarOpen ? (
-                  <h2 className="gradientText font-bold text-xl ">Music</h2>
+                  <h2 className="gradientText font-bold md:text-xl text-base ">
+                    Music
+                  </h2>
                 ) : (
                   ""
                 )}
               </div>
             </div>
-          </AccordionTrigger>
+          </div>
           <AccordionContent className=" p-0">
-            <div className=" p-2 w-full">
+            <div className=" md:p-2 p-1 w-full">
               <ul className=" flex flex-col gap-1">
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
@@ -116,12 +123,15 @@ const Sidebar = () => {
                   onClick={() => setCategory(1)}
                 >
                   <div
-                    className=" h-10 flex items-center gap-4 cursor-pointer"
+                    className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
                     onClick={() => router.push("/playlist")}
                   >
-                    <QueueMusicIcon width={24} />
+                    <QueueMusicIcon
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                    />
                     {sideBarOpen ? (
-                      <span className=" text-md lato-regular">
+                      <span className=" md:text-sm text-sm lato-regular">
                         Top Playlists
                       </span>
                     ) : (
@@ -138,8 +148,11 @@ const Sidebar = () => {
                   id="2"
                   onClick={() => setCategory(2)}
                 >
-                  <div className=" h-10 flex items-center gap-4 cursor-pointer">
-                    <AlbumIcon className=" rotate-12" width={24} />
+                  <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
+                    <AlbumIcon
+                      className=" rotate-12  md:w-[24px] w-[18px]"
+                      width={24}
+                    />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Top Albums</span>
                     ) : (
@@ -157,11 +170,15 @@ const Sidebar = () => {
                   onClick={() => setCategory(3)}
                 >
                   <div
-                    className=" h-10 flex items-center gap-4 cursor-pointer"
+                    className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
                     onClick={() => router.push("/artist")}
                   >
-                    <div className=" w-[23px]">
-                      <FaGuitar size={20} color="#d6d6d6dc" />
+                    <div className=" w-[21px] md:w-[23px]">
+                      <FaGuitar
+                        size={20}
+                        color="#d6d6d6dc"
+                        className=" md:w-[20px] w-[18px]"
+                      />
                     </div>
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Top Artists</span>
@@ -198,7 +215,10 @@ const Sidebar = () => {
                             onClick={() => router.push("/my-music")}
                           >
                             <div className=" w-[25px]">
-                              <LibraryMusicIcon width={24} />
+                              <LibraryMusicIcon
+                                width={24}
+                                className=" md:w-[24px] w-[18px]"
+                              />
                             </div>
                             {sideBarOpen ? (
                               <div className="text-regular lato-regular text-white">
@@ -236,8 +256,11 @@ const Sidebar = () => {
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="Share" className=" mt-2">
-          <AccordionTrigger className=" w-full flex justify-center items-center">
+        <AccordionItem
+          value="Share"
+          className=" flex flex-col w-full justify-center md:mt-0 md:p-0 p-2"
+        >
+          <div className=" w-full flex justify-center px-2">
             <div
               className="h-10 flex flex-row w-full items-center justify-items-center hover:bg-[#313131d6] rounded-md "
               style={{
@@ -256,17 +279,23 @@ const Sidebar = () => {
                   paddingRight: sideBarOpen ? "1.75rem" : "",
                 }}
               >
-                <MessageCircleHeart size={20} color="#9c9c9c88" />
+                <MessageCircleHeart
+                  size={20}
+                  color="#9c9c9c88"
+                  className=" md:size-[20px] size-[16px]"
+                />
                 {sideBarOpen ? (
-                  <h2 className="gradientText font-bold text-xl ">Share</h2>
+                  <h2 className="gradientText font-bold md:text-xl text-base ">
+                    Share
+                  </h2>
                 ) : (
                   ""
                 )}
               </div>
             </div>
-          </AccordionTrigger>
+          </div>
           <AccordionContent>
-            <div className=" p-2 w-full">
+            <div className=" p-2 w-full mb-[-24px]">
               <ul className=" flex flex-col gap-1">
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
@@ -279,8 +308,11 @@ const Sidebar = () => {
                     setCategory(5), router.push("/feed");
                   }}
                 >
-                  <div className=" h-10 flex items-center gap-4 cursor-pointer">
-                    <LayoutPanelLeft width={24} />
+                  <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
+                    <LayoutPanelLeft
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                    />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Feed</span>
                     ) : (
@@ -289,21 +321,23 @@ const Sidebar = () => {
                   </div>
                 </li>
                 <li
-                  className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
+                  className="px-5 sm:hidden flex items-center hover:bg-[#262626d6] rounded-md "
                   style={{
                     backgroundColor: musicCategory == 6 ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
-                  onClick={() => setCategory(6)}
+                  onClick={() => {
+                    setCategory(6), router.push("/feed");
+                  }}
                 >
-                  <div
-                    className=" h-10 flex items-center gap-4 cursor-pointer"
-                    onClick={() => router.push("/inbox")}
-                  >
-                    <MessagesSquare width={24} />
+                  <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
+                    <LayoutPanelLeft
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                    />
                     {sideBarOpen ? (
-                      <span className=" text-md lato-regular">Messages</span>
+                      <span className=" text-md lato-regular">Feed</span>
                     ) : (
                       ""
                     )}
@@ -319,10 +353,34 @@ const Sidebar = () => {
                   onClick={() => setCategory(7)}
                 >
                   <div
-                    className=" h-10 flex items-center gap-4 cursor-pointer"
+                    className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
+                    onClick={() => router.push("/inbox")}
+                  >
+                    <MessagesSquare
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                    />
+                    {sideBarOpen ? (
+                      <span className=" text-md lato-regular">Messages</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </li>
+                <li
+                  className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
+                  style={{
+                    backgroundColor: musicCategory == 8 ? "#2626267c" : "",
+                    justifyContent: sideBarOpen ? "" : "center",
+                  }}
+                  id="1"
+                  onClick={() => setCategory(8)}
+                >
+                  <div
+                    className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
                     onClick={() => router.push("/notifications")}
                   >
-                    <Heart width={24} />
+                    <Heart width={24} className=" md:w-[24px] w-[18px]" />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">
                         Notifications

@@ -15,7 +15,7 @@ const FeedPage = () => {
   return (
     <div className=" Feed-Page flex flex-row w-full gap-3 p-2 overflow-hidden">
       {PostSongForm ? <PostUploadForm /> : ""}
-      <div className=" FeedContent w-8/12 h-full overflow-y-scroll">
+      <div className=" FeedContent sm:w-8/12 w-full h-full overflow-y-scroll ">
         {PostsData &&
           Object.entries(PostsData).map(([key, val]) => {
             const fileExtension = val.imageDownloadLink
@@ -64,7 +64,7 @@ const FeedPage = () => {
           })}
       </div>
       <div
-        className=" w-4/12 overflow-y-hidden flex flex-col gap-5"
+        className=" sm:w-4/12 overflow-y-hidden flex-col gap-5 sm:flex hidden"
         style={{ height: "calc(100vh - 11rem)" }}
       >
         <SearchFriends />
