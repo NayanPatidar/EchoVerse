@@ -11,6 +11,9 @@ import React, {
 } from "react";
 import { useAuthProvider } from "./AuthContext";
 import { FriendData } from "@/types/user";
+import { io } from "socket.io-client";
+import dotenv from "dotenv";
+dotenv.config();
 
 interface ChatProps {
   Friends: FriendData[] | undefined;
@@ -60,6 +63,14 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
     if (!token) return;
     FetchFriends();
   }, [token, FriendsAdded]);
+
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
+    setInterval(() => {
+      console.log("Sending ping to server");
+      socket.emit("ping");
+    }, 300000);
+  }, []);
 
   return (
     <ChatContext.Provider

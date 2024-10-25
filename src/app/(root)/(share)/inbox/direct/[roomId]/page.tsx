@@ -5,6 +5,8 @@ import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import dotenv from "dotenv";
+dotenv.config();
 
 interface Message {
   content: string;
@@ -58,9 +60,7 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (tokenDetails && tokenDetails.userId) {
-      const socketInstance: Socket = io(
-        "https://socket-io-echoverse-1.onrender.com/"
-      );
+      const socketInstance: Socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
       setSocket(socketInstance);
       const userId = tokenDetails.userId;
       const name = tokenDetails.name;
