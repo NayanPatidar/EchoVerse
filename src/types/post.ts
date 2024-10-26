@@ -8,7 +8,14 @@ export interface PostProps {
   imageDownloadLink: string;
   location: string;
   userId: string;
+  User: Profile;
 }
+
+type Profile = {
+  id: string;
+  name: string;
+  email: string;
+};
 
 export interface VideoPostProps {
   createdAt: string;
@@ -17,4 +24,5 @@ export interface VideoPostProps {
   videoDownloadLink: string;
   location: string;
   userId: string;
+  User: Profile;
 }

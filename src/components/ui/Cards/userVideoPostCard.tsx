@@ -1,5 +1,5 @@
 "use client";
-import { PostProps, VideoPostProps } from "@/types/post";
+import { VideoPostProps } from "@/types/post";
 import { Pause, Play } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { VscUnmute } from "react-icons/vsc";
@@ -10,7 +10,7 @@ type MuteProp = {
   setIsMuted: Dispatch<SetStateAction<boolean>>;
 };
 
-const VideoPostCard: React.FC<VideoPostProps & MuteProp> = ({
+const VideoPostCard: React.FC<VideoPostProps & MuteProp > = ({
   createdAt,
   description,
   id,
@@ -19,6 +19,7 @@ const VideoPostCard: React.FC<VideoPostProps & MuteProp> = ({
   userId,
   isMuted,
   setIsMuted,
+  User
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -99,12 +100,12 @@ const VideoPostCard: React.FC<VideoPostProps & MuteProp> = ({
       {/* User Info */}
       <div className="flex items-center mb-4">
         <img
-          src={`https://picsum.photos/seed/${userId}/40`}
+          src={`./ProfilePhoto.png`}
           alt="User Profile"
           className="w-10 h-10 rounded-full"
         />
         <div className="ml-3">
-          <h3 className="font-semibold">{userId}</h3>
+          <h3 className="font-semibold">{User.name}</h3>
           <p className="text-sm text-gray-500">{location}</p>
         </div>
       </div>

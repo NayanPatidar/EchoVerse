@@ -2,9 +2,7 @@
 import { timeStringToSeconds } from "@/lib/utils";
 import { PostProps } from "@/types/post";
 import { Pause, Play } from "lucide-react";
-import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { AiFillMuted } from "react-icons/ai";
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 
@@ -13,7 +11,7 @@ type MuteProp = {
   setIsMuted: Dispatch<SetStateAction<boolean>>;
 };
 
-const UserPostCard: React.FC<PostProps & MuteProp> = ({
+const UserPostCard: React.FC<PostProps & MuteProp > = ({
   audioEndTime,
   audioLink,
   audioStartTime,
@@ -25,6 +23,7 @@ const UserPostCard: React.FC<PostProps & MuteProp> = ({
   userId,
   isMuted,
   setIsMuted,
+  User,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -40,7 +39,6 @@ const UserPostCard: React.FC<PostProps & MuteProp> = ({
     const playAudio = async () => {
       if (audioElement) {
         audioElement.autoplay = true;
-        // audioElement.muted = isMuted;
         audioElement.currentTime = startTime;
         try {
           await audioElement.play();
@@ -123,12 +121,12 @@ const UserPostCard: React.FC<PostProps & MuteProp> = ({
       {/* User Info */}
       <div className="flex items-center mb-4">
         <img
-          src={`https://picsum.photos/seed/${userId}/40`}
+          src={`./ProfilePhoto.png`}
           alt="User Profile"
           className="w-10 h-10 rounded-full"
         />
         <div className="ml-3">
-          <h3 className="font-semibold">{userId}</h3>
+          <h3 className="font-semibold">{User.name}</h3>
           <p className="text-sm text-gray-500">{location}</p>
         </div>
       </div>
