@@ -347,7 +347,15 @@ body {
   padding: 0px;
 }
 
+.SearchFriends {
+  height: calc(100vh - 136px);
+}
+
 @media (min-width: 768px) {
+  .SearchFriends {
+    height: 50%;
+  }
+
   .MainContentDiv {
     height: calc(100vh - 80px);
   }

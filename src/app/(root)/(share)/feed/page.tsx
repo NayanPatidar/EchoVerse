@@ -33,6 +33,7 @@ const FeedPage = () => {
             if (isVideo) {
               return (
                 <VideoPostCard
+                  User={val.User}
                   key={key}
                   createdAt={val.createdAt}
                   description={val.description}
@@ -47,6 +48,7 @@ const FeedPage = () => {
             }
             return (
               <UserPostCard
+                User={val.User}
                 key={key}
                 audioEndTime={val.audioEndTime}
                 audioLink={val.audioLink}

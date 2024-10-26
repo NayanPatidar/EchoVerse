@@ -13,19 +13,22 @@ const SearchFriends = () => {
   const router = useRouter();
 
   const GetUsers = async (e: any) => {
-    setInputData(e.target.value);    
+    setInputData(e.target.value);
     const value = e.target.value;
     console.log(value);
 
     if (value.length > 0) {
       try {
-        const res = await fetch(`/api/friends/searchAllUsers?searchTerm=${value}`, {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `/api/friends/searchAllUsers?searchTerm=${value}`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) {
           const errorData = await res.json();
@@ -65,7 +68,9 @@ const SearchFriends = () => {
   const searchProcess = debounce(GetUsers, 1000);
 
   return (
-    <div className=" w-full p-3 bg-[#212121] rounded-md h-1/2 relative overflow-hidden">
+    <div
+      className="SearchFriends w-full p-3 bg-[#212121] rounded-md h-1/2  relative overflow-hidden"
+    >
       <Input
         className=" border border-[#3d3d3d] bg-[#1b1b1bbe] placeholder:text-[#555555]"
         onChange={searchProcess}

@@ -23,6 +23,7 @@ import {
   MessageCircleHeart,
   MessagesSquare,
   Music,
+  Search,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -45,9 +46,9 @@ const Sidebar = () => {
     <div
       className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg my-2 ml-2 z-[1000] 
                  transition-all duration-300 ease-in-out 
-                 sm:relative absolute top-0 left-0  
-                 ${sideBarOpen ? "sm:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"} 
-                 ${sideBarOpen ? "block" : "hidden sm:block"} `}
+                 md:relative absolute top-0 left-0  
+                 ${sideBarOpen ? "md:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"} 
+                 ${sideBarOpen ? "block" : "hidden md:block"} `}
       style={{ height: "calc(100% - 1rem)", overflowY: "auto" }}
     >
       <div className=" flex md:gap-4 gap-1 h-12 items-center text-center md:justify-center justify-start md:pt-0 pt-2 md:pl-0 pl-[6px]">
@@ -328,16 +329,13 @@ const Sidebar = () => {
                   }}
                   id="1"
                   onClick={() => {
-                    setCategory(6), router.push("/feed");
+                    setCategory(6), router.push("/search");
                   }}
                 >
                   <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
-                    <LayoutPanelLeft
-                      width={24}
-                      className=" md:w-[24px] w-[18px]"
-                    />
+                    <Search width={24} className=" md:w-[24px] w-[18px]" />
                     {sideBarOpen ? (
-                      <span className=" text-md lato-regular">Feed</span>
+                      <span className=" text-md lato-regular">Search</span>
                     ) : (
                       ""
                     )}
