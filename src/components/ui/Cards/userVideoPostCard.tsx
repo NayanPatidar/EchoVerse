@@ -110,7 +110,7 @@ const VideoPostCard: React.FC<VideoPostProps & MuteProp > = ({
         </div>
       </div>
 
-      <div className="relative w-full h-72 mb-4 bg-black flex justify-center rounded-md">
+      <div className="relative w-full h-[22rem] mb-4 bg-black flex justify-center rounded-md">
         {videoDownloadLink ? (
           <video
             ref={videoRef}

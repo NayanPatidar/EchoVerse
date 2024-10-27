@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import dotenv from "dotenv";
 dotenv.config();
@@ -129,6 +129,9 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
   ) => {
     if (event.key === " ") {
       event.stopPropagation();
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
     }
   };
 
