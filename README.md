@@ -9,3 +9,5 @@
 🔐 **Google Authentication** – Simple and secure login with NextAuth  
 🔥 **Real-Time Notifications** – Powered by Firebase Realtime Database  
 📁 **Firebase Storage** – For secure, scalable storage of user-uploaded data  
+
+-> Next Update under development
