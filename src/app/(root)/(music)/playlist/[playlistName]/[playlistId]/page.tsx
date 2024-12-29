@@ -2,13 +2,10 @@
 import ListAudioFiles from "@/components/listaudiofiles";
 import QuickMusicActions from "@/components/ui/quickMusicActions";
 import {
-  getAlbumDetails,
   getPlaylist,
-  getSongDetails,
 } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
-import { parse } from "path";
 import { IoTimeOutline } from "react-icons/io5";
 
 const PlaylistPage = async ({

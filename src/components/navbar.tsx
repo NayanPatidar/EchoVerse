@@ -137,11 +137,11 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
 
   const OpenSong = (val: any) => {
     if (val.type == "artist") {
-      router.replace(`/artist/${val.name}/${val.id}`);
+      router.push(`/artist/${val.name}/${val.id}`);
     } else if (val.type == "album") {
-      router.replace(`/album/${val.name}/${val.id}`);
+      router.push(`/album/${val.name}/${val.id}`);
     } else if (val.type == "song") {
-      router.replace(`/song/${val.name}/${val.id}`);
+      router.push(`/song/${val.name}/${val.id}`);
     }
 
     closeSearchBar();
@@ -159,14 +159,14 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
   const processedItems = new Set();
 
   return (
-    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#242424] left-[48px] top-[11px] rounded-lg">
-      <div className=" z-[150] border-[1px] border-zinc-600  w-full rounded-md flex flex-row items-center bg-[#242424] pl-4">
-        <CiSearch color="zinc" size={24} />
+    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#121212] left-[315px] top-[9px] rounded-2xl z-[200]">
+      <div className=" md:h-[46px] h-[42px] z-[200] border-[1px] border-[#121212] md:w-[480px] w-full rounded-2xl flex flex-row items-center bg-[#121212] pl-4">
+        <CiSearch color="#535353" size={24} />
         <Input
           autoFocus
           placeholder="Search ..."
           onChange={searchProcess}
-          className="bg-[#242424] border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
+          className="bg-[#121212]  border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
           onKeyDown={handleSearchBarKeyDown}
           type="text"
         />

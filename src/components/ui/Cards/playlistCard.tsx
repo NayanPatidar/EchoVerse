@@ -1,8 +1,8 @@
 "use client";
 import { getImageURL } from "@/lib/utils";
-import { Quality, TopArtists, Type } from "@/types";
+import { Quality, Type } from "@/types";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 interface Artist {
@@ -25,27 +25,25 @@ const TopPlaylistCard: React.FC<Artist> = ({
   url,
 }) => {
   const imageUrl = getImageURL(image);
-  const router = useRouter();
 
-  function MediaClick() {
-    if (type == "song") {
-      router.push(`/song/${name}/${id}`);
-    } else if (type == "album") {
-      router.push(`/album/${name}/${id}`);
-    } else if (type == "playlist") {
-      router.push(`/playlist/${name}/${id}`);
-    }
-  }
+  const getRoute = () => {
+    if (type === "song") return `/song/${name}/${id}`;
+    if (type === "album") return `/album/${name}/${id}`;
+    if (type === "playlist") return `/playlist/${name}/${id}`;
+    return "#"; // Fallback route
+  };
 
   return (
-    <div className="top-playlist-card" onClick={() => MediaClick()}>
-      <img src={imageUrl} className="top-playlist-card-image" alt="" />
-      <div className="  flex justify-center items-center w-[90px] md:w-[160px]">
-        <span className=" text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
-          {name}
-        </span>
-      </div>
-    </div>
+    <Link href={getRoute()} prefetch={true}>
+      <a className="top-playlist-card">
+        <img src={imageUrl} className="top-playlist-card-image" alt="" />
+        <div className="flex justify-center items-center w-[90px] md:w-[160px]">
+          <span className="text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
+            {name}
+          </span>
+        </div>
+      </a>
+    </Link>
   );
 };
 

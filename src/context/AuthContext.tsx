@@ -1,7 +1,6 @@
 "use client";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { jwtDecode, JwtDecodeOptions } from "jwt-decode";
 import React, {
   createContext,
@@ -13,7 +12,6 @@ import React, {
   useState,
 } from "react";
 import { DecodedTokenDetails, TokenDetails } from "@/types/tokenDetails";
-import { Jwt } from "jsonwebtoken";
 
 interface AuthInterface {
   isAuthenticated: boolean;

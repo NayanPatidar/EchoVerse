@@ -1,8 +1,17 @@
-import { CardSkeleton, HorizontalSkeleton } from "@/components/skeletons";
+"use client";
+import { CardSkeleton } from "@/components/skeletons";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Box, Skeleton } from "@mui/material";
+import { usePathname } from "next/navigation";
 
 export default function HomePageSkeleton() {
+  const pathname = usePathname();
+  console.log("Loading for:", pathname);
+
+  if (pathname != "/") {
+    return ;
+  }
+
   return Array.from({ length: 3 }).map((_, i) => (
     <div className="text-white relative pl-8 pr-6" key={i}>
       <div className=" pt-5 text-2xl text first-letter:capitalize Montserrat-bold pl-4 cursor-default">

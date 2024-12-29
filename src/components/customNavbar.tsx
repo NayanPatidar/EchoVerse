@@ -12,7 +12,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
     <div
       className={`NavbarMain sticky top-0 ${
         visible ? "bg-[#12121200]" : "bg-[#121212]"
-      } z-50 flex items-center h-14 md:h-16 text-white max-w-full transition-colors duration-1000 ease-in-out`}
+      } z-10 flex items-center h-14 md:h-16 text-white max-w-full transition-colors duration-1000 ease-in-out`}
     >
       <div className=" cursor-pointer px-2 md:hidden ">
         <PiListLight size={24} />
@@ -29,7 +29,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
           />
         </div>
         <div className="h-full text-black text-center text-sm w-24 flex items-center cursor-default">
-          <span className=" h-8 p-1 rounded-2xl w-full bg-[#ffffff] flex items-center justify-center">
+          <span className=" h-8 p-1 rounded-2xl w-full bg-[#ffffff] flex items-center justify-center disable-select">
             Hello !
           </span>
         </div>

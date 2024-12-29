@@ -28,7 +28,7 @@ import {
 
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(0);
-  const { sideBarOpen, toggleSideBar } = useSidebar();
+  const { sideBarOpen } = useSidebar();
   const router = useRouter();
 
   const setCategory = (id: number) => {

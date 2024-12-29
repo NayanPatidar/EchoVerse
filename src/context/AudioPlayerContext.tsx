@@ -1,6 +1,5 @@
 "use client";
 import { Episode, Song } from "@/types";
-import { useRouter } from "next/navigation";
 import React, {
   useContext,
   createContext,
@@ -9,7 +8,6 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { boolean } from "zod";
 
 interface AudioDetails {
   AudioFileLink: (Song | Episode)[] | undefined;
