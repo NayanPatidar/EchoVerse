@@ -7,21 +7,20 @@ import { AllSearch, TopSearch } from "@/types";
 import { getImageURL } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
-import { useSidebar } from "@/context/SidebarContext";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 import { useSession, signIn } from "next-auth/react";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { PiListLight } from "react-icons/pi";
+import Image from "next/image";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const [trendingSearches, setTrendingSearches] = useState<TopSearch[]>([]);
   const searchBarRef = useRef<HTMLDivElement>(null);
-  const { sideBarOpen, toggleSideBar } = useSidebar();
   const { isAuthenticated } = useAuthProvider();
-  const { SetPlay } = useAudioPlayer();
   const router = useRouter();
 
   useEffect(() => {
@@ -49,33 +48,40 @@ const Navbar = () => {
   }, []);
 
   const Profile = () => {
-    SetPlay((prev) => !prev);
     router.push("/signin");
   };
 
-  const sidebarClass = sideBarOpen
-    ? "NavbarMainOnSideBarOpen"
-    : "NavbarMainOnSideBarClose";
-
   return (
     <div
-      className={` NavbarMain ${sidebarClass} sticky top-0 bg-[#121212] z-50 flex items-center h-14 md:h-16 text-white rounded-t-lg max-w-full`}
+      className={` NavbarMain sticky top-0 bg-black z-50 flex items-center h-14 md:h-16 text-white rounded-t-lg max-w-full`}
     >
       <div className=" cursor-pointer px-2 md:hidden ">
-        <PiListLight size={24} onClick={() => toggleSideBar()} />
+        <PiListLight size={24} />
       </div>
       <div className=" flex flex-row justify-between min-w-full gap-2">
-        <div className=" border-white h-16 flex items-center w-full gap-3">
-          <form className="md:h-16 h-12 md:pl-[48px] flex items-center w-full">
+        <div className=" border-white h-16 flex items-center justify-center w-full gap-3">
+          <div className=" md:h-[46px] h-[42px] z-50 md:w-[280px] w-full rounded-2xl flex flex-row items-center ml-6">
+            <Image
+              src="/EchoverseLogoFinal.png"
+              width={184}
+              height={32}
+              alt="Logo"
+              className=" w-[184px]"
+            />
+          </div>
+          <form className="md:h-16 h-12 flex items-center justify-start w-full">
+            <div className=" p-2" onClick={() => router.push("/")}>
+              <HomeRoundedIcon fontSize="large" style={{ color: "#7d7d7d" }} />
+            </div>
             <div
               ref={searchBarRef}
-              className=" md:h-[42px] h-[38px] z-50 border-[1px] border-zinc-600 md:w-[480px] w-full rounded-md flex flex-row items-center bg-[#242424] pl-4"
+              className=" md:h-[46px] h-[42px] z-50 border-[1px] border-[#121212] md:w-[480px] w-full rounded-2xl flex flex-row items-center bg-[#121212] pl-4"
             >
-              <CiSearch color="zinc" className=" size-4 md:size-6" />
+              <CiSearch color="#535353" className=" size-4 md:size-6" />
               <Input
                 readOnly
                 placeholder="Search songs, albums, artists, podcasts"
-                className="bg-[#242424] md:h-[40px] h-[36px]  flex-grow border-none rounded-lg placeholder-[#535353] cursor-pointer w-full placeholder:text-xs md:placeholder:text-sm"
+                className="bg-[#121212] md:h-[44px] h-[40px] flex-grow border-none rounded-2xl placeholder-[#535353] cursor-pointer w-full placeholder:text-xs md:placeholder:text-sm"
                 onClick={() => setSearchBarOpen(true)}
               />
               {isSearchBarOpen ? (

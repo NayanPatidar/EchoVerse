@@ -8,6 +8,8 @@ import { useGeneralContext } from "@/context/GeneralContext";
 import { PlaylistContextProvider } from "@/context/PlaylistContext";
 import { ChatContextProvider } from "@/context/ChatContext";
 import { NotificationProvider } from "@/context/NotificationContext";
+import CustomNavbar from "@/components/customNavbar";
+import { useEffect, useRef, useState } from "react";
 
 export default function RootLayout({
   children,
@@ -16,6 +18,25 @@ export default function RootLayout({
 }>) {
   const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, NewMessage } =
     useGeneralContext();
+
+  const divRef = useRef<HTMLDivElement>(null);
+  const [isAtTop, setIsAtTop] = useState(true);
+
+  const handleScroll = () => {
+    if (divRef.current) {
+      setIsAtTop(divRef.current.scrollTop === 0);
+    }
+  };
+
+  useEffect(() => {
+    const refElement = divRef.current;
+    if (refElement) {
+      refElement.addEventListener("scroll", handleScroll);
+      return () => {
+        refElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
 
   return (
     <div>
@@ -34,9 +55,16 @@ export default function RootLayout({
                     <div className="flex flex-row z-[1000] h-full ">
                       <Sidebar />
                     </div>
-                    <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden m-2 mb-2">
-                      <div className="MainPageDivBox text-white overflow-y-auto h-full rounded-lg overflow-x-hidden">
-                        <Navbar />
+                    <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden mx-2 mb-2">
+                      <div
+                        className={`MainPageDivBox ${
+                          isAtTop
+                            ? "MainPageDivBoxScroll"
+                            : "MainPageDivBoxNotTop"
+                        } text-white overflow-y-auto h-full rounded-lg overflow-x-hidden transition-all duration-1000 ease-in-out`}
+                        ref={divRef}
+                      >
+                        <CustomNavbar visible={isAtTop} />
                         {children}
                       </div>
                     </div>

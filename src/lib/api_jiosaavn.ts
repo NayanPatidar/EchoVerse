@@ -47,6 +47,7 @@ async function jioSaavnFetchData<T>(
     url.search = new URLSearchParams(queries).toString();
     const response = await fetch(url, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",

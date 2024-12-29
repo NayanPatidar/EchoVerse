@@ -192,7 +192,7 @@ body {
   .media-element:hover {
     padding: 1rem;
     height: auto;
-    background-color: rgba(71, 71, 71, 0.434);
+    background-color: rgba(48, 48, 48, 0.434);
     border-radius: 10px;
     width: 190px;
     position: relative;
@@ -208,6 +208,7 @@ body {
     position: absolute;
     width: 30px;
     height: 30px;
+    background-color: rgb(0, 0, 0);
     border-radius: 100%;
     bottom: 75px;
     right: 25px;
@@ -335,8 +336,14 @@ body {
   font-style: normal;
 }
 
-.MainPageDivBox {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.11), #121212);
+.MainPageDivBoxScroll {
+  background: linear-gradient(
+    to bottom,
+    #8d8d8d66 0%,
+    rgba(37, 37, 37, 0.2) 15%,
+    #2525251a 50%,
+    rgba(18, 18, 18, 1) 100%
+  );
 }
 
 .MainContentDiv {
@@ -357,28 +364,25 @@ body {
   }
 
   .MainContentDiv {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 144px);
   }
   .NavbarMain {
     width: calc(97.2vw - 15rem);
   }
 
-  .NavbarMainOnSideBarOpen {
-    width: calc(97.2vw - 15rem);
-  }
-
-  .NavbarMainOnSideBarClose {
-    width: calc(97.2vw - 4rem);
+  .MainPageDivBoxNotTop {
+    background-color: #121212;
   }
 
   .MainPageDivBox::-webkit-scrollbar {
     width: 10px;
     background-color: rgba(21, 21, 21, 1);
+    border-radius: 16px;
   }
 
   .MainPageDivBox::-webkit-scrollbar-thumb {
     background: #2d2d2d;
-    border-radius: 1px;
+    border-radius: 16px;
   }
 }
 .NavbarMain {
@@ -445,7 +449,7 @@ body {
 
 /* Top Playlist Card */
 .top-playlist-card {
-  padding: 6px;
+  padding: 16px;
   background-color: rgba(76, 76, 76, 0);
   border-radius: 1rem;
   width: 110px;
@@ -465,7 +469,7 @@ body {
 
 @media (min-width: 768px) {
   .top-playlist-card {
-    padding: 6px;
+    padding: 12px;
     background-color: rgba(76, 76, 76, 0);
     border-radius: 1rem;
     width: 180px;
@@ -478,7 +482,7 @@ body {
   }
 
   .top-playlist-card:hover {
-    padding: 6px;
+    padding: 12px;
     background-color: rgba(71, 71, 71, 0.434);
     border-radius: 10px;
     width: 180px;

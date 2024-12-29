@@ -44,14 +44,14 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg my-2 ml-2 z-[1000] 
+      className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg mb-2 ml-2 z-[1000] 
                  transition-all duration-300 ease-in-out 
                  md:relative absolute top-0 left-0  
                  ${sideBarOpen ? "md:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"} 
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
-      style={{ height: "calc(100% - 1rem)", overflowY: "auto" }}
+      style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
     >
-      <div className=" flex md:gap-4 gap-1 h-12 items-center text-center md:justify-center justify-start md:pt-0 pt-2 md:pl-0 pl-[6px]">
+      {/* <div className=" flex md:gap-4 gap-1 h-12 items-center text-center md:justify-center justify-start md:pt-0 pt-2 md:pl-0 pl-[6px]">
         <div
           className=" cursor-pointer"
           style={{ paddingLeft: sideBarOpen ? "2px" : "" }}
@@ -71,7 +71,7 @@ const Sidebar = () => {
         ) : (
           ""
         )}
-      </div>
+      </div> */}
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
           value="Music"

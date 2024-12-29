@@ -72,10 +72,10 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
         onClick={() => MediaClick()}
       />
       <div
-        className="PlaySymbolCard hidden md:visible"
+        className="PlaySymbolCard "
         onClick={() => PlayMedia()}
       >
-        <FaPlay className=" PlayIcon hidden md:visible" />
+        <FaPlay className="PlayIcon " />
       </div>
       <span className="lato-regular mt-5 md:text-base text-xs overflow-hidden whitespace-nowrap text-ellipsis">
         {name}
