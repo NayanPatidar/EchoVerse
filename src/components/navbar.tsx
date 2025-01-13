@@ -159,14 +159,14 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
   const processedItems = new Set();
 
   return (
-    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#121212] left-[315px] top-[9px] rounded-2xl z-[200]">
-      <div className=" md:h-[46px] h-[42px] z-[200] border-[1px] border-[#121212] md:w-[480px] w-full rounded-2xl flex flex-row items-center bg-[#121212] pl-4">
+    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#121212] left-[313px] top-[9px] rounded-2xl z-[200]">
+      <div className=" md:h-[46px] h-[42px] z-[200] border-[1px] border-[#aaaaaa] w-full rounded-2xl flex flex-row items-center bg-[#121212] pl-4">
         <CiSearch color="#535353" size={24} />
         <Input
           autoFocus
           placeholder="Search ..."
           onChange={searchProcess}
-          className="bg-[#121212]  border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
+          className="bg-[#121212] border-none w-full rounded-lg placeholder-[#535353] cursor-pointer"
           onKeyDown={handleSearchBarKeyDown}
           type="text"
         />

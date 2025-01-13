@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { PiListLight } from "react-icons/pi";
 import { MdHome } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
@@ -30,6 +30,7 @@ const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(0);
   const { sideBarOpen } = useSidebar();
   const router = useRouter();
+  const pathname = usePathname();
 
   const setCategory = (id: number) => {
     setMusicCategory(id);
@@ -42,6 +43,8 @@ const Sidebar = () => {
     }
   };
 
+  const isActive = (route: string) => pathname.startsWith(route);
+
   return (
     <div
       className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg mb-2 ml-2 z-[1000] 
@@ -51,27 +54,6 @@ const Sidebar = () => {
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
       style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
     >
-      {/* <div className=" flex md:gap-4 gap-1 h-12 items-center text-center md:justify-center justify-start md:pt-0 pt-2 md:pl-0 pl-[6px]">
-        <div
-          className=" cursor-pointer"
-          style={{ paddingLeft: sideBarOpen ? "2px" : "" }}
-        >
-          <PiListLight size={24} onClick={() => toggleSideBar()} />
-        </div>
-        {sideBarOpen ? (
-          <span onClick={() => router.push("/")} className=" ">
-            <Image
-              src="/EchoverseLogoFinal.png"
-              width={144}
-              height={32}
-              alt="Logo"
-              className="md:w-[144px] md:h-[32px] w-[120px] h-[25px]"
-            />
-          </span>
-        ) : (
-          ""
-        )}
-      </div> */}
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
           value="Music"
@@ -117,11 +99,10 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 1 ? "#2626267c" : "",
+                    backgroundColor: isActive("/playlist") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
-                  onClick={() => setCategory(1)}
                 >
                   <div
                     className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
@@ -143,7 +124,7 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 2 ? "#2626267c" : "",
+                    backgroundColor: isActive("/album") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="2"
@@ -164,7 +145,7 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 3 ? "#2626267c" : "",
+                    backgroundColor: isActive("/artist") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="3"
@@ -202,8 +183,9 @@ const Sidebar = () => {
                         <AccordionTrigger
                           className="h-10 flex items-center hover:bg-[#262626d6] rounded-md "
                           style={{
-                            backgroundColor:
-                              musicCategory === 4 ? "#2626267c" : "",
+                            backgroundColor: isActive("/my-music")
+                              ? "#2626267c"
+                              : "",
                             width: sideBarOpen ? "14rem" : "4rem",
                             justifyContent: sideBarOpen ? "" : "center",
                             paddingLeft: sideBarOpen ? "18px" : "",
@@ -301,7 +283,7 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 5 ? "#2626267c" : "",
+                    backgroundColor: isActive("/feed") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -324,7 +306,7 @@ const Sidebar = () => {
                 <li
                   className="px-5 sm:hidden flex items-center hover:bg-[#262626d6] rounded-md "
                   style={{
-                    backgroundColor: musicCategory == 6 ? "#2626267c" : "",
+                    backgroundColor: isActive("/search") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -344,7 +326,7 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 7 ? "#2626267c" : "",
+                    backgroundColor: isActive("/inbox") ? "#2626267c" : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -368,7 +350,9 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: musicCategory == 8 ? "#2626267c" : "",
+                    backgroundColor: isActive("/notifications")
+                      ? "#2626267c"
+                      : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
