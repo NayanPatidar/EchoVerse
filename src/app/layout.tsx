@@ -46,7 +46,6 @@ export default function RootLayout({
             <GeneralContextProvider>
               <FeedContextProvider>
                 <div className=" w-full h-full relative">
-                  <Navbar />
                   {children}
                 </div>
               </FeedContextProvider>

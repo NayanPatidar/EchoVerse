@@ -10,6 +10,7 @@ import { ChatContextProvider } from "@/context/ChatContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import CustomNavbar from "@/components/customNavbar";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -21,12 +22,17 @@ export default function RootLayout({
 
   const divRef = useRef<HTMLDivElement>(null);
   const [isAtTop, setIsAtTop] = useState(true);
+  const pathname = usePathname();
 
   const handleScroll = () => {
     if (divRef.current) {
       setIsAtTop(divRef.current.scrollTop === 0);
     }
   };
+
+  const hideCustomNavbarRoutes = ["/notifications", "/feed", "/inbox"];
+  const shouldShowCustomNavbar =
+    !hideCustomNavbarRoutes.includes(pathname) && isAtTop;
 
   useEffect(() => {
     const refElement = divRef.current;
@@ -45,6 +51,7 @@ export default function RootLayout({
       ) : (
         ""
       )}
+      <Navbar />
       <ChatContextProvider>
         <AudioPlayerProvider>
           <SidebarProvider>
@@ -58,13 +65,15 @@ export default function RootLayout({
                     <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden mx-2 mb-2">
                       <div
                         className={`MainPageDivBox ${
-                          isAtTop
+                          isAtTop && shouldShowCustomNavbar
                             ? "MainPageDivBoxScroll"
                             : "MainPageDivBoxNotTop"
                         } text-white overflow-y-auto h-full rounded-lg overflow-x-hidden transition-all duration-1000 ease-in-out`}
                         ref={divRef}
                       >
-                        <CustomNavbar visible={isAtTop} />
+                        {shouldShowCustomNavbar && (
+                          <CustomNavbar visible={isAtTop} />
+                        )}
                         {children}
                       </div>
                     </div>
