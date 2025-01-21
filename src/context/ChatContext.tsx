@@ -44,26 +44,6 @@ export const ChatContextProvider: React.FC<ChatContextProviderProps> = ({
     undefined
   );
 
-  const { token } = useAuthProvider();
-
-  const FetchFriends = async () => {
-    const res = await fetch("/api/friends/getAllChatFriends", {
-      method: "GET",
-      headers: {
-        "Context-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await res.json();
-    SetFriends(data.res);
-  };
-
-  useEffect(() => {
-    if (!token) return;
-    FetchFriends();
-  }, [token, FriendsAdded]);
-
   useEffect(() => {
     const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
     setInterval(() => {

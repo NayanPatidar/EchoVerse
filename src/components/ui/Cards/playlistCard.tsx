@@ -30,7 +30,7 @@ const TopPlaylistCard: React.FC<Artist> = ({
     if (type === "song") return `/song/${name}/${id}`;
     if (type === "album") return `/album/${name}/${id}`;
     if (type === "playlist") return `/playlist/${name}/${id}`;
-    return "#"; // Fallback route
+    return "#";
   };
 
   return (

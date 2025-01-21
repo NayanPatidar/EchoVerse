@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, get } from "firebase/database";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const firebaseConfig = {
@@ -18,5 +19,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const storage = getStorage(app);
+
+async function testFirebaseConnection() {
+  try {
+    const testRef = ref(database, "/test");
+    await get(testRef);
+    console.log("Database connected successfully");
+  } catch (error: any) {
+    console.error("Database connection failed:", error.message);
+  }
+}
+
+function testStorageConnection() {
+  try {
+    const testPath = storage.app.name;
+    console.log("Storage connected successfully:", testPath);
+  } catch (error: any) {
+    console.error("Storage connection failed:", error.message);
+  }
+}
+
+// Run connection tests
+testFirebaseConnection();
+testStorageConnection();
 
 export { database, storage };

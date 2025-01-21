@@ -1,4 +1,5 @@
 "use client";
+
 import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import {
   getAlbumDetails,
@@ -7,7 +8,7 @@ import {
 } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
 
 interface HorizontalScrollerProps {
@@ -32,30 +33,19 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   const imageUrl = getImageURL(image);
   const { SetAudioFileLink, SetCurrentAudioIndex, SetAudioCurrentTimeStamp } =
     useAudioPlayer();
-  const router = useRouter();
-
-  function MediaClick() {
-    if (type == "song") {
-      router.replace(`/song/${name}/${id}`);
-    } else if (type == "album") {
-      router.replace(`/album/${name}/${id}`);
-    } else if (type == "playlist") {
-      router.replace(`/playlist/${name}/${id}`);
-    }
-  }
 
   async function PlayMedia() {
-    if (type == "song") {
+    if (type === "song") {
       const Songs = await getSongDetails(id);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
       SetAudioFileLink(Songs?.songs);
-    } else if (type == "album") {
+    } else if (type === "album") {
       const AlbumSongs = await getAlbumDetails(id);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
       SetAudioFileLink(AlbumSongs?.songs);
-    } else if (type == "playlist") {
+    } else if (type === "playlist") {
       const PlaylistSongs = await getPlaylist(id);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
@@ -63,27 +53,34 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
     }
   }
 
+  const mediaHref = (() => {
+    if (type === "song") return `/song/${name}/${id}`;
+    if (type === "album") return `/album/${name}/${id}`;
+    if (type === "playlist") return `/playlist/${name}/${id}`;
+    return "/";
+  })();
+
   return (
     <div className="media-element flex flex-col text-left">
-      <img
-        src={imageUrl}
-        className="media-elements-image"
-        alt=""
-        onClick={() => MediaClick()}
-      />
-      <div
-        className="PlaySymbolCard "
-        onClick={() => PlayMedia()}
-      >
-        <FaPlay className="PlayIcon " />
+      <Link href={mediaHref} prefetch={true}>
+        <img
+          src={imageUrl}
+          className="media-elements-image"
+          alt=""
+          loading="lazy"
+        />
+      </Link>
+      <div className="PlaySymbolCard" onClick={() => PlayMedia()}>
+        <FaPlay className="PlayIcon" />
       </div>
       <span className="lato-regular mt-5 md:text-base text-xs overflow-hidden whitespace-nowrap text-ellipsis">
         {name}
       </span>
-      <span className=" lato-regular text-gray-400 text-xs md:text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+      <span className="lato-regular text-gray-400 text-xs md:text-sm overflow-hidden whitespace-nowrap text-ellipsis">
         {subtitle}
       </span>
     </div>
   );
 };
+
 export default HorizontalScrollerCard;

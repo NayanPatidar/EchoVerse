@@ -12,7 +12,6 @@ import { Notification } from "@/types/notification";
 import { useAuthProvider } from "./AuthContext";
 import { onValue, ref, remove } from "firebase/database";
 import { database } from "@/lib/firebase";
-import { error } from "console";
 
 interface NotificationContextProps {
   OriginialNotifications: Notification[] | undefined;
@@ -38,7 +37,6 @@ interface NotificationType {
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
-  const [Notifications, SetNotications] = useState<Notification[]>([]);
   const [OriginialNotifications, SetOriginalNotifications] = useState<
     Notification[]
   >([]);

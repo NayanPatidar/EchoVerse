@@ -45,32 +45,6 @@ export const PlaylistContextProvider: React.FC<PlaylistProps> = ({
     useState(false);
   const [IsNewPlaylistFormOpen, SetNewPlaylistFormOpen] = useState(false);
   const [IsNewPlaylistCreated, SetNewPlaylistCreated] = useState(false);
-  const { token } = useAuthProvider();
-
-  useEffect(() => {
-    const FetchPlaylist = async () => {
-      if (!token) {
-        return;
-      }
-
-      try {
-        const res = await fetch("/api/playlistForm", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const PlaylistData = await res.json();
-        SetPlaylists(PlaylistData.data);
-      } catch (error: any) {
-        console.error("Error In AddToPlaylistDropup  :", error.message);
-      }
-    };
-
-    FetchPlaylist();
-  }, [token, IsNewPlaylistCreated]);
 
   return (
     <PlaylistContext.Provider
