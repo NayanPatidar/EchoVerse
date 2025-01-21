@@ -22,7 +22,6 @@ const AddFriendToChat = () => {
     name: String,
     relationshipId: String
   ) => {
-    console.log("RelationShipId : ", relationshipId);
 
     try {
       const res = await fetch(`/api/friends/searchAllFriends`, {
@@ -39,6 +38,11 @@ const AddFriendToChat = () => {
       });
 
       console.log("Add to the Friend Chat List");
+
+      if (res.status == 409) {
+        SetNewMessage(false);
+        SetFriendAdded((prev) => !prev);
+      }
 
       if (!res.ok) {
         const errorData = await res.json();

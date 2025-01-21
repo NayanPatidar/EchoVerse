@@ -10,6 +10,7 @@ import { getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
 import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
+import Image from "next/image";
 
 interface HorizontalScrollerProps {
   id: string;
@@ -63,11 +64,13 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   return (
     <div className="media-element flex flex-col text-left">
       <Link href={mediaHref} prefetch={true}>
-        <img
+        <Image
           src={imageUrl}
-          className="media-elements-image"
           alt=""
-          loading="lazy"
+          className="media-elements-image"
+          loading="lazy" // Lazy load by default in Next.js
+          width={300} // Specify width
+          height={200} // Specify height
         />
       </Link>
       <div className="PlaySymbolCard" onClick={() => PlayMedia()}>

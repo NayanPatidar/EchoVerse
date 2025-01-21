@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const ChatFriends = () => {
   const { SetChatUserName, SetChatFriendId, FriendsAdded } = useChatContext();
   const router = useRouter();
-  const token = useAuthProvider();
+  const { token } = useAuthProvider();
   const [friends, setFriends] = useState<FriendData[] | undefined>(undefined);
 
   const fetchFriends = async () => {

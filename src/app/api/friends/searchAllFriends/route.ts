@@ -27,6 +27,23 @@ export async function POST(request: Request) {
     const decoded = jwt.verify(token as string, SECRET_KEY as string);
     if (typeof decoded !== "string" && decoded && "userId" in decoded) {
       const userId = decoded.userId as string;
+
+      const existingFriend = await prisma.chatFriends.findFirst({
+        where: {
+          userId: userId,
+          friendId: friendId,
+        },
+      });
+
+      if (existingFriend) {
+        return NextResponse.json(
+          {
+            message: "Friendship already exists",
+          },
+          { status: 409 }
+        );
+      }
+      
       const res = await prisma.chatFriends.create({
         data: {
           friendName: friendName,

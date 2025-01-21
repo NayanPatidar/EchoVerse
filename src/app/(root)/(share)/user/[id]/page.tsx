@@ -220,7 +220,7 @@ const User = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="flex flex-col items-center justify-center text-white">
-      <div className="w-full max-w-4xl flex flex-row items-start p-5 border-b border-gray-700">
+      <div className="w-full max-w-full flex flex-row items-start p-5 border-b border-gray-700">
         <div className="mr-8">
           <Image
             src={"/User.webp"}
