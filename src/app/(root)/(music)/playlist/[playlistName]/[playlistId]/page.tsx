@@ -41,7 +41,7 @@ const PlaylistPage = async ({
           />
         }
         <div className=" flex flex-col justify-end gap-1">
-          <span className=" source-sans-3-Bold text-[5vw] leading-tight max-h-[125px]">
+          <span className=" source-sans-3-Bold text-fit leading-tight max-h-[125px]">
             {playlistObj?.name}
           </span>
           <div className=" h-[30px] flex flex-row gap-2">

@@ -14,7 +14,7 @@ interface Message {
 }
 
 const FriendChat = ({ params }: { params: { roomId: string } }) => {
-  const { ChatUserName, Friends, ChatFriendId } = useChatContext();
+  const { ChatUserName, ChatFriendId } = useChatContext();
   const { tokenDetails, token } = useAuthProvider();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");

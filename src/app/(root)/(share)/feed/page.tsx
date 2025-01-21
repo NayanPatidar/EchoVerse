@@ -3,21 +3,43 @@ import PostSong, { PostUploadForm } from "@/components/postSong";
 import SearchFriends from "@/components/searchFriends";
 import UserPostCard from "@/components/ui/Cards/userImagePostCard";
 import VideoPostCard from "@/components/ui/Cards/userVideoPostCard";
-import { useFeedContext } from "@/context/FeedContext";
+import { useAuthProvider } from "@/context/AuthContext";
 import { useGeneralContext } from "@/context/GeneralContext";
-import React, { useState } from "react";
+import { PostProps } from "@/types/post";
+import React, { useEffect, useState } from "react";
 
 const FeedPage = () => {
   const { PostSongForm } = useGeneralContext();
   const [isMuted, setIsMuted] = useState(true);
-  const { PostsData } = useFeedContext();
+  const { token } = useAuthProvider();
+  const [postData, setPostsData] = useState<PostProps[] | undefined>(undefined);
+
+  const FetchAllPosts = async () => {
+    if (!token) return;
+    console.log(token);
+
+    const posts = await fetch("/api/posts/getAllPosts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const postsData = await posts.json();
+    setPostsData(postsData.post);
+  };
+
+  useEffect(() => {
+    FetchAllPosts();
+  }, []);
 
   return (
     <div className=" Feed-Page flex flex-row w-full gap-3 p-2 overflow-hidden">
       {PostSongForm ? <PostUploadForm /> : ""}
       <div className=" FeedContent sm:w-8/12 w-full h-full overflow-y-scroll ">
-        {PostsData &&
-          Object.entries(PostsData).map(([key, val]) => {
+        {postData &&
+          Object.entries(postData).map(([key, val]) => {
             const fileExtension = val.imageDownloadLink
               ? val.imageDownloadLink
                   .split("?")[0]

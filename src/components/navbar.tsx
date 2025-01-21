@@ -36,17 +36,6 @@ const Navbar = () => {
     document.addEventListener("click", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const FetchTrendingData = async () => {
-      const TrendingSearches = await getTopSearches();
-      if (TrendingSearches) {
-        setTrendingSearches(TrendingSearches);
-      }
-    };
-
-    FetchTrendingData();
-  }, []);
-
   const Profile = () => {
     router.push("/signin");
   };
@@ -87,6 +76,7 @@ const Navbar = () => {
               {isSearchBarOpen ? (
                 <SearchBarBox
                   trendingSearches={trendingSearches}
+                  setTrendingSearches={setTrendingSearches}
                   closeSearchBar={() => setSearchBarOpen(false)}
                 />
               ) : (
@@ -111,12 +101,19 @@ const Navbar = () => {
 
 type SearchBarBoxProps = {
   trendingSearches: TopSearch[];
+  setTrendingSearches: React.Dispatch<React.SetStateAction<TopSearch[]>>;
   closeSearchBar: () => void;
 };
 
-function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
+function SearchBarBox({
+  setTrendingSearches,
+  trendingSearches,
+  closeSearchBar,
+}: SearchBarBoxProps) {
   const [inputData, setInputData] = useState("");
-  const [SearchData, setSearchData] = useState<AllSearch>();
+  const [SearchData, setSearchData] = useState<AllSearch | undefined>(
+    undefined
+  );
   const router = useRouter();
 
   const searchHandler = async (e: any) => {
@@ -155,6 +152,19 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
     }
   };
 
+  useEffect(() => {
+    const FetchTrendingData = async () => {
+      const TrendingSearches = await getTopSearches();
+      if (TrendingSearches) {
+        setTrendingSearches(TrendingSearches);
+      }
+    };
+
+    if (trendingSearches.length == 0) {
+      FetchTrendingData();
+    }
+  }, []);
+
   const searchProcess = debounce(searchHandler, 1000);
   const processedItems = new Set();
 
@@ -175,33 +185,39 @@ function SearchBarBox({ trendingSearches, closeSearchBar }: SearchBarBoxProps) {
         {inputData == "" ? (
           <div>
             <span className=" Montserrat-bold">Trending Searches</span>
-            <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
-              {Object.entries(trendingSearches).map(([key, val]) => {
-                const TrendingSong = getImageURL(val?.image);
-                return (
-                  <div
-                    className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
-                    onClick={() => OpenSong(val)}
-                    key={key}
-                  >
-                    <img
-                      src={TrendingSong}
-                      width={50}
-                      height={50}
-                      className=" rounded-md p-1"
-                    />
-                    <div className=" flex flex-col gap-[1px]">
-                      <span className=" text-sm cursor-pointer">
-                        {val.name}
-                      </span>
-                      <span className=" first-letter:capitalize cursor-pointer">
-                        {val.type}
-                      </span>
+            {trendingSearches && trendingSearches.length > 0 ? (
+              <div className=" grid grid-cols-3 text-xs Montserrat-regular gap-3 mt-5">
+                {Object.entries(trendingSearches).map(([key, val]) => {
+                  const TrendingSong = getImageURL(val?.image);
+                  return (
+                    <div
+                      className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
+                      onClick={() => OpenSong(val)}
+                      key={key}
+                    >
+                      <img
+                        src={TrendingSong}
+                        width={50}
+                        height={50}
+                        className=" rounded-md p-1"
+                      />
+                      <div className=" flex flex-col gap-[1px] overflow-hidden whitespace-nowrap text-ellipsis">
+                        <span className=" text-sm cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis">
+                          {val.name}
+                        </span>
+                        <span className=" first-letter:capitalize cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis">
+                          {val.type}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className=" flex justify-center align-middle">
+                <LoadingSpinner />
+              </div>
+            )}
           </div>
         ) : SearchData ? (
           <div className="flex flex-row gap-2">

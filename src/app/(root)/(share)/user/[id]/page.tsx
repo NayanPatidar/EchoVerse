@@ -8,6 +8,7 @@ import { NotificationsType } from "@/types/notification";
 import { CompleteUserData } from "@/types/user";
 import { onValue, ref, remove, set } from "firebase/database";
 import Image from "next/image";
+import { log } from "node:console";
 import { useEffect, useState } from "react";
 
 const User = ({ params }: { params: { id: string } }) => {
@@ -23,6 +24,7 @@ const User = ({ params }: { params: { id: string } }) => {
     const fetchUserData = async () => {
       const user = await GetUsers(params.id);
       setAllUser(user);
+      console.log(user);
     };
 
     fetchUserData();
@@ -59,11 +61,15 @@ const User = ({ params }: { params: { id: string } }) => {
       `friendRequest/${tokenDetails.userId}`
     );
 
+    console.log(friendRequestRef);
+
     const unsubscribeFunction = onValue(friendRequestRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data);
 
       if (data) {
         const senderId = params.id;
+        console.log(senderId);
         if (
           data[senderId] &&
           data[senderId].status === "PENDING" &&
@@ -100,6 +106,7 @@ const User = ({ params }: { params: { id: string } }) => {
       );
 
       const result = await response.json();
+      console.log(result);
 
       if (result.isFriends) {
         setStatus("FRIENDS");
@@ -113,6 +120,7 @@ const User = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     if (!tokenDetails.userId) return;
+    console.log("UseEffect Called");
 
     checkFriendStatus();
 
@@ -124,6 +132,9 @@ const User = ({ params }: { params: { id: string } }) => {
   }, [tokenDetails]);
 
   const sendFollowRequest = () => {
+    console.log(params.id);
+    console.log(tokenDetails.userId);
+
     const sendersRequestRef = ref(
       database,
       `friendRequest/${params.id}/${tokenDetails.userId}`
