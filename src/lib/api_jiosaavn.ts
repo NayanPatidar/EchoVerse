@@ -1,5 +1,4 @@
 "use server";
-
 import { cookies } from "next/headers";
 
 import type {
@@ -43,14 +42,12 @@ async function jioSaavnFetchData<T>(
       ...query,
       lang: query && query["lang"] ? query.lang : "hindi",
     };
-    const url = new URL(path, "https://myapi.nayanpatidar128.workers.dev/");    
+    const url = new URL(path, "https://myapi.nayanpatidar128.workers.dev/");
     url.search = new URLSearchParams(queries).toString();
     const response = await fetch(url, {
       method: "GET",
       cache: "no-store",
       headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
         Expires: "0",
         "Content-Type": "application/json",
       },

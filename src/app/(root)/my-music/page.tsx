@@ -14,15 +14,46 @@ type PlaylistType = {
 };
 
 const MyMusic = () => {
-  const { Playlists, IsNewPlaylistFormOpen, SetNewPlaylistFormOpen } =
-    usePlaylistContext();
+  const {
+    Playlists,
+    SetPlaylists,
+    IsNewPlaylistFormOpen,
+    SetNewPlaylistFormOpen,
+    IsNewPlaylistCreated,
+  } = usePlaylistContext();
   const { SetAddToPlaylistFormOpen } = useGeneralContext();
   const router = useRouter();
+  const { token } = useAuthProvider();
 
   const AddPlaylist = () => {
     SetAddToPlaylistFormOpen(true);
     SetNewPlaylistFormOpen(true);
   };
+
+  const FetchPlaylist = async () => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/playlistForm", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const PlaylistData = await res.json();
+      SetPlaylists(PlaylistData.data);
+    } catch (error: any) {
+      console.error("Error In AddToPlaylistDropup  :", error.message);
+    }
+  };
+
+  useEffect(() => {
+    FetchPlaylist();
+  }, [IsNewPlaylistCreated]);
 
   return (
     <div className=" w-full md:p-5 p-2 flex flex-wrap md:gap-10 gap-3 justify-around md:justify-start md:items-start	">

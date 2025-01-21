@@ -1,10 +1,14 @@
+"use client";
 import { CardSkeleton, HorizontalSkeleton } from "@/components/skeletons";
 import QuickMusicActions from "@/components/ui/quickMusicActions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Box, Skeleton } from "@mui/material";
+import { usePathname } from "next/navigation";
 import { IoTimeOutline } from "react-icons/io5";
 
 export default function DetailsSkeleton() {
+  const pathname = usePathname();
+
   return (
     <div className=" text-white flex flex-col p-5 gap-5">
       <div className=" w-full h-40 flex justify-start gap-5">
@@ -49,8 +53,7 @@ export default function DetailsSkeleton() {
           </div>
         </div>
       </div>
-      <div>
-      </div>
+      <div></div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <span className=" w-6/12">
           <span className=" pr-[22px]">#</span>
@@ -81,7 +84,5 @@ export default function DetailsSkeleton() {
         />
       </div>
     </div>
-
-
   );
 }

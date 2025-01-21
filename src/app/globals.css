@@ -610,3 +610,16 @@ body {
 .disable-select {
   user-select: none;
 }
+
+.text-fit {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: flex-start;
+  width: 100%; /* Adjusts to the parent container width */
+  height: 100%; /* Adjusts to the parent container height */
+  font-size: clamp(10px, 4vw, 100px); /* Dynamically adjusts font size */
+  line-height: 1.2; /* Maintains readability */
+  white-space: normal; /* Allows text to wrap */
+  overflow: hidden; /* Hides overflowing text */
+}

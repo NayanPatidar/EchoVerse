@@ -29,10 +29,10 @@ export default function RootLayout({
       setIsAtTop(divRef.current.scrollTop === 0);
     }
   };
-
   const hideCustomNavbarRoutes = ["/notifications", "/feed", "/inbox"];
-  const shouldShowCustomNavbar =
-    !hideCustomNavbarRoutes.includes(pathname) && isAtTop;
+  const shouldShowCustomNavbar = !hideCustomNavbarRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
 
   useEffect(() => {
     const refElement = divRef.current;
@@ -57,28 +57,26 @@ export default function RootLayout({
           <SidebarProvider>
             <PlaylistContextProvider>
               <div className="w-full flex-col">
-                <NotificationProvider>
-                  <div className="MainContentDiv flex flex-row ">
-                    <div className="flex flex-row z-[1000] h-full ">
-                      <Sidebar />
-                    </div>
-                    <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden mx-2 mb-2">
-                      <div
-                        className={`MainPageDivBox ${
-                          isAtTop && shouldShowCustomNavbar
-                            ? "MainPageDivBoxScroll"
-                            : "MainPageDivBoxNotTop"
-                        } text-white overflow-y-auto h-full rounded-lg overflow-x-hidden transition-all duration-1000 ease-in-out`}
-                        ref={divRef}
-                      >
-                        {shouldShowCustomNavbar && (
-                          <CustomNavbar visible={isAtTop} />
-                        )}
-                        {children}
-                      </div>
+                <div className="MainContentDiv flex flex-row ">
+                  <div className="flex flex-row z-[1000] h-full ">
+                    <Sidebar />
+                  </div>
+                  <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden mx-2 mb-2">
+                    <div
+                      className={`MainPageDivBox ${
+                        isAtTop && shouldShowCustomNavbar
+                          ? "MainPageDivBoxScroll"
+                          : "MainPageDivBoxNotTop"
+                      } text-white overflow-y-auto h-full rounded-lg overflow-x-hidden transition-all duration-1000 ease-in-out`}
+                      ref={divRef}
+                    >
+                      {shouldShowCustomNavbar && (
+                        <CustomNavbar visible={isAtTop} />
+                      )}
+                      {children}
                     </div>
                   </div>
-                </NotificationProvider>
+                </div>
                 <div>
                   <AudioPlayer />
                 </div>
