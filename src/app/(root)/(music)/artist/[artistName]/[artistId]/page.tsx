@@ -1,9 +1,7 @@
 "use server";
 import ListAudioFiles from "@/components/listaudiofiles";
 import QuickMusicActions from "@/components/ui/quickMusicActions";
-import {
-  getArtistSongs,
-} from "@/lib/api_jiosaavn";
+import { getArtistDetails } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
 import { IoTimeOutline } from "react-icons/io5";
@@ -13,7 +11,7 @@ const ArtistPage = async ({
 }: {
   params: { artistName: string; artistId: string };
 }) => {
-  const artistObj = await getArtistSongs(params.artistId);
+  const artistObj = await getArtistDetails(params.artistId);
 
   if (!artistObj?.image) {
     return;
@@ -63,7 +61,7 @@ const ArtistPage = async ({
         </div>
       </div>
       <div>
-      <QuickMusicActions Data={artistObj.top_songs.songs} />
+        <QuickMusicActions Data={artistObj.top_songs.slice(0, 10)} />
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
         <div className=" w-6/12">
@@ -78,7 +76,7 @@ const ArtistPage = async ({
         </div>
       </div>
       <ListAudioFiles
-        SongsData={artistObj?.top_songs.songs}
+        SongsData={artistObj?.top_songs.slice(0, 10)}
         isPlaylist={true}
         isArtist={true}
       />

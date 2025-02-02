@@ -27,8 +27,6 @@ const LikedSongs = ({ params }: { params: { playlistId: string } }) => {
   } = useAudioPlayer();
 
   const PlaylistSongsData = async () => {
-    console.log(params.playlistId + " - Params ID");
-
     if (!token) {
       return;
     }
@@ -44,7 +42,6 @@ const LikedSongs = ({ params }: { params: { playlistId: string } }) => {
 
       const PlaylistSongs = await res.json();
       SetPlaylistData(PlaylistSongs.data);
-      console.log(PlaylistSongs.data);
     } catch (error: any) {
       console.error("Found Error : " + error.message);
     } finally {

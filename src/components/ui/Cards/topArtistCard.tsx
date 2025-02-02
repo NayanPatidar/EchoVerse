@@ -2,6 +2,7 @@
 import { getHref, getImageURL } from "@/lib/utils";
 import { Quality, TopArtists, Type } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -25,18 +26,18 @@ const TopArtistCard: React.FC<Artist> = ({
   type,
 }) => {
   const imageUrl = getImageURL(image);
-  const router = useRouter();
-
-  function MediaClick() {
-    if (type == "artist") {
-      console.log(getHref(url, type));
-      router.push(`/artist/${name}/${id}`);
-    }
-  }
 
   return (
-    <div className="top-artist-card" onClick={() => MediaClick()}>
-      <img src={imageUrl} className="top-artist-card-image" alt="" />
+    <div className="top-artist-card">
+      <Link href={getHref(url, type)} prefetch={true}>
+        <Image
+          src={imageUrl}
+          className="top-artist-card-image"
+          alt=""
+          width={300}
+          height={200}
+        />
+      </Link>
       <span className=" text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
         {name}
       </span>

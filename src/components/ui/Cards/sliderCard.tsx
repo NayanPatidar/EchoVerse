@@ -6,7 +6,7 @@ import {
   getPlaylist,
   getSongDetails,
 } from "@/lib/api_jiosaavn";
-import { getImageURL } from "@/lib/utils";
+import { getHref, getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
 import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
@@ -54,16 +54,9 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
     }
   }
 
-  const mediaHref = (() => {
-    if (type === "song") return `/song/${name}/${id}`;
-    if (type === "album") return `/album/${name}/${id}`;
-    if (type === "playlist") return `/playlist/${name}/${id}`;
-    return "/";
-  })();
-
   return (
     <div className="media-element flex flex-col text-left">
-      <Link href={mediaHref} prefetch={true}>
+      <Link href={getHref(url, type)} prefetch={true}>
         <Image
           src={imageUrl}
           alt=""

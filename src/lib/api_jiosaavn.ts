@@ -70,7 +70,7 @@ async function jioSaavnFetchData<T>(
 export async function getPlaylist(token: string) {
   try {
     return await jioSaavnFetchData<Playlist>("/playlist", {
-      id: token,
+      token: token,
     });
   } catch (error) {
     console.error(
@@ -96,7 +96,7 @@ export async function getHomeData(lang?: Lang[]) {
 export async function getSongDetails(token: string, lang?: Lang[]) {
   try {
     return await jioSaavnFetchData<SongObj>("/song", {
-      id: token,
+      token: token,
     });
   } catch (error) {
     console.error(
@@ -111,7 +111,7 @@ export async function getSongDetails(token: string, lang?: Lang[]) {
 export async function getAlbumDetails(token: string) {
   try {
     return await jioSaavnFetchData<Album>("/album", {
-      id: token,
+      token: token,
     });
   } catch (error) {
     console.error(

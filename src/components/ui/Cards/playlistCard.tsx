@@ -1,5 +1,5 @@
 "use client";
-import { getImageURL } from "@/lib/utils";
+import { getHref, getImageURL } from "@/lib/utils";
 import { Quality, Type } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,17 +24,10 @@ const TopPlaylistCard: React.FC<Artist> = ({
   image,
   url,
 }) => {
-  const imageUrl = getImageURL(image);
-
-  const getRoute = () => {
-    if (type === "song") return `/song/${name}/${id}`;
-    if (type === "album") return `/album/${name}/${id}`;
-    if (type === "playlist") return `/playlist/${name}/${id}`;
-    return "#";
-  };
+  const imageUrl = getImageURL(image);  
 
   return (
-    <Link href={getRoute()} prefetch={true}>
+    <Link href={getHref(url, type)} prefetch={true}>
       <div className="top-playlist-card">
         <img src={imageUrl} className="top-playlist-card-image" alt="" />
         <div className="flex justify-center items-center w-[90px] md:w-[160px]">

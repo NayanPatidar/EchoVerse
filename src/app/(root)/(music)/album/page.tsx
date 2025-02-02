@@ -2,6 +2,7 @@
 import TopPlaylistCard from "@/components/ui/Cards/playlistCard";
 import TopArtistCard from "@/components/ui/Cards/topArtistCard";
 import { getTopAlbums, getTopArtists } from "@/lib/api_jiosaavn";
+import { log } from "node:console";
 
 const TopAlbums = async () => {
   const albumData = await getTopAlbums();
@@ -12,7 +13,7 @@ const TopAlbums = async () => {
         Top Albums
       </div>
       <div className="TopArtistPage grid md:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] grid-cols-[repeat(auto-fit,minmax(110px,1fr))]  w-full">
-        {albumData?.data?.map(({ id, name, image, url }, key) => {
+        {albumData?.data?.map(({ id, name, image, url, type }, key) => {
           return (
             <div key={key} className=" w-[110px]">
               <TopPlaylistCard
@@ -21,7 +22,7 @@ const TopAlbums = async () => {
                 name={name}
                 image={image}
                 url={url}
-                type="album"
+                type={type}
               />
             </div>
           );

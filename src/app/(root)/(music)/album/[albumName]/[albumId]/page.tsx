@@ -9,9 +9,10 @@ import { IoTimeOutline } from "react-icons/io5";
 const AlbumPage = async ({
   params,
 }: {
-  params: { albumName: string; albumId: string };
+  params: { albumName: string; albumId: string; token: string };
 }) => {
-  const albumObj = await getAlbumDetails(params.albumId);
+
+  const albumObj = await getAlbumDetails(params.albumId);  
 
   if (!albumObj?.image) {
     return;

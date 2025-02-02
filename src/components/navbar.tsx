@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import { getTopSearches, search, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, TopSearch } from "@/types";
-import { getImageURL } from "@/lib/utils";
+import { getHref, getImageURL } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
@@ -15,6 +15,7 @@ import LoadingSpinner from "./ui/LoadingSpinner";
 import { PiListLight } from "react-icons/pi";
 import Image from "next/image";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
@@ -133,15 +134,7 @@ function SearchBarBox({
   };
 
   const OpenSong = (val: any) => {
-    if (val.type == "artist") {
-      router.push(`/artist/${val.name}/${val.id}`);
-    } else if (val.type == "album") {
-      router.push(`/album/${val.name}/${val.id}`);
-    } else if (val.type == "song") {
-      router.push(`/song/${val.name}/${val.id}`);
-    }
-
-    closeSearchBar();
+    return getHref(val.url, val.type);
   };
 
   const handleSearchBarKeyDown = (
@@ -190,16 +183,18 @@ function SearchBarBox({
                 {Object.entries(trendingSearches).map(([key, val]) => {
                   const TrendingSong = getImageURL(val?.image);
                   return (
-                    <div
+                    <Link
                       className=" flex gap-2 items-center hover:bg-[#3b3b3b] rounded-md"
-                      onClick={() => OpenSong(val)}
+                      href={OpenSong(val)}
                       key={key}
+                      onClick={() => closeSearchBar()}
                     >
-                      <img
+                      <Image
                         src={TrendingSong}
                         width={50}
                         height={50}
                         className=" rounded-md p-1"
+                        alt="Trending Song"
                       />
                       <div className=" flex flex-col gap-[1px] overflow-hidden whitespace-nowrap text-ellipsis">
                         <span className=" text-sm cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis">
@@ -209,7 +204,7 @@ function SearchBarBox({
                           {val.type}
                         </span>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -243,7 +238,9 @@ function SearchBarBox({
                           return (
                             <div
                               className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md"
-                              onClick={() => OpenSong(value)}
+                              onClick={() => {
+                                OpenSong(value), closeSearchBar();
+                              }}
                               key={key}
                             >
                               <img

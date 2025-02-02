@@ -13,6 +13,7 @@ const PlaylistPage = async ({
 }: {
   params: { playlistName: string; playlistId: string };
 }) => {
+  
   const playlistObj = await getPlaylist(params.playlistId);
 
   if (!playlistObj?.image) {
