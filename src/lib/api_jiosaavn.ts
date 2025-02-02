@@ -42,7 +42,7 @@ async function jioSaavnFetchData<T>(
       ...query,
       lang: query && query["lang"] ? query.lang : "hindi",
     };
-    const url = new URL(path, "https://myapi.nayanpatidar128.workers.dev/");
+    const url = new URL(path, "http://localhost:3001");
     url.search = new URLSearchParams(queries).toString();
     const response = await fetch(url, {
       method: "GET",
