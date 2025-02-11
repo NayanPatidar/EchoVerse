@@ -11,8 +11,7 @@ const AlbumPage = async ({
 }: {
   params: { albumName: string; albumId: string; token: string };
 }) => {
-
-  const albumObj = await getAlbumDetails(params.albumId);  
+  const albumObj = await getAlbumDetails(params.albumId);
 
   if (!albumObj?.image) {
     return;

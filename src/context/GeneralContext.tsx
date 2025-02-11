@@ -17,6 +17,8 @@ interface GeneralContextInterface {
   SetUploadPostFormOpen: Dispatch<SetStateAction<boolean>>;
   NewMessage: boolean;
   SetNewMessage: Dispatch<SetStateAction<boolean>>;
+  colorPalette: string;
+  setColorPalette: Dispatch<SetStateAction<string>>;
 }
 
 const GeneralContext = createContext<GeneralContextInterface | undefined>(
@@ -34,6 +36,7 @@ export const GeneralContextProvider: React.FC<GeneralProps> = ({
   const [IsUploadPostFormOpen, SetUploadPostFormOpen] = useState(false);
   const [PostSongForm, SetPostSongForm] = useState(false);
   const [NewMessage, SetNewMessage] = useState(false);
+  const [colorPalette, setColorPalette] = useState("#000000");
 
   return (
     <GeneralContext.Provider
@@ -46,6 +49,8 @@ export const GeneralContextProvider: React.FC<GeneralProps> = ({
         SetUploadPostFormOpen,
         NewMessage,
         SetNewMessage,
+        colorPalette,
+        setColorPalette,
       }}
     >
       {children}

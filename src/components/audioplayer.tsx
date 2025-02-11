@@ -1,5 +1,5 @@
 "use client";
-
+import { Vibrant } from "node-vibrant/browser";
 import { useEffect, useRef, useState } from "react";
 import { useGlobalAudioPlayer } from "react-use-audio-player";
 import Slider from "@mui/material/Slider";
@@ -37,7 +37,10 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen } = useGeneralContext();
+  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, setColorPalette } =
+    useGeneralContext();
+  const [dominantColor, setDominantColor] = useState("#000");
+
   const {
     AudioFileLink,
     CurrentAudioIndex,
@@ -88,6 +91,23 @@ const AudioPlayer = () => {
       play();
     }
   };
+
+  useEffect(() => {
+    if (!AudioFileLink || AudioFileLink.length === 0) return; // Prevent errors
+
+    console.log("Audio File:", AudioFileLink[CurrentAudioIndex]);
+    Vibrant.from(getImageURL(AudioFileLink[CurrentAudioIndex]?.image))
+      .getPalette()
+      .then((palette) => {
+        console.log(palette);
+        console.log(palette.Vibrant?.hex);
+        if (palette && palette.Vibrant) {
+          console.log("Setting Dominant Color :", palette.Vibrant.hex);
+          setDominantColor(palette.Vibrant.hex);
+          setColorPalette(palette.Vibrant.hex);
+        }
+      });
+  }, [AudioFileLink, CurrentAudioIndex]);
 
   useEffect(() => {
     if (playing) {
@@ -160,7 +180,13 @@ const AudioPlayer = () => {
   }, [playing]);
 
   return (
-    <div className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col">
+    <div
+      className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col"
+      style={{
+        background: `linear-gradient(to right, ${dominantColor} 0%, rgba(0, 0, 0, 0.8) 33%)`,
+        transition: "background 1s ease-in-out",
+      }}
+    >
       <Slider
         sx={{
           padding: "0px",

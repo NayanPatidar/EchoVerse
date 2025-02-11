@@ -36,20 +36,36 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
     useAudioPlayer();
 
   async function PlayMedia() {
+    const link = getHref(url, type);
+    console.log(link);
+
+    ///album/pushpa-2-the-rule/nTgWx7gW,8U_
+    const idNew = url.split("/").pop();
+
+    if (idNew === undefined) {
+      return;
+    }
+
     if (type === "song") {
-      const Songs = await getSongDetails(id);
+      const Songs = await getSongDetails(idNew);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
+      console.log(Songs);
+
       SetAudioFileLink(Songs?.songs);
     } else if (type === "album") {
-      const AlbumSongs = await getAlbumDetails(id);
+      const AlbumSongs = await getAlbumDetails(idNew);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
+      console.log(AlbumSongs);
+
       SetAudioFileLink(AlbumSongs?.songs);
     } else if (type === "playlist") {
-      const PlaylistSongs = await getPlaylist(id);
+      const PlaylistSongs = await getPlaylist(idNew);
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
+      console.log(PlaylistSongs);
+
       SetAudioFileLink(PlaylistSongs?.songs);
     }
   }

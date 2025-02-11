@@ -84,7 +84,7 @@ const Sidebar = () => {
                 />
 
                 {sideBarOpen ? (
-                  <h2 className="gradientText font-bold md:text-xl text-base ">
+                  <h2 className="gradientText md:text-xl text-base font-extrabold ">
                     Music
                   </h2>
                 ) : (
