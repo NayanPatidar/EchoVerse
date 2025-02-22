@@ -3,6 +3,7 @@ import { PiListLight } from "react-icons/pi";
 import { IoCaretBackOutline } from "react-icons/io5";
 import { IoCaretForwardOutline } from "react-icons/io5";
 import { useGeneralContext } from "@/context/GeneralContext";
+import { useEffect, useState } from "react";
 
 interface CustomNavbarProps {
   visible: boolean;
@@ -10,40 +11,76 @@ interface CustomNavbarProps {
 
 const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
   const { colorPalette } = useGeneralContext();
+  const [backgroundColor, setBackgroundColor] = useState<string>("#000000");
+  const [opacity, setOpacity] = useState(0);
 
-  const hexToRgba = (hex: string, alpha: number) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  };
+  useEffect(() => {
+    let opacityValue = 1;
 
-  const transparentColor = hexToRgba(colorPalette, 1);
-  const shadowColor = hexToRgba(colorPalette, 1);
+    const fadeOut = setInterval(() => {
+      opacityValue -= 0.02;
+      setOpacity(opacityValue);
 
-  console.log(`bg-[${transparentColor}]`);
-  console.log(`bg-[${colorPalette}]`);
+      if (opacityValue <= 0) {
+        clearInterval(fadeOut);
+        setOpacity(0);
+        setBackgroundColor(colorPalette);
+
+        let fadeInOpacity = 0;
+        const fadeIn = setInterval(() => {
+          fadeInOpacity += 0.02;
+          setOpacity(fadeInOpacity);
+
+          if (fadeInOpacity >= 1) {
+            clearInterval(fadeIn);
+            setOpacity(1);
+          }
+        }, 10);
+      }
+    }, 10);
+
+    return () => clearInterval(fadeOut);
+  }, [colorPalette]);
+
   return (
     <div
-      className={`NavbarMain sticky top-0 z-10 flex items-center h-14 md:h-16 text-white max-w-full transition-colors duration-1000 ease-in-out`}
+      className="NavbarMain sticky top-0 z-10 flex items-center h-14 md:h-16 text-white max-w-full transition-opacity duration-1000 ease-in-out "
       style={{
-        background: visible ? 
-        colorPalette !== "#000000" ? `linear-gradient(to right, ${colorPalette} 0%, rgba(0, 0, 0, 1) 88%)` : "rgba(0, 0, 0, 0.0)"
-         : colorPalette !== "#000000" ? `linear-gradient(to right, ${colorPalette} 0%, rgba(0, 0, 0, 1) 88%)` : "rgb(20, 20, 20)",
-        transition: "background 1s ease-in-out",
+        opacity: 1,
+        background: visible ? 0 : `rgb(20, 20, 20)`,
       }}
     >
+      <div
+        className="absolute inset-0 w-full h-full -z-10"
+        style={{
+          background: visible
+            ? backgroundColor !== "#000000"
+              ? `linear-gradient(to right, ${backgroundColor} 0%, rgba(0, 0, 0, 1) 88%)`
+              : "rgba(0, 0, 0, 0.0)"
+            : backgroundColor !== "#000000"
+            ? `linear-gradient(to right, ${backgroundColor} 0%, rgba(0, 0, 0, 1) 88%)`
+            : "rgb(20, 20, 20)",
+          opacity: opacity,
+          transition: "background 2s ease-in-out",
+        }}
+      />
       <div className=" cursor-pointer px-2 md:hidden ">
         <PiListLight size={24} />
       </div>
       <div className=" h-full flex flex-row justify-start min-w-full gap-2">
         <div className=" border-white h-16 flex items-center justify-start pl-10 gap-2">
           <IoCaretBackOutline
-            style={{ fontSize: "36px", color:   colorPalette !== "#000000" ? "#ffffff"  : "#7d7d7d" }}
+            style={{
+              fontSize: "36px",
+              color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",
+            }}
             className=" cursor-pointer"
           />
           <IoCaretForwardOutline
-            style={{ fontSize: "36px", color:   colorPalette !== "#000000" ? "#ffffff"  : "#7d7d7d" }}
+            style={{
+              fontSize: "36px",
+              color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",
+            }}
             className=" cursor-pointer"
           />
         </div>
