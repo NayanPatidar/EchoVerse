@@ -40,6 +40,8 @@ const AudioPlayer = () => {
   const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, setColorPalette } =
     useGeneralContext();
   const [dominantColor, setDominantColor] = useState("#000");
+  const [opacity, setOpacity] = useState(0);
+  const [backgroundColor, setBackgroundColor] = useState("#000");
 
   const {
     AudioFileLink,
@@ -179,14 +181,44 @@ const AudioPlayer = () => {
     }
   }, [playing]);
 
+  useEffect(() => {
+    let opacityValue = 1;
+
+    const fadeOut = setInterval(() => {
+      opacityValue -= 0.02;
+      setOpacity(opacityValue);
+
+      if (opacityValue <= 0) {
+        clearInterval(fadeOut);
+        setOpacity(0);
+        setBackgroundColor(dominantColor);
+
+        let fadeInOpacity = 0;
+        const fadeIn = setInterval(() => {
+          fadeInOpacity += 0.02;
+          setOpacity(fadeInOpacity);
+
+          if (fadeInOpacity >= 1) {
+            clearInterval(fadeIn);
+            setOpacity(1);
+          }
+        }, 10);
+      }
+    }, 10);
+
+    return () => clearInterval(fadeOut);
+  }, [dominantColor]);
+
   return (
-    <div
-      className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col"
-      style={{
-        background: `linear-gradient(to right, ${dominantColor} 0%, rgba(0, 0, 0, 0.8) 33%)`,
-        transition: "background 1s ease-in-out",
-      }}
-    >
+    <div className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col">
+      <div
+        className="absolute inset-0 w-full h-full -z-10"
+        style={{
+          background: `linear-gradient(to right, ${backgroundColor} 0%, rgba(0, 0, 0, 0.8) 33%)`,
+          opacity: opacity,
+          transition: "background 2s ease-in-out",
+        }}
+      />
       <Slider
         sx={{
           padding: "0px",
