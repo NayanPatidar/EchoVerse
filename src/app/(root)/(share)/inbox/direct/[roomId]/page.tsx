@@ -135,11 +135,32 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
     }
   };
 
+  const capitalizeFirstLetter = (string: String | undefined) => {
+    if (!string) {
+      return;
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div className="flex flex-col justify-between w-full h-full gap-1">
-      <div className="w-full p-2 h-10 text-white text-start flex bg-black rounded-md">
-        {ChatUserName}
+      <div className="w-full p-4 h-16 text-white flex items-center bg-black rounded-md">
+        <div className="relative">
+          <img
+            src="/noPerson.png"
+            alt="Profile"
+            className="w-12 h-12 rounded-full"
+          />
+          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-black rounded-full"></span>
+        </div>
+        <div className="ml-3">
+          <h2 className="text-lg font-semibold">
+            {capitalizeFirstLetter(ChatUserName)}
+          </h2>
+          <p className="text-xs text-gray-400">Online</p>
+        </div>
       </div>
+
       <div className="MyChat h-full bg-[#151515] rounded-md overflow-auto">
         <div className=" overflow-hidden flex flex-col gap-2 p-2">
           {messages.map((msg, index) => (

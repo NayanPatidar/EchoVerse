@@ -25,7 +25,7 @@ export default function RootLayout({
         </div>
       </div>
       <div
-        className=" w-8/12 h-full overflow-y-hidden p-1 bg-[#212121] rounded-md flex justify-center items-center text-sm gap-1  "
+        className=" w-8/12 h-full overflow-y-hidden p-1 bg-[#212121] rounded-md flex flex-col justify-center items-center text-sm gap-1 "
         style={{ height: "calc(100vh - 11.5rem)" }}
       >
         {children}

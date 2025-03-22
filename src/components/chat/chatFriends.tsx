@@ -25,18 +25,22 @@ const ChatFriends = () => {
     setFriends(data.res);
   };
 
+  const capitalizeFirstLetter = (string: String) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   useEffect(() => {
     if (!token) return;
     fetchFriends();
   }, [FriendsAdded]);
 
   return (
-    <div className=" h-full  bg-[#212121]  text-white flex flex-col w-full">
+    <div className=" h-full  bg-[#212121]  text-white flex flex-col w-full p-1 rounded-md">
       {friends && friends.length > 0 ? (
         friends.map((val, key) => {
           return (
             <div
-              className=" bg-[#1c1c1c] hover:bg-[#101010] px-2 font-medium text-sm p-3"
+              className=" bg-[#1c1c1c] hover:bg-[#101010] px-3 font-medium text-sm p-3 cursor-pointer transition-colors duration-150 ease-in-out"
               key={key}
               onClick={() => {
                 router.push(`/inbox/direct/${val.relationId}`),
@@ -44,7 +48,7 @@ const ChatFriends = () => {
                 SetChatFriendId(val.friendId);
               }}
             >
-              {val.friendName}
+              {capitalizeFirstLetter(val.friendName)}
             </div>
           );
         })
