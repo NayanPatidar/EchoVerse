@@ -42,7 +42,7 @@ export async function POST(req: Request) {
           audioEndTime: AudioEndTime,
           location: Location,
           audioLink: AudioLink,
-          imageDownloadLink: ImageDownloadLink,
+          fileDownloadLink: ImageDownloadLink,
         },
       });
 
