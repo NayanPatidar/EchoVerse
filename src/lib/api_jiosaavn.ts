@@ -42,7 +42,7 @@ async function jioSaavnFetchData<T>(
       ...query,
       lang: query && query["lang"] ? query.lang : "hindi",
     };
-    const url = new URL(path, "http://localhost:3001");
+    const url = new URL(path, process.env.NEXT_JIOSAAVN_API_URL);
     url.search = new URLSearchParams(queries).toString();
     const response = await fetch(url, {
       method: "GET",
