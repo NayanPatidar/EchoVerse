@@ -63,15 +63,15 @@ const ArtistPage = async ({
       <div>
         <QuickMusicActions Data={artistObj.top_songs.slice(0, 10)} />
       </div>
-      <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-        <div className=" w-6/12">
+      <div className="px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
+        <div className="w-10/12">
           <span className=" pr-[22px]">#</span>
           <span>Title</span>
         </div>
-        <div className=" w-full justify-self-start flex justify-center pl-9">
+        <div className="w-10/12 justify-self-start flex justify-center pl-10">
           Artists
         </div>
-        <div className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
+        <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
           <IoTimeOutline size={16} />
         </div>
       </div>

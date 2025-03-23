@@ -1,9 +1,7 @@
 "use server";
 import ListAudioFiles from "@/components/listaudiofiles";
 import QuickMusicActions from "@/components/ui/quickMusicActions";
-import {
-  getPlaylist,
-} from "@/lib/api_jiosaavn";
+import { getPlaylist } from "@/lib/api_jiosaavn";
 import { getImageURL } from "@/lib/utils";
 import Image from "next/image";
 import { IoTimeOutline } from "react-icons/io5";
@@ -13,7 +11,6 @@ const PlaylistPage = async ({
 }: {
   params: { playlistName: string; playlistId: string };
 }) => {
-  
   const playlistObj = await getPlaylist(params.playlistId);
 
   if (!playlistObj?.image) {
@@ -70,16 +67,16 @@ const PlaylistPage = async ({
         )}
       </div>
       <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-        <span className=" w-6/12">
+        <div className="w-10/12">
           <span className=" pr-[22px]">#</span>
           <span>Title</span>
-        </span>
-        <span className=" w-full pl-9 justify-self-end flex justify-center">
+        </div>
+        <div className="w-10/12 justify-self-start flex justify-center pl-10">
           Plays
-        </span>
-        <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
+        </div>
+        <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
           <IoTimeOutline size={16} />
-        </span>
+        </div>
       </div>
       <ListAudioFiles
         SongsData={playlistObj.songs}

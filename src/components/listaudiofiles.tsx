@@ -44,7 +44,7 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
             key={index}
           >
             <span
-              className=" w-6/12 flex gap-4 items-center"
+              className=" w-9/12 flex gap-4 items-center"
               onClick={() => {
                 PlayAudioFile(index);
               }}
@@ -66,7 +66,7 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
               ) : (
                 ""
               )}
-              <span className=" w-8/12 text-[#d4d4d8]  overflow-hidden whitespace-nowrap text-ellipsis">
+              <span className=" w-10/12 text-[#d4d4d8]  overflow-hidden whitespace-nowrap text-ellipsis">
                 {song.name}
               </span>
             </span>
@@ -86,11 +86,11 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
                 </span>
               </span>
             ) : (
-              <span className=" w-5/12 justify-self-end flex justify-start">
+              <span className=" w-4/12 justify-self-end flex justify-start">
                 {song.play_count}
               </span>
             )}
-            <span className=" w-1/12 justify-self-end pb-0.5 flex justify-end">
+            <span className=" w-5/12 justify-self-end pb-0.5 flex justify-end">
               {secondsToTime(song.duration)}
             </span>
           </div>

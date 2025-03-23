@@ -4,6 +4,7 @@ import { IoCaretBackOutline } from "react-icons/io5";
 import { IoCaretForwardOutline } from "react-icons/io5";
 import { useGeneralContext } from "@/context/GeneralContext";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface CustomNavbarProps {
   visible: boolean;
@@ -13,6 +14,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
   const { colorPalette } = useGeneralContext();
   const [backgroundColor, setBackgroundColor] = useState<string>("#000000");
   const [opacity, setOpacity] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     let opacityValue = 1;
@@ -70,6 +72,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
       <div className=" h-full flex flex-row justify-start min-w-full gap-2">
         <div className=" border-white h-16 flex items-center justify-start pl-10 gap-2">
           <IoCaretBackOutline
+            onClick={() => router.back()}
             style={{
               fontSize: "36px",
               color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",
@@ -77,6 +80,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
             className=" cursor-pointer"
           />
           <IoCaretForwardOutline
+            onClick={() => window.history.forward()}
             style={{
               fontSize: "36px",
               color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",

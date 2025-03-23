@@ -2,15 +2,13 @@
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
-import { getTopSearches, search, searchAll } from "@/lib/api_jiosaavn";
+import { getTopSearches, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, TopSearch } from "@/types";
 import { getHref, getImageURL } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { MdAccountCircle } from "react-icons/md";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
-import { useSession, signIn } from "next-auth/react";
 import { useAuthProvider } from "@/context/AuthContext";
-import { useAudioPlayer } from "@/context/AudioPlayerContext";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { PiListLight } from "react-icons/pi";
 import Image from "next/image";
@@ -162,7 +160,8 @@ function SearchBarBox({
   const processedItems = new Set();
 
   return (
-    <div className=" absolute SearchBoxMain w-[90%] h-auto bg-[#121212] left-[313px] top-[9px] rounded-2xl z-[200]">
+    
+    <div className="absolute SearchBoxMain w-[90%] h-auto bg-[#121212] left-[313px] top-[9px] rounded-2xl z-[200] border border-white">
       <div className=" md:h-[46px] h-[42px] z-[200] border-[1px] border-[#aaaaaa] w-full rounded-2xl flex flex-row items-center bg-[#121212] pl-4">
         <CiSearch color="#535353" size={24} />
         <Input
@@ -236,28 +235,28 @@ function SearchBarBox({
                         {value.data.map((value, key) => {
                           const SearchSong = getImageURL(value?.image);
                           return (
-                            <div
-                              className=" flex gap-2  cursor-pointer hover:bg-[#ffffff45] rounded-md"
-                              onClick={() => {
-                                OpenSong(value), closeSearchBar();
-                              }}
+                            <Link
+                              className="flex gap-2 cursor-pointer hover:bg-[#ffffff45] rounded-md"
+                              href={OpenSong(value)} 
                               key={key}
+                              onClick={() => closeSearchBar()} 
                             >
-                              <img
+                              <Image
                                 src={SearchSong}
                                 width={50}
                                 height={50}
-                                className=" rounded-md p-1"
+                                className="rounded-md p-1"
+                                alt={value.name || "Search Result"} 
                               />
-                              <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
-                                <span className=" overflow-hidden whitespace-nowrap text-ellipsis">
+                              <div className="text-sm flex flex-col justify-center overflow-hidden whitespace-nowrap text-ellipsis">
+                                <span className="overflow-hidden whitespace-nowrap text-ellipsis">
                                   {value.name}
                                 </span>
-                                <span className="  overflow-hidden whitespace-nowrap text-ellipsis text-xs">
+                                <span className="overflow-hidden whitespace-nowrap text-ellipsis text-xs">
                                   {value.subtitle}
                                 </span>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>
