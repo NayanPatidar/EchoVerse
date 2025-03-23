@@ -25,10 +25,12 @@ import {
   Music,
   Search,
 } from "lucide-react";
+import { useGeneralContext } from "@/context/GeneralContext";
 
 const Sidebar = () => {
   const [musicCategory, setMusicCategory] = useState<number | null>(0);
   const { sideBarOpen } = useSidebar();
+  const { primaryAccentColor } = useGeneralContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -79,12 +81,12 @@ const Sidebar = () => {
                 }}
               >
                 <Music
-                  color="#9c9c9c88"
+                  color={primaryAccentColor}
                   className=" md:size-[20px] size-[16px]"
                 />
 
                 {sideBarOpen ? (
-                  <h2 className="gradientText md:text-xl text-base font-extrabold ">
+                  <h2 className="gradientText md:text-xl text-base font-extrabold  bg-slate-300">
                     Music
                   </h2>
                 ) : (
@@ -109,6 +111,8 @@ const Sidebar = () => {
                     onClick={() => router.push("/playlist")}
                   >
                     <QueueMusicIcon
+                      color="inherit"
+                      style={{ color: primaryAccentColor }}
                       width={24}
                       className=" md:w-[24px] w-[18px]"
                     />
@@ -134,6 +138,8 @@ const Sidebar = () => {
                     <AlbumIcon
                       className=" rotate-12  md:w-[24px] w-[18px]"
                       width={24}
+                      color="inherit"
+                      style={{ color: primaryAccentColor }}
                     />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Top Albums</span>
@@ -158,7 +164,7 @@ const Sidebar = () => {
                     <div className=" w-[21px] md:w-[23px]">
                       <FaGuitar
                         size={20}
-                        color="#d6d6d6dc"
+                        color={primaryAccentColor}
                         className=" md:w-[20px] w-[18px]"
                       />
                     </div>
@@ -199,6 +205,8 @@ const Sidebar = () => {
                           >
                             <div className=" w-[25px]">
                               <LibraryMusicIcon
+                                color="inherit"
+                                style={{ color: primaryAccentColor }}
                                 width={24}
                                 className=" md:w-[24px] w-[18px]"
                               />
@@ -225,7 +233,10 @@ const Sidebar = () => {
                           >
                             <div className="flex items-center gap-4 cursor-pointer text-regular">
                               <div className=" w-[25px]">
-                                <AiOutlineLike size={24} />
+                                <AiOutlineLike
+                                  size={24}
+                                  color={primaryAccentColor}
+                                />
                               </div>
                               {sideBarOpen ? <span>Liked Songs</span> : ""}
                             </div>
@@ -264,7 +275,7 @@ const Sidebar = () => {
               >
                 <MessageCircleHeart
                   size={20}
-                  color="#9c9c9c88"
+                  color={primaryAccentColor}
                   className=" md:size-[20px] size-[16px]"
                 />
                 {sideBarOpen ? (
@@ -283,7 +294,9 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: isActive("/feed") ? "#2626267c" : "",
+                    backgroundColor: isActive("/feed")
+                      ? primaryAccentColor
+                      : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -295,6 +308,7 @@ const Sidebar = () => {
                     <LayoutPanelLeft
                       width={24}
                       className=" md:w-[24px] w-[18px]"
+                      color={primaryAccentColor}
                     />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Feed</span>
@@ -306,7 +320,9 @@ const Sidebar = () => {
                 <li
                   className="px-5 sm:hidden flex items-center hover:bg-[#262626d6] rounded-md "
                   style={{
-                    backgroundColor: isActive("/search") ? "#2626267c" : "",
+                    backgroundColor: isActive("/search")
+                      ? primaryAccentColor
+                      : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -326,7 +342,9 @@ const Sidebar = () => {
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
-                    backgroundColor: isActive("/inbox") ? "#2626267c" : "",
+                    backgroundColor: isActive("/inbox")
+                      ? primaryAccentColor
+                      : "",
                     justifyContent: sideBarOpen ? "" : "center",
                   }}
                   id="1"
@@ -339,6 +357,7 @@ const Sidebar = () => {
                     <MessagesSquare
                       width={24}
                       className=" md:w-[24px] w-[18px]"
+                      color={primaryAccentColor}
                     />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">Messages</span>
@@ -362,7 +381,11 @@ const Sidebar = () => {
                     className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
                     onClick={() => router.push("/notifications")}
                   >
-                    <Heart width={24} className=" md:w-[24px] w-[18px]" />
+                    <Heart
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                      color={primaryAccentColor}
+                    />
                     {sideBarOpen ? (
                       <span className=" text-md lato-regular">
                         Notifications

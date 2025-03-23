@@ -37,7 +37,7 @@ const AudioPlayer = () => {
   const [volume, setLocalVolume] = useState<number>(1);
   const [allowRepeat, setAllowRepeat] = useState<boolean>(false);
   const [allowShuffle, setAllowShuffle] = useState<boolean>(false);
-  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, setColorPalette } =
+  const { IsAddToPlaylistFormOpen, IsUploadPostFormOpen, setColorPalette, secondaryAccentColor } =
     useGeneralContext();
   const [dominantColor, setDominantColor] = useState("#000");
   const [opacity, setOpacity] = useState(0);
@@ -223,7 +223,7 @@ const AudioPlayer = () => {
         sx={{
           padding: "0px",
           width: "100%",
-          color: "red",
+          color: secondaryAccentColor,
           "& .MuiSlider-rail": {
             color: "white",
           },
@@ -344,6 +344,7 @@ const AudioPlayer = () => {
                 sx={{
                   padding: "0px",
                   margin: "0px",
+                  color: secondaryAccentColor,
                 }}
                 min={0}
                 max={100}

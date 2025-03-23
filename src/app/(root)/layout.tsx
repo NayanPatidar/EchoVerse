@@ -29,7 +29,7 @@ export default function RootLayout({
       setIsAtTop(divRef.current.scrollTop === 0);
     }
   };
-  const hideCustomNavbarRoutes = ["/notifications", "/feed", "/inbox"];
+  const hideCustomNavbarRoutes = ["/notifications", "/feed", "/inbox", "/settings"];
   const shouldShowCustomNavbar = !hideCustomNavbarRoutes.some((route) =>
     pathname.startsWith(route)
   );

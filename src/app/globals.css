@@ -540,6 +540,17 @@ body {
   color: transparent;
 }
 
+.gradientText2 {
+  background: linear-gradient(
+    170deg,
+    rgb(255, 255, 255),
+    rgb(82, 82, 82),
+    rgb(153, 153, 153)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 .custom-audio-trimmer {
   --mirt-height: 3rem;
   --mirt-border-radius: 0.5rem;

@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Echoverse",
-  description: "Music Streaming App",
+  description: "Music Streaming",
 };
 
 export default function RootLayout({
@@ -43,9 +43,7 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <GeneralContextProvider>
-                <div className=" w-full h-full relative">
-                  {children}
-                </div>
+              <div className=" w-full h-full relative">{children}</div>
             </GeneralContextProvider>
           </AuthProvider>
         </Providers>

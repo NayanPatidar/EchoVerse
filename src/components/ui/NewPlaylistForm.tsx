@@ -70,7 +70,7 @@ export const PlaylistForm = () => {
   };
 
   return (
-    <div className="absolute w-[35rem] h-auto z-[400] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-2 bg-[#0b0b0b] rounded-md px-5">
+    <div className="absolute w-[35rem] h-auto z-[400] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-2 bg-[#0b0b0b] rounded-md px-5 border border-white">
       <div className=" flex">
         <div className=" font-semibold my-4 text-3xl text-center justify-center w-full flex">
           New Playlist
