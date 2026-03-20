@@ -20,6 +20,8 @@ import {
 import { useSidebar } from "@/context/SidebarContext";
 import {
   Heart,
+  Home,
+  HomeIcon,
   LayoutPanelLeft,
   MessageCircleHeart,
   MessagesSquare,
@@ -58,7 +60,6 @@ const Sidebar = () => {
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
       style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
     >
-
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
           value="Music"
@@ -101,6 +102,33 @@ const Sidebar = () => {
           <AccordionContent className=" p-0">
             <div className=" md:p-2 p-1 w-full">
               <ul className=" flex flex-col gap-1">
+                <li
+                  className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
+                  style={{
+                    backgroundColor: isHome ? "#2626267c" : "",
+                    justifyContent: sideBarOpen ? "" : "center",
+                  }}
+                  id="0"
+                >
+                  <div
+                    className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer"
+                    onClick={() => router.push("/")}
+                  >
+                    <HomeRoundedIcon
+                      color="inherit"
+                      style={{ color: primaryAccentColor }}
+                      width={24}
+                      className=" md:w-[24px] w-[18px]"
+                    />
+                    {sideBarOpen ? (
+                      <span className=" md:text-sm text-sm lato-regular">
+                        Home
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </li>
                 <li
                   className="px-5 flex items-center hover:bg-[#262626d6] rounded-md"
                   style={{
@@ -304,7 +332,7 @@ const Sidebar = () => {
                   }}
                   id="1"
                   onClick={() => {
-                    setCategory(5), router.push("/feed");
+                    (setCategory(5), router.push("/feed"));
                   }}
                 >
                   <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
@@ -330,7 +358,7 @@ const Sidebar = () => {
                   }}
                   id="1"
                   onClick={() => {
-                    setCategory(6), router.push("/search");
+                    (setCategory(6), router.push("/search"));
                   }}
                 >
                   <div className=" md:h-10 h-8 flex items-center gap-4 cursor-pointer">
