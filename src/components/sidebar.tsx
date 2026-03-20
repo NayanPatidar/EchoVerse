@@ -58,39 +58,6 @@ const Sidebar = () => {
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
       style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
     >
-      {/* Home Button */}
-      <div className="w-full flex justify-center items-center mt-3 md:mt-4 px-2">
-        <div
-          className="h-10 flex flex-row w-full items-center hover:bg-[#262626d6] rounded-md cursor-pointer"
-          style={{
-            backgroundColor: isHome ? "#2626267c" : "transparent",
-            width: sideBarOpen ? "14rem" : "4rem",
-            justifyContent: sideBarOpen ? "" : "center",
-            paddingLeft: sideBarOpen ? "18px" : "",
-            paddingRight: sideBarOpen ? "20px" : "",
-          }}
-          onClick={() => router.push("/")}
-        >
-          <div
-            className="flex flex-row gap-3 items-center w-full"
-            style={{
-              justifyContent: sideBarOpen ? "" : "center",
-              paddingLeft: sideBarOpen ? "1.75rem" : "",
-              paddingRight: sideBarOpen ? "1.75rem" : "",
-            }}
-          >
-            <HomeRoundedIcon
-              style={{ color: primaryAccentColor }}
-              className="md:!text-[22px] !text-[18px]"
-            />
-            {sideBarOpen ? (
-              <span className="text-[15px] font-semibold text-white">Home</span>
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
-      </div>
 
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
