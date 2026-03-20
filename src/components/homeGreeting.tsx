@@ -9,7 +9,7 @@ function getGreeting(): string {
 
 export default function HomeGreeting() {
   return (
-    <h1 className="text-2xl md:text-3xl text-white Montserrat-bold cursor-default tracking-tight greeting-fade-in">
+    <h1 className="text-2xl md:text-[28px] text-white font-bold cursor-default greeting-fade-in">
       {getGreeting()}
     </h1>
   );

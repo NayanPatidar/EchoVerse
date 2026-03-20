@@ -63,7 +63,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
@@ -164,6 +164,7 @@ body {
   border-radius: 2px;
 }
 
+/* Legacy media-element (kept for other pages) */
 .media-element {
   padding: 0.5rem;
   height: auto;
@@ -199,6 +200,42 @@ body {
     border-radius: 6px;
     width: 160px;
     height: 160px;
+  }
+}
+
+/* Home page card container */
+.card-container {
+  padding: 8px;
+  height: auto;
+  background-color: transparent;
+  border-radius: 8px;
+  width: 130px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.card-image {
+  border-radius: 6px;
+  width: 114px;
+  height: 114px;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .card-container {
+    padding: 12px;
+    width: 200px;
+    border-radius: 8px;
+  }
+
+  .card-container:hover {
+    background-color: hsla(0, 0%, 100%, 0.1);
+  }
+
+  .card-image {
+    border-radius: 8px;
+    width: 176px;
+    height: 176px;
   }
 }
 
@@ -305,9 +342,8 @@ body {
 .MainPageDivBoxScroll {
   background: linear-gradient(
     180deg,
-    rgba(60, 60, 60, 0.3) 0%,
-    rgba(24, 24, 24, 0.6) 15%,
-    #121212 40%
+    rgba(80, 80, 80, 0.25) 0%,
+    #121212 30%
   );
 }
 
@@ -336,7 +372,7 @@ body {
   }
 
   .MainPageDivBoxNotTop {
-    background-color: #0f0f0f;
+    background-color: #121212;
   }
 
   .MainPageDivBox::-webkit-scrollbar {
@@ -659,4 +695,95 @@ body {
 
 .quick-pick-fade-in {
   animation: quickPickFadeIn 0.35s ease-out forwards;
+}
+
+/* Search dropdown */
+@keyframes searchDropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-dropdown-enter {
+  animation: searchDropdownEnter 0.15s ease-out forwards;
+}
+
+.custom-search-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-search-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-search-scroll::-webkit-scrollbar-thumb {
+  background: #ffffff20;
+  border-radius: 3px;
+}
+
+.custom-search-scroll::-webkit-scrollbar-thumb:hover {
+  background: #ffffff40;
+}
+
+/* ===== Search Overlay Animations ===== */
+
+@keyframes searchOverlayEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes searchOverlayExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes searchBackdropEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes searchBackdropExit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.search-overlay-enter {
+  animation: searchOverlayEnter 0.2s ease-out forwards;
+}
+
+.search-overlay-exit {
+  animation: searchOverlayExit 0.2s ease-in forwards;
+}
+
+.search-backdrop-enter {
+  animation: searchBackdropEnter 0.2s ease-out forwards;
+}
+
+.search-backdrop-exit {
+  animation: searchBackdropExit 0.2s ease-in forwards;
 }

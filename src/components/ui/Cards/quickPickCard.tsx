@@ -57,18 +57,18 @@ const QuickPickCard: React.FC<QuickPickProps> = ({
     <Link
       href={getHref(url, type)}
       prefetch={true}
-      className="group flex items-center bg-white/[0.06] hover:bg-white/[0.12] rounded-[4px] overflow-hidden transition-all duration-200 h-12 md:h-[52px] quick-pick-fade-in"
+      className="group flex items-center bg-white/[0.07] hover:bg-white/[0.15] rounded overflow-hidden transition-all duration-300 h-[48px] md:h-[56px] quick-pick-fade-in"
       aria-label={`Play ${name}`}
     >
       <Image
         src={imageUrl}
         alt={name}
-        className="h-full w-12 md:w-[52px] object-cover flex-shrink-0"
+        className="h-full w-[48px] md:w-[56px] object-cover flex-shrink-0"
         loading="lazy"
-        width={52}
-        height={52}
+        width={56}
+        height={56}
       />
-      <span className="flex-1 text-white/90 text-[11px] md:text-[13px] Montserrat-bold px-3 truncate tracking-tight">
+      <span className="flex-1 text-white text-[12px] md:text-[14px] font-bold px-3 truncate">
         {name}
       </span>
       <button
@@ -77,10 +77,10 @@ const QuickPickCard: React.FC<QuickPickProps> = ({
           e.stopPropagation();
           PlayMedia();
         }}
-        className="opacity-0 group-hover:opacity-100 flex-shrink-0 w-8 h-8 rounded-full bg-[#1ed760] flex items-center justify-center mr-2 shadow-xl shadow-black/50 transition-all duration-300 hover:scale-110 hover:bg-[#1fdf64]"
+        className="opacity-0 group-hover:opacity-100 flex-shrink-0 w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center mr-3 shadow-2xl shadow-black/60 transition-all duration-300 hover:scale-105 hover:bg-[#1fdf64]"
         aria-label={`Play ${name}`}
       >
-        <FaPlay className="text-black text-[10px] ml-[2px]" />
+        <FaPlay className="text-black text-[12px] ml-[2px]" />
       </button>
     </Link>
   );

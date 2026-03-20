@@ -4,6 +4,7 @@ import { Pause, Play } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
+import Image from "next/image";
 
 type MuteProp = {
   isMuted: boolean;
@@ -99,10 +100,13 @@ const VideoPostCard: React.FC<VideoPostProps & MuteProp > = ({
     <div ref={cardRef} className="w-full max-w-xl mx-auto rounded-lg p-4 mb-6">
       {/* User Info */}
       <div className="flex items-center mb-4">
-        <img
-          src={`./ProfilePhoto.png`}
+        <Image
+          src="/ProfilePhoto.png"
           alt="User Profile"
           className="w-10 h-10 rounded-full"
+          width={40}
+          height={40}
+          quality={60}
         />
         <div className="ml-3">
           <h3 className="font-semibold">{User.name}</h3>

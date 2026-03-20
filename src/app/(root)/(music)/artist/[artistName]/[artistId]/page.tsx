@@ -19,67 +19,59 @@ const ArtistPage = async ({
 
   const ArtistImageLink = getImageURL(artistObj?.image);
 
-  const FollowerCountIn1000s = (followers?: number) => {
-    if (!followers) {
-      return;
-    }
-    return (followers / 1000).toFixed(1);
-  };
-
   return (
-    <div className=" text-white flex flex-col p-5 gap-5">
-      <div className=" w-full h-40 flex justify-start gap-5">
-        {
+    <div className="text-white flex flex-col">
+      {/* Gradient Header */}
+      <div className="detail-page-header relative">
+        <div className="absolute inset-0 detail-gradient-overlay" />
+        <div className="relative z-1 flex items-end gap-6 p-6 md:p-8 pt-10 md:pt-14">
           <Image
             src={ArtistImageLink}
-            width={160}
-            height={0}
-            alt="Song Image"
-            className=" rounded-sm"
+            width={220}
+            height={220}
+            alt={artistObj?.name || "Artist Image"}
+            className="rounded-full shadow-2xl shadow-black/60 w-[140px] h-[140px] md:w-[220px] md:h-[220px] object-cover flex-shrink-0"
+            quality={80}
+            priority
           />
-        }
-        <div className=" flex flex-col justify-end gap-1">
-          <span className=" source-sans-3-Bold text-[5vw] leading-tight max-h-[125px]">
-            {artistObj?.name}
-          </span>
-          <div className=" h-[30px] flex flex-row gap-2">
-            <div className=" flex flex-col justify-center ">
-              <span className=" flex justify-center text-sm font-semibold gap-2">
-                <span className=" first-letter:uppercase ">
-                  {artistObj?.type}
-                </span>
-                <span className=" YearList font-normal flex items-center">
-                  <li>
-                    <span>
-                      {artistObj?.follower_count.toLocaleString()} Listeners
-                    </span>
-                  </li>
-                </span>
-              </span>
+          <div className="flex flex-col justify-end gap-2 min-w-0">
+            <span className="text-xs md:text-sm font-medium uppercase tracking-wider text-white/80">
+              Artist
+            </span>
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold leading-tight line-clamp-2">
+              {artistObj?.name}
+            </h1>
+            <div className="flex items-center gap-2 mt-1 text-sm text-white/70 flex-wrap">
+              <span>{artistObj?.follower_count?.toLocaleString()} monthly listeners</span>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <QuickMusicActions Data={artistObj.top_songs.slice(0, 10)} />
+
+      {/* Content */}
+      <div className="flex flex-col gap-5 p-5 md:p-6 bg-gradient-to-b from-[#1a1a1a] to-transparent">
+        <div>
+          <QuickMusicActions Data={artistObj.top_songs.slice(0, 10)} />
+        </div>
+        <h2 className="text-xl font-bold">Popular</h2>
+        <div className="px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center">
+          <div className="w-10/12">
+            <span className="pr-[22px]">#</span>
+            <span>Title</span>
+          </div>
+          <div className="w-10/12 justify-self-start flex justify-center pl-10">
+            Artists
+          </div>
+          <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
+            <IoTimeOutline size={16} />
+          </div>
+        </div>
+        <ListAudioFiles
+          SongsData={artistObj?.top_songs.slice(0, 10)}
+          isPlaylist={true}
+          isArtist={true}
+        />
       </div>
-      <div className="px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-        <div className="w-10/12">
-          <span className=" pr-[22px]">#</span>
-          <span>Title</span>
-        </div>
-        <div className="w-10/12 justify-self-start flex justify-center pl-10">
-          Artists
-        </div>
-        <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
-          <IoTimeOutline size={16} />
-        </div>
-      </div>
-      <ListAudioFiles
-        SongsData={artistObj?.top_songs.slice(0, 10)}
-        isPlaylist={true}
-        isArtist={true}
-      />
     </div>
   );
 };

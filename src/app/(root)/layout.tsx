@@ -58,10 +58,10 @@ export default function RootLayout({
             <PlaylistContextProvider>
               <div className="w-full flex-col">
                 <div className="MainContentDiv flex flex-row ">
-                  <div className="flex flex-row z-[1000] h-full ">
+                  <div className="flex flex-row z-[40] h-full ">
                     <Sidebar />
                   </div>
-                  <div className="MainSongsHomeContent md:w-full w-full  bg-black overflow-hidden mx-2 mb-2">
+                  <div className="MainSongsHomeContent md:w-full w-full bg-[#121212] overflow-hidden mx-1 md:mx-2 mb-1 md:mb-2">
                     <div
                       className={`MainPageDivBox ${
                         isAtTop && shouldShowCustomNavbar

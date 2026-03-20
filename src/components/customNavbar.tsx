@@ -1,7 +1,5 @@
 "use client";
-import { PiListLight } from "react-icons/pi";
-import { IoCaretBackOutline } from "react-icons/io5";
-import { IoCaretForwardOutline } from "react-icons/io5";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useGeneralContext } from "@/context/GeneralContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -46,10 +44,9 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
 
   return (
     <div
-      className="NavbarMain sticky top-0 z-10 flex items-center h-14 md:h-16 text-white max-w-full transition-opacity duration-1000 ease-in-out "
+      className="NavbarMain sticky top-0 z-10 flex items-center h-14 md:h-16 text-white max-w-full"
       style={{
-        opacity: 1,
-        background: visible ? 0 : `rgb(20, 20, 20)`,
+        background: visible ? "transparent" : "rgb(18, 18, 18)",
       }}
     >
       <div
@@ -58,41 +55,35 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
           background: visible
             ? backgroundColor !== "#000000"
               ? `linear-gradient(to right, ${backgroundColor} 0%, rgba(0, 0, 0, 1) 88%)`
-              : "rgba(0, 0, 0, 0.0)"
+              : "transparent"
             : backgroundColor !== "#000000"
             ? `linear-gradient(to right, ${backgroundColor} 0%, rgba(0, 0, 0, 1) 88%)`
-            : "rgb(20, 20, 20)",
+            : "rgb(18, 18, 18)",
           opacity: opacity,
           transition: "background 2s ease-in-out",
         }}
       />
-      <div className=" cursor-pointer px-2 md:hidden ">
-        <PiListLight size={24} />
-      </div>
-      <div className=" h-full flex flex-row justify-start min-w-full gap-2">
-        <div className=" border-white h-16 flex items-center justify-start pl-10 gap-2">
-          <IoCaretBackOutline
-            onClick={() => router.back()}
-            style={{
-              fontSize: "36px",
-              color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",
-            }}
-            className=" cursor-pointer"
+      <div className="h-full flex flex-row items-center pl-4 md:pl-6 gap-2">
+        <button
+          onClick={() => router.back()}
+          className="w-8 h-8 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90 transition-colors"
+          aria-label="Go back"
+        >
+          <IoChevronBack
+            size={18}
+            color={colorPalette !== "#000000" ? "#ffffff" : "#b3b3b3"}
           />
-          <IoCaretForwardOutline
-            onClick={() => window.history.forward()}
-            style={{
-              fontSize: "36px",
-              color: colorPalette !== "#000000" ? "#ffffff" : "#7d7d7d",
-            }}
-            className=" cursor-pointer"
+        </button>
+        <button
+          onClick={() => window.history.forward()}
+          className="w-8 h-8 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90 transition-colors"
+          aria-label="Go forward"
+        >
+          <IoChevronForward
+            size={18}
+            color={colorPalette !== "#000000" ? "#ffffff" : "#b3b3b3"}
           />
-        </div>
-        <div className="h-full text-center text-sm flex items-center cursor-default">
-          <span className="h-8 px-4 rounded-full bg-white/10 backdrop-blur-sm text-white/80 flex items-center justify-center disable-select text-xs Montserrat-regular tracking-wide border border-white/10">
-            Home
-          </span>
-        </div>
+        </button>
       </div>
     </div>
   );

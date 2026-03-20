@@ -72,7 +72,7 @@ export default async function Home() {
   if (!homeData) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
-        <p className="text-white/40 Montserrat-regular text-lg">
+        <p className="text-[#b3b3b3] font-medium text-base">
           Unable to load music. Please try again later.
         </p>
       </div>
@@ -86,7 +86,7 @@ export default async function Home() {
   if (sections.length === 0) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
-        <p className="text-white/40 Montserrat-regular text-lg">
+        <p className="text-[#b3b3b3] font-medium text-base">
           No music available right now.
         </p>
       </div>
@@ -102,13 +102,13 @@ export default async function Home() {
   return (
     <div className="pb-10 home-fade-in">
       {/* Greeting */}
-      <header className="md:px-10 px-4 pt-6 md:pt-8 pb-1">
+      <header className="md:px-6 px-4 pt-5 md:pt-7 pb-2">
         <HomeGreeting />
       </header>
 
       {/* Quick Picks Grid */}
       {quickPicks.length > 0 && (
-        <section className="md:px-10 px-4 pt-3 pb-5" aria-label="Quick picks">
+        <section className="md:px-6 px-4 pt-2 pb-3" aria-label="Quick picks">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
             {quickPicks.map((item) =>
               item.id && item.name && item.url ? (
@@ -133,21 +133,21 @@ export default async function Home() {
 
         return (
           <section
-            className="text-white md:pl-8 pl-3 md:pr-6 pr-2 mt-1 section-slide-up"
+            className="text-white md:px-6 px-3 mt-4 md:mt-6 section-slide-up"
             key={key}
             aria-label={section.title}
-            style={{ animationDelay: `${sectionIndex * 60}ms` }}
+            style={{ animationDelay: `${sectionIndex * 50}ms` }}
           >
-            <div className="md:pt-6 pt-4 md:pb-2 pb-1 flex items-center justify-between md:pr-4 pr-2">
-              <h2 className="text-[15px] md:text-[22px] first-letter:capitalize Montserrat-bold md:pl-3 pl-1 cursor-default tracking-tight">
+            <div className="flex items-center justify-between mb-3 md:mb-4 px-1">
+              <h2 className="text-[18px] md:text-[24px] font-bold first-letter:capitalize cursor-default">
                 {section.title}
               </h2>
-              <span className="text-[11px] md:text-xs text-white/40 hover:text-white/80 cursor-pointer transition-colors duration-200 Montserrat-regular tracking-widest uppercase">
+              <span className="text-[13px] font-bold text-[#b3b3b3] hover:underline cursor-pointer transition-colors duration-200">
                 Show all
               </span>
             </div>
-            <ScrollArea className="w-full whitespace-nowrap rounded-md">
-              <div className="flex w-max">
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max gap-1 md:gap-2">
                 {validItems.map((item) => (
                   <HorizontalScrollerCard
                     key={item.id}
@@ -161,7 +161,7 @@ export default async function Home() {
                   />
                 ))}
               </div>
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="horizontal" className="hidden" />
             </ScrollArea>
           </section>
         );

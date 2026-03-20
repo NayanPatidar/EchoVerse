@@ -677,11 +677,13 @@ function SearchBarBox({ SearchData, SelectSong }: SearchBarBoxProps) {
                               onClick={() => SelectSong(value)}
                               key={value?.id}
                             >
-                              <img
+                              <Image
                                 src={SearchSong}
                                 width={50}
                                 height={50}
-                                className=" rounded-md p-1"
+                                className="rounded-md p-1"
+                                alt={value.name || "Song"}
+                                quality={60}
                               />
                               <div className="  text-sm flex flex-col justify-center  overflow-hidden whitespace-nowrap text-ellipsis">
                                 <span className=" overflow-hidden whitespace-nowrap text-ellipsis">

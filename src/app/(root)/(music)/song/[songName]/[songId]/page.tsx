@@ -22,61 +22,71 @@ const SongPage = async ({
   const Artist = getImageURL(songData.artist_map.primary_artists[0].image);
 
   return (
-    <div className=" text-white flex flex-col p-5 gap-5">
-      <div className=" w-full h-40 flex justify-start gap-5">
-        {
+    <div className="text-white flex flex-col">
+      {/* Gradient Header */}
+      <div className="detail-page-header relative">
+        <div className="absolute inset-0 detail-gradient-overlay" />
+        <div className="relative z-1 flex items-end gap-6 p-6 md:p-8 pt-10 md:pt-14">
           <Image
             src={SongImageLink}
-            width={160}
-            height={0}
-            alt="Song Image"
-            className=" rounded-sm"
+            width={220}
+            height={220}
+            alt={songData.name || "Song Image"}
+            className="rounded-md shadow-2xl shadow-black/60 w-[140px] h-[140px] md:w-[220px] md:h-[220px] object-cover flex-shrink-0"
+            quality={80}
+            priority
           />
-        }
-        <div className=" flex flex-col justify-end gap-1">
-          <span className=" source-sans-3-Bold text-fit leading-tight max-h-[125px]">
-            {songData.name}
-          </span>
-          <div className=" h-[30px] flex flex-row gap-2">
-            <Image
-              src={Artist}
-              width={30}
-              height={0}
-              alt="Song Image"
-              className=" rounded-full"
-            />
-            <div className=" flex flex-col justify-center ">
-              <span className=" flex justify-center text-sm font-semibold gap-2">
+          <div className="flex flex-col justify-end gap-2 min-w-0">
+            <span className="text-xs md:text-sm font-medium uppercase tracking-wider text-white/80">
+              Song
+            </span>
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold leading-tight line-clamp-2">
+              {songData.name}
+            </h1>
+            <div className="flex items-center gap-2 mt-1 text-sm text-white/70 flex-wrap">
+              <Image
+                src={Artist}
+                width={28}
+                height={28}
+                alt="Artist"
+                className="rounded-full w-[28px] h-[28px] object-cover"
+              />
+              <span className="font-semibold text-white">
                 {songData.artist_map.primary_artists[0].name}
-                <span className=" YearList font-normal">
-                  <li>
-                    <span>{songData.year}</span>
-                  </li>
-                </span>
               </span>
+              {songData.year && (
+                <>
+                  <span className="text-white/40">•</span>
+                  <span>{songData.year}</span>
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div>{songData ? <QuickMusicActions Data={songObj?.songs} /> : ""} </div>
-      <div className=" flex flex-col gap-1">
-        <div className=" px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center ">
-          <div className="w-10/12">
-            <span className=" pr-[22px]">#</span>
-            <span>Title</span>
+
+      {/* Content */}
+      <div className="flex flex-col gap-5 p-5 md:p-6 bg-gradient-to-b from-[#1a1a1a] to-transparent">
+        <div>{songData ? <QuickMusicActions Data={songObj?.songs} /> : ""}</div>
+        <div className="flex flex-col gap-1">
+          <div className="px-5 w-full border-[#61616167] border-b-[1px] grid grid-cols-3 text-[#d4d4d88c] text-xs Montserrat-regular items-center">
+            <div className="w-10/12">
+              <span className="pr-[22px]">#</span>
+              <span>Title</span>
+            </div>
+            <div className="w-11/12 justify-self-start flex justify-center pl-16">
+              Plays
+            </div>
+            <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
+              <IoTimeOutline size={16} />
+            </div>
           </div>
-          <div className="w-11/12 justify-self-start flex justify-center pl-16">
-            Plays
-          </div>
-          <div className="w-1/12 justify-self-end pb-0.5 flex justify-end">
-            <IoTimeOutline size={16} />
-          </div>
+          <ListAudioFiles
+            SongsData={songObj?.songs}
+            isPlaylist={false}
+            isArtist={false}
+          />
         </div>
-        <ListAudioFiles
-          SongsData={songObj?.songs}
-          isPlaylist={false}
-          isArtist={false}
-        />
       </div>
     </div>
   );

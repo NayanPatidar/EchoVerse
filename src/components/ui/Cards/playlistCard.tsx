@@ -29,7 +29,7 @@ const TopPlaylistCard: React.FC<Artist> = ({
   return (
     <Link href={getHref(url, type)} prefetch={true}>
       <div className="top-playlist-card">
-        <img src={imageUrl} className="top-playlist-card-image" alt="" />
+        <Image src={imageUrl} className="top-playlist-card-image" alt={name} width={160} height={160} quality={75} loading="lazy" />
         <div className="flex justify-center items-center w-[90px] md:w-[160px]">
           <span className="text-xs md:text-base lato-regular mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
             {name}

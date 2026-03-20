@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useAuthProvider } from "@/context/AuthContext";
 import { useChatContext } from "@/context/ChatContext";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { io, Socket } from "socket.io-client";
 import dotenv from "dotenv";
 dotenv.config();
@@ -146,10 +147,13 @@ const FriendChat = ({ params }: { params: { roomId: string } }) => {
     <div className="flex flex-col justify-between w-full h-full gap-1">
       <div className="w-full p-4 h-16 text-white flex items-center bg-black rounded-md">
         <div className="relative">
-          <img
+          <Image
             src="/noPerson.png"
             alt="Profile"
             className="w-12 h-12 rounded-full"
+            width={48}
+            height={48}
+            quality={60}
           />
           <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-black rounded-full"></span>
         </div>

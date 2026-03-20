@@ -60,35 +60,39 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
   const isArtist = type === "artist";
 
   return (
-    <div className="group media-element flex flex-col text-left">
-      <div className="relative overflow-hidden rounded-lg">
+    <div className="group card-container flex flex-col text-left">
+      <div className={`relative ${isArtist ? "" : "rounded-md"} overflow-hidden`}>
         <Link href={getHref(url, type)} prefetch={true}>
           <Image
             src={imageUrl}
             alt={name}
-            className={`media-elements-image transition-transform duration-500 ease-out group-hover:scale-[1.04] ${
+            className={`card-image transition-transform duration-300 ease-out group-hover:scale-[1.03] ${
               isArtist ? "!rounded-full" : ""
             }`}
             loading="lazy"
             width={300}
             height={300}
           />
-          {/* Hover gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Hover shadow overlay */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+              isArtist ? "rounded-full" : ""
+            }`}
+          />
         </Link>
         <button
           onClick={() => PlayMedia()}
-          className="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out shadow-xl shadow-black/60 hover:scale-110 hover:bg-[#1fdf64] z-10"
+          className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out shadow-2xl shadow-black/70 hover:scale-105 hover:bg-[#1fdf64] z-10"
           aria-label={`Play ${name}`}
         >
-          <FaPlay className="text-black text-sm ml-[2px]" />
+          <FaPlay className="text-black text-[16px] ml-[2px]" />
         </button>
       </div>
-      <span className="Montserrat-bold mt-2.5 md:text-[13px] text-[11px] overflow-hidden whitespace-nowrap text-ellipsis text-white/90 tracking-tight">
+      <span className="font-bold mt-2 md:text-[14px] text-[12px] overflow-hidden whitespace-nowrap text-ellipsis text-white leading-snug">
         {name}
       </span>
       {subtitle && (
-        <span className="lato-regular text-white/40 text-[10px] md:text-[11px] overflow-hidden whitespace-nowrap text-ellipsis mt-0.5 leading-relaxed">
+        <span className="font-normal text-[#b3b3b3] text-[11px] md:text-[13px] overflow-hidden whitespace-nowrap text-ellipsis mt-0.5 leading-normal">
           {subtitle}
         </span>
       )}

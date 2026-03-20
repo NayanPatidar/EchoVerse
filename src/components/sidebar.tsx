@@ -9,6 +9,7 @@ import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import AlbumIcon from "@mui/icons-material/Album";
 import { FaGuitar } from "react-icons/fa";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import Image from "next/image";
 import {
   Accordion,
@@ -46,22 +47,57 @@ const Sidebar = () => {
   };
 
   const isActive = (route: string) => pathname.startsWith(route);
+  const isHome = pathname === "/";
 
   return (
     <div
-      className={`SidebarMain bg-[#0e0e0e]  text-white rounded-lg mb-2 ml-2 z-[1000] 
-                 transition-all duration-300 ease-in-out 
-                 md:relative absolute top-0 left-0  
-                 ${sideBarOpen ? "md:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"} 
+      className={`SidebarMain bg-[#0e0e0e] text-white rounded-lg mb-2 ml-2 z-[60]
+                 transition-all duration-300 ease-in-out
+                 md:relative absolute top-0 left-0
+                 ${sideBarOpen ? "md:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"}
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
       style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
     >
+      {/* Home Button */}
+      <div className="w-full flex justify-center items-center mt-3 md:mt-4 px-2">
+        <div
+          className="h-10 flex flex-row w-full items-center hover:bg-[#262626d6] rounded-md cursor-pointer"
+          style={{
+            backgroundColor: isHome ? "#2626267c" : "transparent",
+            width: sideBarOpen ? "14rem" : "4rem",
+            justifyContent: sideBarOpen ? "" : "center",
+            paddingLeft: sideBarOpen ? "18px" : "",
+            paddingRight: sideBarOpen ? "20px" : "",
+          }}
+          onClick={() => router.push("/")}
+        >
+          <div
+            className="flex flex-row gap-3 items-center w-full"
+            style={{
+              justifyContent: sideBarOpen ? "" : "center",
+              paddingLeft: sideBarOpen ? "1.75rem" : "",
+              paddingRight: sideBarOpen ? "1.75rem" : "",
+            }}
+          >
+            <HomeRoundedIcon
+              style={{ color: primaryAccentColor }}
+              className="md:!text-[22px] !text-[18px]"
+            />
+            {sideBarOpen ? (
+              <span className="text-[15px] font-semibold text-white">Home</span>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
+
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem
           value="Music"
           className=" flex flex-col w-full justify-center md:mt-0 md:p-0 p-2"
         >
-          <div className=" w-full flex justify-center items-center mt-2 md:mt-4 px-2">
+          <div className=" w-full flex justify-center items-center mt-1 md:mt-2 px-2">
             <div
               className="h-10 flex flex-row w-full items-center justify-items-center hover:bg-[#171717b3] rounded-md "
               style={{

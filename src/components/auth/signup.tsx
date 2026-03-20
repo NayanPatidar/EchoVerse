@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -149,7 +150,7 @@ const SignUpForm = () => {
           className=" bg-[#141414] hover:bg-black mt-1 w-auto flex gap-2 "
           onClick={() => SignInWithGoogle()}
         >
-          <img src="./GoogleLogo.png" width={20} height={20} />
+          <Image src="/GoogleLogo.png" width={20} height={20} alt="Google" />
           <span>Continue with Google</span>
         </Button>
       </div>
