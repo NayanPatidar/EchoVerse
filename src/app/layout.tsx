@@ -9,8 +9,38 @@ import Navbar from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Echoverse",
-  description: "Music Streaming",
+  title: {
+    default: "EchoVerse - Stream Music, Discover New Sounds",
+    template: "%s | EchoVerse",
+  },
+  description:
+    "Stream millions of songs, discover trending playlists, top albums, and your favorite artists on EchoVerse.",
+  keywords: [
+    "music streaming",
+    "songs online",
+    "playlists",
+    "albums",
+    "Hindi music",
+    "Bollywood songs",
+    "EchoVerse",
+  ],
+  authors: [{ name: "EchoVerse" }],
+  openGraph: {
+    type: "website",
+    siteName: "EchoVerse",
+    title: "EchoVerse - Stream Music, Discover New Sounds",
+    description:
+      "Stream millions of songs, discover trending playlists, top albums, and your favorite artists.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EchoVerse - Stream Music",
+    description: "Your personal music streaming experience.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

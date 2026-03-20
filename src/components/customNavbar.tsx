@@ -88,9 +88,9 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ visible }) => {
             className=" cursor-pointer"
           />
         </div>
-        <div className="h-full text-black text-center text-sm w-24 flex items-center cursor-default">
-          <span className=" h-8 p-1 rounded-2xl w-full bg-[#ffffff] flex items-center justify-center disable-select">
-            Hello !
+        <div className="h-full text-center text-sm flex items-center cursor-default">
+          <span className="h-8 px-4 rounded-full bg-white/10 backdrop-blur-sm text-white/80 flex items-center justify-center disable-select text-xs Montserrat-regular tracking-wide border border-white/10">
+            Home
           </span>
         </div>
       </div>

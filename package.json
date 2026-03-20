@@ -22,7 +22,7 @@
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-select": "^2.1.1",
-    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.2",
     "@types/next-auth": "^3.15.0",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",

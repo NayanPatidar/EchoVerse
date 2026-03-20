@@ -167,72 +167,38 @@ body {
 .media-element {
   padding: 0.5rem;
   height: auto;
-  background-color: rgba(76, 76, 76, 0);
-  border-radius: 1rem;
-  width: 110px;
+  background-color: transparent;
+  border-radius: 8px;
+  width: 120px;
   position: relative;
+  transition: background-color 0.3s ease;
 }
 
 .media-elements-image {
-  border-radius: 5px;
-  width: 90px;
-  height: 90px;
+  border-radius: 6px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 @media (min-width: 768px) {
   .media-element {
-    padding: 1rem;
+    padding: 0.75rem;
     height: auto;
-    background-color: rgba(76, 76, 76, 0);
-    border-radius: 1rem;
-    width: 190px;
+    background-color: transparent;
+    border-radius: 8px;
+    width: 185px;
     position: relative;
   }
 
   .media-element:hover {
-    padding: 1rem;
-    height: auto;
-    background-color: rgba(48, 48, 48, 0.434);
-    border-radius: 10px;
-    width: 190px;
-    position: relative;
+    background-color: rgba(255, 255, 255, 0.04);
   }
 
   .media-elements-image {
-    border-radius: 5px;
+    border-radius: 6px;
     width: 160px;
     height: 160px;
-  }
-
-  .PlaySymbolCard {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: rgb(0, 0, 0);
-    border-radius: 100%;
-    bottom: 75px;
-    right: 25px;
-    opacity: 0;
-    transition: 0.3s;
-  }
-
-  .media-element:hover .PlaySymbolCard {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-color: rgb(0, 0, 0);
-    border-radius: 100%;
-    bottom: 85px;
-    right: 20px;
-    opacity: 1;
-  }
-
-  .PlayIcon {
-    position: absolute;
-    left: 35%;
-    top: 50%;
-    transform: translateX(-50%);
-    transform: translateY(-50%);
   }
 }
 
@@ -338,11 +304,10 @@ body {
 
 .MainPageDivBoxScroll {
   background: linear-gradient(
-    to bottom,
-    #8d8d8d66 0%,
-    rgba(37, 37, 37, 0.2) 15%,
-    #2525251a 50%,
-    rgba(18, 18, 18, 1) 100%
+    180deg,
+    rgba(60, 60, 60, 0.3) 0%,
+    rgba(24, 24, 24, 0.6) 15%,
+    #121212 40%
   );
 }
 
@@ -371,7 +336,7 @@ body {
   }
 
   .MainPageDivBoxNotTop {
-    background-color: #121212;
+    background-color: #0f0f0f;
   }
 
   .MainPageDivBox::-webkit-scrollbar {
@@ -627,10 +592,71 @@ body {
   flex-direction: column;
   justify-content: end;
   align-items: flex-start;
-  width: 100%; /* Adjusts to the parent container width */
-  height: 100%; /* Adjusts to the parent container height */
-  font-size: clamp(10px, 4vw, 100px); /* Dynamically adjusts font size */
-  line-height: 1.2; /* Maintains readability */
-  white-space: normal; /* Allows text to wrap */
-  overflow: hidden; /* Hides overflowing text */
+  width: 100%;
+  height: 100%;
+  font-size: clamp(10px, 4vw, 100px);
+  line-height: 1.2;
+  white-space: normal;
+  overflow: hidden;
+}
+
+/* ===== Home Page Animations ===== */
+
+@keyframes homeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes greetingFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sectionSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes quickPickFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.home-fade-in {
+  animation: homeFadeIn 0.4s ease-out forwards;
+}
+
+.greeting-fade-in {
+  animation: greetingFadeIn 0.5s ease-out forwards;
+}
+
+.section-slide-up {
+  opacity: 0;
+  animation: sectionSlideUp 0.45s ease-out forwards;
+}
+
+.quick-pick-fade-in {
+  animation: quickPickFadeIn 0.35s ease-out forwards;
 }

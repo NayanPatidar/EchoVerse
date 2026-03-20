@@ -36,61 +36,62 @@ const HorizontalScrollerCard: React.FC<HorizontalScrollerProps> = ({
     useAudioPlayer();
 
   async function PlayMedia() {
-    const link = getHref(url, type);
-    console.log(link);
-
-    ///album/pushpa-2-the-rule/nTgWx7gW,8U_
     const idNew = url.split("/").pop();
+    if (!idNew) return;
 
-    if (idNew === undefined) {
-      return;
+    let songs;
+    if (type === "song") {
+      songs = (await getSongDetails(idNew))?.songs;
+    } else if (type === "album") {
+      songs = (await getAlbumDetails(idNew))?.songs;
+    } else if (type === "playlist") {
+      songs = (await getPlaylist(idNew))?.songs;
     }
 
-    if (type === "song") {
-      const Songs = await getSongDetails(idNew);
+    if (songs) {
       SetCurrentAudioIndex(0);
       SetAudioCurrentTimeStamp(0);
-      console.log(Songs);
-
-      SetAudioFileLink(Songs?.songs);
-    } else if (type === "album") {
-      const AlbumSongs = await getAlbumDetails(idNew);
-      SetCurrentAudioIndex(0);
-      SetAudioCurrentTimeStamp(0);
-      console.log(AlbumSongs);
-
-      SetAudioFileLink(AlbumSongs?.songs);
-    } else if (type === "playlist") {
-      const PlaylistSongs = await getPlaylist(idNew);
-      SetCurrentAudioIndex(0);
-      SetAudioCurrentTimeStamp(0);
-      console.log(PlaylistSongs);
-
-      SetAudioFileLink(PlaylistSongs?.songs);
+      SetAudioFileLink(songs);
     }
   }
 
+  if (!imageUrl || !name) return null;
+
+  const isArtist = type === "artist";
+
   return (
-    <div className="media-element flex flex-col text-left">
-      <Link href={getHref(url, type)} prefetch={true}>
-        <Image
-          src={imageUrl}
-          alt=""
-          className="media-elements-image"
-          loading="lazy" // Lazy load by default in Next.js
-          width={300} // Specify width
-          height={200} // Specify height
-        />
-      </Link>
-      <div className="PlaySymbolCard" onClick={() => PlayMedia()}>
-        <FaPlay className="PlayIcon" />
+    <div className="group media-element flex flex-col text-left">
+      <div className="relative overflow-hidden rounded-lg">
+        <Link href={getHref(url, type)} prefetch={true}>
+          <Image
+            src={imageUrl}
+            alt={name}
+            className={`media-elements-image transition-transform duration-500 ease-out group-hover:scale-[1.04] ${
+              isArtist ? "!rounded-full" : ""
+            }`}
+            loading="lazy"
+            width={300}
+            height={300}
+          />
+          {/* Hover gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </Link>
+        <button
+          onClick={() => PlayMedia()}
+          className="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out shadow-xl shadow-black/60 hover:scale-110 hover:bg-[#1fdf64] z-10"
+          aria-label={`Play ${name}`}
+        >
+          <FaPlay className="text-black text-sm ml-[2px]" />
+        </button>
       </div>
-      <span className="lato-regular mt-5 md:text-base text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+      <span className="Montserrat-bold mt-2.5 md:text-[13px] text-[11px] overflow-hidden whitespace-nowrap text-ellipsis text-white/90 tracking-tight">
         {name}
       </span>
-      <span className="lato-regular text-gray-400 text-xs md:text-sm overflow-hidden whitespace-nowrap text-ellipsis">
-        {subtitle}
-      </span>
+      {subtitle && (
+        <span className="lato-regular text-white/40 text-[10px] md:text-[11px] overflow-hidden whitespace-nowrap text-ellipsis mt-0.5 leading-relaxed">
+          {subtitle}
+        </span>
+      )}
     </div>
   );
 };
