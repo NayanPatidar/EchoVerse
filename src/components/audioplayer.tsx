@@ -53,6 +53,8 @@ const AudioPlayer = () => {
     SetPlay,
   } = useAudioPlayer();
   const intervalRef = useRef<NodeJS.Timeout | null | string | number>(null);
+  // Tracks first mount so we don't reload audio that's already playing (e.g. after auth navigation)
+  const isInitialMount = useRef(true);
 
   const playingRef = useRef(IsAddToPlaylistFormOpen);
   const playingRef2 = useRef(IsUploadPostFormOpen);
@@ -150,6 +152,12 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
+    // On first mount: if audio is already playing (e.g. returning from auth page),
+    // skip reload so playback continues seamlessly.
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      if (playing) return;
+    }
     handleLoadAudio();
   }, [AudioFileLink, CurrentAudioIndex]);
 
@@ -210,7 +218,7 @@ const AudioPlayer = () => {
   }, [dominantColor]);
 
   return (
-    <div className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col">
+    <div className="MainAudioPlayer fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 bg-black flex flex-col overflow-hidden">
       <div
         className="absolute inset-0 w-full h-full -z-10"
         style={{
@@ -239,60 +247,42 @@ const AudioPlayer = () => {
         step={1}
         onChange={(_, value) => sliderPositionChange(value)}
       />
-      <div className=" flex flex-row items-center justify-center align-middle h-full ">
-        <div className=" h-full w-full hidden md:block">
-          <div className=" flex justify-start items-center h-full pl-5 gap-2  ">
-            <div>
-              {AudioFileLink ? (
-                <Image
-                  src={getImageURL(AudioFileLink[CurrentAudioIndex]?.image)}
-                  alt="Song Image"
-                  width={50}
-                  height={50}
-                  className=" rounded-md  cursor-pointer"
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className=" h-full flex flex-col justify-center w-56  cursor-pointer">
-              {AudioFileLink ? (
-                <div>
-                  <div className=" w-56 text-white text-sm Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis">
-                    <span>{AudioFileLink[CurrentAudioIndex].name}</span>
-                  </div>
-                  <div className=" w-56 text-white text-xs Montserrat-regular overflow-hidden whitespace-nowrap text-ellipsis">
-                    <span>
-                      <span className="text-white">
-                        {
-                          AudioFileLink[CurrentAudioIndex].artist_map.artists[0]
-                            .name
-                        }
-                      </span>
-                      {AudioFileLink[CurrentAudioIndex].artist_map
-                        .artists[1] ? (
-                        <span className="text-white">
-                          ,{" "}
-                          {
-                            AudioFileLink[CurrentAudioIndex].artist_map
-                              .artists[1]?.name
-                          }
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </span>
-                  </div>
+      <div className="flex flex-row items-center flex-1 min-h-0 px-2 md:px-0">
+        {/* Song info — compact on mobile, full on desktop */}
+        <div className="flex items-center gap-2 pl-1 md:pl-5 flex-1 min-w-0 h-full">
+          {AudioFileLink && (
+            <Image
+              src={getImageURL(AudioFileLink[CurrentAudioIndex]?.image)}
+              alt="Song Image"
+              width={36}
+              height={36}
+              className="rounded flex-shrink-0 md:w-[50px] md:h-[50px] cursor-pointer"
+            />
+          )}
+          <div className="min-w-0 flex-1 md:w-56 cursor-pointer">
+            {AudioFileLink && (
+              <>
+                <div className="text-white text-xs md:text-sm Montserrat-regular truncate">
+                  {AudioFileLink[CurrentAudioIndex].name}
                 </div>
-              ) : (
-                ""
-              )}
-            </div>
+                <div className="text-white/70 text-[10px] md:text-xs Montserrat-regular truncate hidden sm:block">
+                  {AudioFileLink[CurrentAudioIndex].artist_map.artists[0].name}
+                  {AudioFileLink[CurrentAudioIndex].artist_map.artists[1] && (
+                    <span>
+                      {", "}
+                      {AudioFileLink[CurrentAudioIndex].artist_map.artists[1].name}
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <div className=" text-white flex flex-row items-center justify-center h-full gap-5 transform ">
+
+        {/* Playback controls — always visible, flex-shrink-0 keeps it centered between equal flex-1 sides */}
+        <div className="flex-shrink-0 text-white flex flex-row items-center justify-center h-full gap-1 md:gap-5">
           <span
-            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            className="cursor-pointer w-[34px] h-[34px] md:w-[42px] md:h-[42px] hidden sm:flex items-center justify-center"
             onClick={() => {
               setAllowRepeat((prev) => {
                 loop(!prev);
@@ -301,42 +291,47 @@ const AudioPlayer = () => {
             }}
           >
             {allowRepeat ? (
-              <RepeatOneIcon sx={{ color: "white" }} className="SideIcons " />
+              <RepeatOneIcon sx={{ color: "white" }} className="SideIcons" />
             ) : (
               <RepeatIcon sx={{ color: "grey" }} className="SideIcons" />
             )}
           </span>
           <span
-            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            className="cursor-pointer w-[34px] h-[34px] md:w-[42px] md:h-[42px] flex items-center justify-center"
             onClick={() => prevClick()}
           >
-            <SkipPreviousIcon className="MainIcons  " />
+            <SkipPreviousIcon className="MainIcons" />
           </span>
-          <span className=" cursor-pointer" onClick={() => handlePlayPause()}>
+          <span className="cursor-pointer" onClick={() => handlePlayPause()}>
             {!isReady && AudioFileLink ? (
-              <div className=" w-12 h-12 flex justify-center items-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 flex justify-center items-center">
                 <LoadingSpinner />
               </div>
             ) : !playing ? (
-              <PlayArrowIcon className="MainIcons " />
+              <PlayArrowIcon className="MainIcons" />
             ) : (
-              <PauseIcon className="MainIcons " />
+              <PauseIcon className="MainIcons" />
             )}
           </span>
-          <span className=" cursor-pointer" onClick={() => nextClick()}>
-            <SkipNextIcon className="MainIcons  " />
+          <span
+            className="cursor-pointer w-[34px] h-[34px] md:w-[42px] md:h-[42px] flex items-center justify-center"
+            onClick={() => nextClick()}
+          >
+            <SkipNextIcon className="MainIcons" />
           </span>
           <span
-            className=" cursor-pointer w-[42px] h-[42px] flex items-center justify-center"
+            className="cursor-pointer w-[34px] h-[34px] md:w-[42px] md:h-[42px] hidden sm:flex items-center justify-center"
             onClick={() => setAllowShuffle((prev) => !prev)}
           >
             <ShuffleIcon
               sx={{ color: allowShuffle ? "white" : "grey" }}
-              className="SideIcons "
+              className="SideIcons"
             />
           </span>
         </div>
-        <div className=" h-full w-full text-white hidden md:flex items-center justify-around">
+
+        {/* Volume + queue — desktop only */}
+        <div className="h-full flex-1 text-white hidden md:flex items-center justify-around">
           <Box sx={{ width: 200, marginBottom: "0px" }}>
             <Stack spacing={2} direction="row" alignItems="center">
               <VolumeDown />

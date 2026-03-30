@@ -4,7 +4,8 @@ import "./globals.css";
 import Providers from "@/components/providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { GeneralContextProvider } from "@/context/GeneralContext";
-import Navbar from "@/components/navbar";
+import { AudioPlayerProvider } from "@/context/AudioPlayerContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -68,7 +69,11 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <GeneralContextProvider>
-              <div className="w-full h-full relative">{children}</div>
+              <AudioPlayerProvider>
+                <SidebarProvider>
+                  <div className="w-full h-full relative">{children}</div>
+                </SidebarProvider>
+              </AudioPlayerProvider>
             </GeneralContextProvider>
           </AuthProvider>
         </Providers>

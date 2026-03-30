@@ -348,7 +348,8 @@ body {
 }
 
 .MainContentDiv {
-  height: calc(100vh - 64px);
+  /* mobile: viewport - navbar(56px) - audio player(64px) */
+  height: calc(100vh - 120px);
 }
 
 .css-1sp8okk-MuiSlider-root {
@@ -356,7 +357,7 @@ body {
 }
 
 .SearchFriends {
-  height: calc(100vh - 136px);
+  height: calc(100vh - 176px);
 }
 
 @media (min-width: 768px) {
@@ -368,7 +369,7 @@ body {
     height: calc(100vh - 144px);
   }
   .NavbarMain {
-    width: calc(97.2vw - 15rem);
+    width: calc(100vw - 15rem);
   }
 
   .MainPageDivBoxNotTop {
@@ -564,7 +565,8 @@ body {
 }
 
 .Feed-Page {
-  height: calc(100vh - 160px);
+  /* mobile: full height of MainContentDiv, desktop: same */
+  height: 100%;
 }
 
 .FeedContent::-webkit-scrollbar {

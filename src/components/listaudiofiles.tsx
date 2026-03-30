@@ -18,6 +18,12 @@ function secondsToTime(seconds: number) {
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
 
+function formatPlayCount(count: number) {
+  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+  if (count >= 1_000) return `${(count / 1_000).toFixed(1)}K`;
+  return `${count}`;
+}
+
 const ListAudioFiles: React.FC<AudioFiles> = ({
   SongsData,
   isPlaylist,
@@ -36,63 +42,58 @@ const ListAudioFiles: React.FC<AudioFiles> = ({
     return;
   }
   return (
-    <div className=" flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       {SongsData?.map((song, index) => {
         return (
           <div
-            className=" ListAudioFiles flex text-[#d4d4d894] text-sm Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12"
+            className="ListAudioFiles grid grid-cols-3 text-[#d4d4d894] text-xs Montserrat-regular items-center px-5 cursor-pointer transform transition-transform duration-300 hover:bg-[#3636362a] hover:text-[#d4d4d8c5] rounded-sm h-12"
             key={index}
           >
-            <span
-              className=" w-9/12 flex gap-4 items-center"
-              onClick={() => {
-                PlayAudioFile(index);
-              }}
+            {/* Col 1: index + thumbnail + song name */}
+            <div
+              className="flex gap-3 items-center min-w-0"
+              onClick={() => PlayAudioFile(index)}
             >
-              <span className="AudioFilesIndex w-[14px]">{index + 1} </span>
-              <span className="AudioFilesPlayIcon">
+              <span className="AudioFilesIndex w-[14px] shrink-0 text-right">
+                {index + 1}
+              </span>
+              <span className="AudioFilesPlayIcon shrink-0">
                 <FaPlay />
               </span>
-              {isPlaylist ? (
-                <span>
-                  <Image
-                    src={getImageURL(song?.image)}
-                    alt="Song Image"
-                    width={40}
-                    height={40}
-                    className=" rounded-md"
-                  />
-                </span>
-              ) : (
-                ""
+              {isPlaylist && (
+                <Image
+                  src={getImageURL(song?.image)}
+                  alt="Song Image"
+                  width={36}
+                  height={36}
+                  className="rounded-md shrink-0 w-9 h-9 object-cover"
+                />
               )}
-              <span className=" w-10/12 text-[#d4d4d8]  overflow-hidden whitespace-nowrap text-ellipsis">
-                {song.name}
-              </span>
-            </span>
+              <span className="text-[#d4d4d8] truncate text-xs">{song.name}</span>
+            </div>
+
+            {/* Col 2: artist or play count */}
             {isArtist ? (
-              <span className=" w-5/12 justify-self-start flex justify-start overflow-hidden whitespace-nowrap text-ellipsis ">
-                <span>
-                  <span className=" hover:text-white">
-                    {song.artist_map.artists[0].name}
-                  </span>
-                  {song.artist_map.artists[1] ? (
-                    <span className=" hover:text-white">
-                      , {song.artist_map.artists[1]?.name}
-                    </span>
-                  ) : (
-                    ""
-                  )}
+              <div className="min-w-0 px-2">
+                <span className="block truncate hover:text-white">
+                  {song.artist_map.artists[0].name}
+                  {song.artist_map.artists[1]
+                    ? `, ${song.artist_map.artists[1].name}`
+                    : ""}
                 </span>
-              </span>
+              </div>
             ) : (
-              <span className=" w-4/12 justify-self-end flex justify-start">
-                {song.play_count}
-              </span>
+              <div className="flex justify-center px-2">
+                <span className="truncate tabular-nums">
+                  {formatPlayCount(song.play_count)}
+                </span>
+              </div>
             )}
-            <span className=" w-5/12 justify-self-end pb-0.5 flex justify-end">
+
+            {/* Col 3: duration */}
+            <div className="flex justify-end tabular-nums shrink-0">
               {secondsToTime(song.duration)}
-            </span>
+            </div>
           </div>
         );
       })}

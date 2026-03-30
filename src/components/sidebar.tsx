@@ -1,8 +1,5 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { PiListLight } from "react-icons/pi";
-import { MdHome } from "react-icons/md";
-import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { AiOutlineLike } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
@@ -53,12 +50,12 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`SidebarMain bg-[#0e0e0e] text-white rounded-lg mb-2 ml-2 z-[60]
+      className={`SidebarMain bg-[#0e0e0e] text-white rounded-lg md:ml-2 z-[60]
                  transition-all duration-300 ease-in-out
                  md:relative absolute top-0 left-0
                  ${sideBarOpen ? "md:w-[15rem] w-[12rem]" : "sm:w-[4rem] w-0"}
                  ${sideBarOpen ? "block" : "hidden md:block"} `}
-      style={{ height: "calc(100% - 0.5rem)", overflowY: "auto" }}
+      style={{ height: "100%", overflowY: "auto" }}
     >
       <Accordion type="multiple" defaultValue={["Music", "Share"]}>
         <AccordionItem

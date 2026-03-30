@@ -6,7 +6,11 @@ interface SigninPageProp {
 
 export default function SigninLayout({ children }: SigninPageProp) {
   return (
-    <div className="w-full h-screen bg-[#0b0b0b] flex justify-center items-center align-middle">
+    <div className="w-full h-screen flex justify-center items-center"
+      style={{
+        background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.05) 0%, #0b0b0b 70%)",
+      }}
+    >
       {children}
     </div>
   );

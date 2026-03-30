@@ -1,5 +1,4 @@
 "use client";
-import { toggleButtonClasses } from "@mui/material";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface SidebarContextType {
@@ -16,7 +15,10 @@ interface SidebarProviderProps {
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({
   children,
 }) => {
-  const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+  // Start closed on mobile (<768px), open on desktop
+  const [sideBarOpen, setSideBarOpen] = useState<boolean>(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 768 : true
+  );
   const toggleSideBar = () => setSideBarOpen((prev) => !prev);
 
   return (

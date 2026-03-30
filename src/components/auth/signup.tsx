@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
-import { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -38,7 +36,7 @@ const formSchema = z.object({
 });
 
 const SignUpForm = () => {
-  const [isAlert, setAlert] = useState(null);
+  const [isAlert, setAlert] = useState<string | null>(null);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,14 +60,9 @@ const SignUpForm = () => {
         }),
       });
 
-      form.reset({
-        Name: "",
-        Email: "",
-        Password: "",
-      });
+      form.reset({ Name: "", Email: "", Password: "" });
 
       const message = await res.json();
-
       if (res.status === 209) {
         setAlert(message.message);
       } else if (res.status === 200) {
@@ -82,21 +75,23 @@ const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 flex flex-col"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="Name"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className=" text-white">Name</FormLabel>
+            <FormItem className="gap-1">
+              <FormLabel className="text-[#aaa] text-xs font-medium uppercase tracking-wider">
+                Name
+              </FormLabel>
               <FormControl>
-                <Input placeholder="Name" {...field} />
+                <Input
+                  placeholder="Your name"
+                  className="bg-[#222] border-white/10 text-white placeholder:text-[#555] focus:border-white/30 h-11 rounded-lg"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription></FormDescription>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -104,13 +99,18 @@ const SignUpForm = () => {
           control={form.control}
           name="Email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className=" text-white">Email</FormLabel>
+            <FormItem className="gap-1">
+              <FormLabel className="text-[#aaa] text-xs font-medium uppercase tracking-wider">
+                Email
+              </FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input
+                  placeholder="you@example.com"
+                  className="bg-[#222] border-white/10 text-white placeholder:text-[#555] focus:border-white/30 h-11 rounded-lg"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription></FormDescription>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -118,49 +118,65 @@ const SignUpForm = () => {
           control={form.control}
           name="Password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className=" text-white">Password</FormLabel>
+            <FormItem className="gap-1">
+              <FormLabel className="text-[#aaa] text-xs font-medium uppercase tracking-wider">
+                Password
+              </FormLabel>
               <FormControl>
-                <Input placeholder="Password" type="password" {...field} />
+                <Input
+                  placeholder="••••••••"
+                  type="password"
+                  className="bg-[#222] border-white/10 text-white placeholder:text-[#555] focus:border-white/30 h-11 rounded-lg"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription></FormDescription>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-        <div className=" flex gap-2">
-          <Button
-            type="submit"
-            className=" bg-[#141414] hover:bg-black mt-5 w-full"
-          >
-            Submit
-          </Button>
-        </div>
+
+        {isAlert && (
+          <p className="text-[#ff4d4d] text-sm text-center font-medium">
+            {isAlert}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          className="w-full h-11 mt-1 bg-white hover:bg-white/90 text-black font-semibold text-sm rounded-full transition-colors"
+        >
+          Create Account
+        </button>
       </form>
-      <div className=" w-full text-center mt-1">
-        <span
-          className=" w-full justify-center items-center hover:underline  text-white hover:cursor-pointer text-xs"
+
+      {/* Divider */}
+      <div className="flex items-center gap-3 my-5">
+        <div className="flex-1 h-px bg-white/[0.08]" />
+        <span className="text-[#555] text-xs">or</span>
+        <div className="flex-1 h-px bg-white/[0.08]" />
+      </div>
+
+      {/* Google */}
+      <button
+        type="button"
+        onClick={SignInWithGoogle}
+        className="w-full h-11 bg-[#222] hover:bg-[#2a2a2a] border border-white/10 text-white text-sm font-medium rounded-full flex items-center justify-center gap-2.5 transition-colors"
+      >
+        <Image src="/GoogleLogo.png" width={18} height={18} alt="Google" />
+        Continue with Google
+      </button>
+
+      {/* Switch to sign in */}
+      <p className="text-center text-sm text-[#666] mt-5">
+        Already have an account?{" "}
+        <button
+          type="button"
           onClick={() => router.push("/signin")}
+          className="text-white hover:underline font-medium"
         >
-          Already a User ?
-        </span>
-      </div>
-      <div className=" w-full flex justify-center mt-2">
-        <Button
-          className=" bg-[#141414] hover:bg-black mt-1 w-auto flex gap-2 "
-          onClick={() => SignInWithGoogle()}
-        >
-          <Image src="/GoogleLogo.png" width={20} height={20} alt="Google" />
-          <span>Continue with Google</span>
-        </Button>
-      </div>
-      {isAlert != "" ? (
-        <div className=" w-full justify-center items-center text-[#ff3131] font-semibold text-center mt-1">
-          <span className=" w-full">{isAlert}</span>
-        </div>
-      ) : (
-        ""
-      )}
+          Sign in
+        </button>
+      </p>
     </Form>
   );
 };

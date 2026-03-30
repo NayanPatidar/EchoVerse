@@ -1,6 +1,7 @@
 "use client";
 import { CiSearch } from "react-icons/ci";
 import { IoChevronBack, IoCloseOutline } from "react-icons/io5";
+import { PiListLight } from "react-icons/pi";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getTopSearches, searchAll } from "@/lib/api_jiosaavn";
 import { AllSearch, TopSearch } from "@/types";
@@ -10,7 +11,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { DropdownMenuProfile } from "./ui/ProfileDropDown";
 import { useAuthProvider } from "@/context/AuthContext";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { PiListLight } from "react-icons/pi";
+import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import Link from "next/link";
@@ -21,6 +22,7 @@ const Navbar = () => {
   const [isClosing, setIsClosing] = useState(false);
   const [trendingSearches, setTrendingSearches] = useState<TopSearch[]>([]);
   const { isAuthenticated } = useAuthProvider();
+  const { toggleSideBar } = useSidebar();
   const router = useRouter();
 
   const openSearch = () => {
@@ -38,57 +40,63 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="NavbarMain sticky top-0 bg-black z-50 flex items-center h-14 md:h-16 text-white rounded-t-lg max-w-full">
-        <div className="cursor-pointer px-2 md:hidden">
+      <div className="NavbarMain sticky top-0 bg-black z-50 flex items-center h-14 md:h-16 text-white rounded-t-lg max-w-full px-1 md:px-0">
+        {/* Hamburger — mobile only */}
+        <div className="cursor-pointer px-2 flex-shrink-0 md:hidden" onClick={toggleSideBar}>
           <PiListLight size={24} />
         </div>
-        <div className="flex flex-row justify-between min-w-full gap-2">
-          <div className="h-16 flex items-center justify-center w-full gap-3">
-            <div className="md:h-[46px] h-[42px] md:w-[280px] w-full rounded-2xl flex flex-row items-center ml-6">
-              <Image
-                src="/EchoverseLogoFinal.png"
-                width={184}
-                height={32}
-                alt="EchoVerse Logo"
-                className="w-[184px]"
-                priority
-              />
-            </div>
-            <form className="md:h-16 h-12 flex items-center justify-start w-full">
-              <div
-                className="p-2 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <HomeRoundedIcon
-                  fontSize="large"
-                  style={{ color: "#7d7d7d" }}
-                />
-              </div>
 
-              {/* Search trigger */}
-              <div
-                className="md:h-[46px] h-[42px] md:w-[480px] w-full rounded-full flex flex-row items-center bg-[#242424] hover:bg-[#2a2a2a] pl-4 transition-colors cursor-pointer"
-                onClick={openSearch}
-              >
-                <CiSearch color="#b3b3b3" className="size-4 md:size-5" />
-                <span className="text-[#b3b3b3] text-xs md:text-sm ml-3 font-normal">
-                  What do you want to play?
-                </span>
-              </div>
-            </form>
+        {/* Logo */}
+        <div className="flex-shrink-0 flex items-center md:w-[280px] md:ml-0 ml-1">
+          <Image
+            src="/EchoverseLogoFinal.png"
+            width={184}
+            height={32}
+            alt="EchoVerse Logo"
+            className="md:w-[184px] w-[130px]"
+            priority
+          />
+        </div>
+
+        {/* Desktop: home button + full search bar */}
+        <div className="hidden md:flex flex-1 items-center h-full gap-1">
+          <div
+            className="p-2 cursor-pointer flex-shrink-0"
+            onClick={() => router.push("/")}
+          >
+            <HomeRoundedIcon fontSize="large" style={{ color: "#7d7d7d" }} />
           </div>
-          <div className="NavbarBarProfile flex items-center mr-5">
-            <div className="w-10 md:mr-0 mr-5 cursor-pointer rounded-full flex justify-center items-center">
-              {isAuthenticated ? (
-                <DropdownMenuProfile />
-              ) : (
-                <MdAccountCircle
-                  size={40}
-                  onClick={() => router.push("/signin")}
-                />
-              )}
-            </div>
+          <div
+            className="h-[46px] w-[480px] rounded-full flex flex-row items-center bg-[#242424] hover:bg-[#2a2a2a] pl-4 transition-colors cursor-pointer"
+            onClick={openSearch}
+          >
+            <CiSearch color="#b3b3b3" className="size-5" />
+            <span className="text-[#b3b3b3] text-sm ml-3 font-normal">
+              What do you want to play?
+            </span>
           </div>
+        </div>
+
+        {/* Mobile: flex spacer + search icon */}
+        <div className="flex-1 md:hidden" />
+        <div
+          className="md:hidden flex-shrink-0 cursor-pointer p-2"
+          onClick={openSearch}
+        >
+          <CiSearch size={22} color="#b3b3b3" />
+        </div>
+
+        {/* Profile */}
+        <div className="flex-shrink-0 flex items-center px-3">
+          {isAuthenticated ? (
+            <DropdownMenuProfile />
+          ) : (
+            <MdAccountCircle
+              size={36}
+              className="cursor-pointer"
+              onClick={() => router.push("/signin")}
+            />
+          )}
         </div>
       </div>
 
@@ -193,13 +201,13 @@ function SearchOverlay({
       style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
       onClick={handleBackdropClick}
     >
-      {/* Overlay panel - constrained height */}
+      {/* Overlay panel — full-screen mobile, popup desktop */}
       <div
         ref={overlayRef}
-        className={`w-full max-w-[680px] mt-[56px] md:mt-[64px] bg-[#1a1a1a] md:rounded-xl rounded-t-xl overflow-hidden flex flex-col shadow-2xl shadow-black/80 ${
-          isClosing ? "search-overlay-exit" : "search-overlay-enter"
-        }`}
-        style={{ maxHeight: "calc(100vh - 80px)" }}
+        className={`w-full bg-[#1a1a1a] overflow-hidden flex flex-col shadow-2xl shadow-black/80
+          h-full md:h-auto md:max-h-[calc(100vh-80px)]
+          md:max-w-[680px] md:mt-[64px] md:rounded-xl md:mx-4
+          ${isClosing ? "search-overlay-exit" : "search-overlay-enter"}`}
       >
         {/* Search Header */}
         <div className="flex items-center gap-3 px-4 py-3 bg-[#242424] flex-shrink-0">
